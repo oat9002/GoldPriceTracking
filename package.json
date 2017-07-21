@@ -1,0 +1,24 @@
+{
+  "name": "goldpricetraking",
+  "version": "1.0.0",
+  "description": "GoldPriceTracking with Node.js and IFTTT",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oat9002/GoldPriceTraking.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/oat9002/GoldPriceTraking/issues"
+  },
+  "homepage": "https://github.com/oat9002/GoldPriceTraking#readme",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "cheerio": "^1.0.0-rc.2",
+    "jquery": "^3.2.1"
+  }
+}
