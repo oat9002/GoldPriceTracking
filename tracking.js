@@ -1,11 +1,12 @@
 'use strict';
 const axios = require('axios');
 const cheerio = require('cheerio');
+const db = require('./db.js');
 
 let buyPrice = 0;
 let sellPrice = 0;
 
-axios.get('http://www.goldtraders.or.th/')
+axios.get('http://www.goldtraders.or.th/default.aspx')
   .then(res => {
     return res.data;
   })
@@ -15,7 +16,14 @@ axios.get('http://www.goldtraders.or.th/')
     let spTemp = $('#DetailPlace_uc_goldprices1_lblBLSell').text();
     buyPrice = parseInt(bpTemp.substring(0, bpTemp.length - 3).replace(',', ''));
     sellPrice = parseInt(spTemp.substring(0, spTemp.length - 3).replace(',', ''));
-    console.log(buyPrice);
+    // console.log(buyPrice);
+    // console.log(sellPrice);
+    if(buyPrice != null && sellPrice != null) {
+      db.addPriceData(buyPrice, sellPrice);
+    }
+    else {
+      console.log('Something wrong in price');
+    }
   })
   .catch(err => {
     console.log(err);
