@@ -21,7 +21,11 @@ cron.schedule('*/5 * * * *', () => {
       // console.log(buyPrice);
       // console.log(sellPrice);
       if(buyPrice != null && sellPrice != null) {
-        db.addPrice(buyPrice, sellPrice);
+        db.shouldAddPrice(buyPrice, sellPrice).then(shouldAdd => {
+          if(shouldAdd) {
+             db.addPrice(buyPrice, sellPrice);
+          }
+        })
       }
       else {
         console.log('Something wrong in price');
