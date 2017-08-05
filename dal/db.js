@@ -20,7 +20,7 @@ function addPrice(buy, sell) {
       sell: sell,
       created_at: new Date().getTime()
     }).catch(err => {
-      console.log(err);
+      reject(err);
     });
   }
   else {
@@ -52,13 +52,22 @@ function getLatestPrice() {
     db.ref('price').limitToLast(1).once('value').then(snapshot => {
       resolve(snapshot.val());
     }).catch(err => {
-      console.log(err);
-    })
+      reject(err);
+    });
   });
+}
+
+function getNewPriceWhenAdded() {
+  return new Promise ((resolve, reject) => {
+    db.ref('price').limitToLast(1).on('child_added', snapshot => {
+      resolve(snapshot.val());
+    });
+  })
 }
 
 module.exports = {
   addPrice,
   getLatestPrice,
-  shouldAddPrice
+  shouldAddPrice,
+  getNewPriceWhenAdded
 }

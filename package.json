@@ -4,7 +4,7 @@
   "description": "GoldPriceTracking with Node.js and IFTTT",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon ./start.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/oat9002/GoldPriceTraking#readme",
   "dependencies": {
+    "@line/bot-sdk": "^2.0.0",
     "async": "^2.5.0",
     "axios": "^0.16.2",
     "cheerio": "^1.0.0-rc.2",
@@ -24,5 +25,8 @@
     "firebase": "^4.2.0",
     "jquery": "^3.2.1",
     "node-cron": "^1.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
