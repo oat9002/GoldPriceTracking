@@ -12,6 +12,10 @@ let app = firebase.initializeApp({
 
 let db = app.database();
 
+function getInstance() {
+  return db;
+}
+
 function addPrice(buy, sell) {
   if(shouldAddPrice(buy, sell)) {
     let uid = db.ref().child('price').push().key;
@@ -30,7 +34,7 @@ function addPrice(buy, sell) {
 
 function shouldAddPrice(buy, sell) {
   return new Promise((resolve, reject) => {
-    db.ref('price').limitToLast(1).once('value').then(snapshot => {
+    db.ref('price').orderByChild('created_at').limitToLast(1).once('value').then(snapshot => {
       let data = snapshot.val();
       let id = Object.keys(data)[0];
       let oldBuy = data[id].buy;
@@ -49,7 +53,7 @@ function shouldAddPrice(buy, sell) {
 
 function getLatestPrice() {
   return new Promise((resolve, reject) => {
-    db.ref('price').limitToLast(1).once('value').then(snapshot => {
+    db.ref('price').orderByChild('created_at').limitToLast(1).once('value').then(snapshot => {
       resolve(snapshot.val());
     }).catch(err => {
       reject(err);
@@ -57,17 +61,9 @@ function getLatestPrice() {
   });
 }
 
-function getNewPriceWhenAdded() {
-  return new Promise ((resolve, reject) => {
-    db.ref('price').limitToLast(1).on('child_added', snapshot => {
-      resolve(snapshot.val());
-    });
-  })
-}
-
 module.exports = {
+  getInstance,
   addPrice,
   getLatestPrice,
-  shouldAddPrice,
-  getNewPriceWhenAdded
+  shouldAddPrice
 }
