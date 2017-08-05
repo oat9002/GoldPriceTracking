@@ -1,2 +1,2 @@
 # GoldPriceTracking
-GoldPriceTracking with Node.js and IFTTT
+GoldPriceTracking with Node.js and Line bot
