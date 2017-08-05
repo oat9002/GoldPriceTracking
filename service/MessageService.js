@@ -8,7 +8,7 @@ const client = new Client({
 
 function pushMessage() {
   db.getNewPriceWhenAdded().then(data => {
-    let message = 'ราคาซื้อ: ' + data.buy + 'บาท\n' + 'ราคาขาย: ' + data.sell + 'บาท';
+    let message = 'ราคาซื้อ: ' + data.buy + ' บาท\n' + 'ราคาขาย: ' + data.sell + ' บาท';
     client.pushMessage('U192446f179afffe5d1cf02c27125081e', { type: 'text', text: message });
   })
 }
