@@ -3,7 +3,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 const db = require('../dal/db.js');
 const cron = require('node-cron');
-const message = requre('./MessageService');
+const message = require('./MessageService');
 
 function start() {
   let buyPrice = 0;
