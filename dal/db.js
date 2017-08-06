@@ -17,23 +17,19 @@ function getInstance() {
 }
 
 function addPrice(buy, sell) {
-  if(shouldAddPrice(buy, sell)) {
-    getLatestPrice().then(latestPrice => {
-      let uid = db.ref().child('price').push().key;
-      db.ref('price/' + uid).set({
-        buy: buy,
-        sell: sell,
-        buyDifferent: buy - latestPrice.buy,
-        sellDifferent: sell - latestPrice.sell,
-        created_at: new Date().getTime()
-      }).catch(err => {
-        reject(err);
-      });
-    })
-  }
-  else {
-    console.log("It is not necessary to add the same value with previos one.");
-  }
+  getLatestPrice().then(latestPrice => {
+    console.log(latestPrice);
+    let uid = db.ref().child('price').push().key;
+    db.ref('price/' + uid).set({
+      buy: buy,
+      sell: sell,
+      buyDifferent: buy - latestPrice[Object.keys(latestPrice)[0]].buy,
+      sellDifferent: sell - latestPrice[Object.keys(latestPrice)[0]].sell,
+      created_at: new Date().getTime()
+    }).catch(err => {
+      reject(err);
+    });
+  })
 }
 
 function shouldAddPrice(buy, sell) {
