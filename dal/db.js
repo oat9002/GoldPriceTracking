@@ -18,14 +18,18 @@ function getInstance() {
 
 function addPrice(buy, sell) {
   if(shouldAddPrice(buy, sell)) {
-    let uid = db.ref().child('price').push().key;
-    db.ref('price/' + uid).set({
-      buy: buy,
-      sell: sell,
-      created_at: new Date().getTime()
-    }).catch(err => {
-      reject(err);
-    });
+    getLatestPrice().then(latestPrice => {
+      let uid = db.ref().child('price').push().key;
+      db.ref('price/' + uid).set({
+        buy: buy,
+        sell: sell,
+        buyDifferent: buy - latestPrice.buy,
+        sellDifferent: sell - latestPrice.sell,
+        created_at: new Date().getTime()
+      }).catch(err => {
+        reject(err);
+      });
+    })
   }
   else {
     console.log("It is not necessary to add the same value with previos one.");
