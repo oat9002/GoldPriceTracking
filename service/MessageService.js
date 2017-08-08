@@ -6,11 +6,24 @@ const client = new Client({
   channelSecret: '585982911ee20d50d90de40024a45647'
 });
 
+const dayName = [ 'วันอาทิตย์ที่', 'วันจันทร์ที่', 'วันอังคารที่', 'วันพุทธที่', 'วันพฤหัสบดีที่', 'วันศุกร์ที่', 'วันเสาร์ที่'];
+const monthName = ["มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน", "กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤษจิกายน","ธันวาคม"];
+
 function pushMessage() {
   let dbInstance = db.getInstance();
   dbInstance.ref('price').orderByChild('created_at').limitToLast(1).on('child_added', snapshot => {
     let data = snapshot.val();
-    let message = 'ราคาซื้อ: ' + data.buy + ' บาท\n' + 'ราคาขาย: ' + data.sell + ' บาท';
+    let date = new Date(data.created_at);
+    let dateMessage = dayName[date.getDay()] + ' ' + date.getDate() + ' ' + monthName[date.getMonth()] + ' ' + (date.getFullYear() + 543);
+    let priceMessage = 'ราคาซื้อ: ' + data.buy + ' บาท\n' + 'ราคาขาย: ' + data.sell + ' บาท';
+    let priceDiffMessage = 'เปรียบเทียบราคาจากครั้งก่อน ';
+    if(data.buyDifferent > 0) {
+      priceDiffMessage = priceDiffMessage + data.buyDifferent;
+    }
+    else {
+      priceDiffMessage = priceDiffMessage + '+' + data.buyDifferent;
+    }
+    let message = dateMessage + '\n' + priceMessage + '\n' + priceDiffMessage;
     client.pushMessage('U192446f179afffe5d1cf02c27125081e', { type: 'text', text: message });
   });
 }
