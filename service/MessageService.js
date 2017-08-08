@@ -16,12 +16,12 @@ function pushMessage() {
     let date = new Date(data.created_at);
     let dateMessage = dayName[date.getDay()] + ' ' + date.getDate() + ' ' + monthName[date.getMonth()] + ' ' + (date.getFullYear() + 543);
     let priceMessage = 'ราคาซื้อ: ' + data.buy + ' บาท\n' + 'ราคาขาย: ' + data.sell + ' บาท';
-    let priceDiffMessage = 'เปรียบเทียบราคาจากครั้งก่อน ';
+    let priceDiffMessage = 'เทียบราคาจากครั้งก่อน ';
     if(data.buyDifferent > 0) {
-      priceDiffMessage = priceDiffMessage + data.buyDifferent;
+      priceDiffMessage = priceDiffMessage + '+' + data.buyDifferent + ' บาท';
     }
     else {
-      priceDiffMessage = priceDiffMessage + '+' + data.buyDifferent;
+      priceDiffMessage = priceDiffMessage + data.buyDifferent + ' บาท';
     }
     let message = dateMessage + '\n' + priceMessage + '\n' + priceDiffMessage;
     client.pushMessage('U192446f179afffe5d1cf02c27125081e', { type: 'text', text: message });
