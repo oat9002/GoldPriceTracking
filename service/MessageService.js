@@ -14,7 +14,7 @@ function pushMessage() {
   dbInstance.ref('price').orderByChild('created_at').limitToLast(1).on('child_added', snapshot => {
     let data = snapshot.val();
     let date = new Date(data.created_at);
-    let dateMessage = dayName[date.getDay()] + ' ' + date.getDate() + ' ' + monthName[date.getMonth()] + ' ' + (date.getFullYear() + 543);
+    let dateMessage = dayName[date.getDay()] + ' ' + date.getDate() + ' ' + monthName[date.getMonth()] + ' ' + (date.getFullYear() + 543) + ' เวลา ' + date.getHours() + '.' + date.getMinutes() + ' น.\n';
     let priceMessage = 'ราคาซื้อ: ' + data.buy + ' บาท\n' + 'ราคาขาย: ' + data.sell + ' บาท';
     let priceDiffMessage = 'เทียบราคาจากครั้งก่อน ';
     if(data.buyDifferent > 0) {

@@ -8,8 +8,10 @@ const message = require('./MessageService');
 function start() {
   let buyPrice = 0;
   let sellPrice = 0;
+  let firstStart = true; // not to trigger pushMessage for first run
 
   cron.schedule('*/5 * * * *', () => {
+    firstStart = false;
     axios.get('http://www.goldtraders.or.th/default.aspx')
       .then(res => {
         return res.data;
@@ -35,7 +37,9 @@ function start() {
         console.log(err);
       })
   })
-  message.pushMessage();
+  if(!firstStart) {
+    message.pushMessage();
+  }
 }
 
 module.exports = {
