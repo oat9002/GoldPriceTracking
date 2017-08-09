@@ -58,3 +58,5 @@ typings/
 .env
 
 deployment-config\.json
+
+package-lock\.json

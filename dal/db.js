@@ -18,7 +18,6 @@ function getInstance() {
 
 function addPrice(buy, sell) {
   getLatestPrice().then(latestPrice => {
-    console.log(latestPrice);
     let uid = db.ref().child('price').push().key;
     db.ref('price/' + uid).set({
       buy: buy,
