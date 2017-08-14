@@ -16,7 +16,11 @@ function pushMessage() {
   dbInstance.ref('price').orderByChild('created_at').limitToLast(1).on('child_added', snapshot => {
     let data = snapshot.val();
     let date = moment(data.created_at).tz('Asia/Bangkok');
-    let dateMessage = 'วันที่ ' + date.date() + ' ' + monthName[date.month()] + ' ' + (date.year() + 543) + ' เวลา ' + date.hour() + ':' + date.minute() + ' น.\n';
+    let showMinute = '' + date.minute();
+    if(date.minute() < 10) {
+      showMinute = '0' + date.minute();
+    }
+    let dateMessage = 'วันที่ ' + date.date() + ' ' + monthName[date.month()] + ' ' + (date.year() + 543) + ' เวลา ' + date.hour() + ':' + showMinute + ' น.\n';
     let priceMessage = 'ราคาซื้อ: ' + data.buy + ' บาท\n' + 'ราคาขาย: ' + data.sell + ' บาท';
     let priceDiffMessage = 'เทียบราคาจากครั้งก่อน: ';
     if(data.buyDifferent > 0) {
@@ -26,8 +30,8 @@ function pushMessage() {
       priceDiffMessage = priceDiffMessage + data.buyDifferent + ' บาท';
     }
     let message = dateMessage + '\n' + priceMessage + '\n' + priceDiffMessage;
-    client.pushMessage('1527430011', { type: 'text', text: message });
-    //client.pushMessage('U192446f179afffe5d1cf02c27125081e', { type: 'text', text: message }); Test pushMessage
+    // client.pushMessage('1527430011', { type: 'text', text: message });
+    client.pushMessage('U192446f179afffe5d1cf02c27125081e', { type: 'text', text: message }); // Test pushMessage
   });
 }
 

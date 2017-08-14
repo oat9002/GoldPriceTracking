@@ -23,6 +23,7 @@
     "cheerio": "^1.0.0-rc.2",
     "express": "^4.15.3",
     "firebase": "^4.2.0",
+    "firebase-admin": "^5.1.0",
     "jquery": "^3.2.1",
     "jshint": "^2.9.5",
     "moment-timezone": "^0.5.13",

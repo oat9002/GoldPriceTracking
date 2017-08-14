@@ -1,16 +1,11 @@
 "use strict";
-const firebase = require("firebase");
+const admin = require("firebase-admin");
 const firebaseConfig = require("../config/firebaseConfig.json");
-const serverUid = require("../config/serverUid.json");
+const serviceAccount = require("../config/goldpricetracking-firebase-adminsdk-718s5-85e720333f.json")
 
-let app = firebase.initializeApp({
-  apiKey: firebaseConfig.apiKey,
-  authDomain: firebaseConfig.authDomain,
+let app = admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
   databaseURL: firebaseConfig.databaseURL,
-  projectId: firebaseConfig.projectId,
-  storageBucket: firebaseConfig.storageBucket,
-  messagingSenderId: firebaseConfig.messagingSenderId,
-  databaseAuthVariableOverride: serverUid.uid,
 });
 
 let db = app.database();
@@ -31,6 +26,8 @@ function addPrice(buy, sell) {
     }).catch(err => {
       console.log(err);
     });
+  }).catch(err => {
+    console.log(err);
   })
 }
 

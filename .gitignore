@@ -60,8 +60,6 @@ typings/
 deployment-config\.json
 
 package-lock\.json
-serverUid.json
 
-firebaseConfig.json
-lineConfig.json
 test.js
+config/
