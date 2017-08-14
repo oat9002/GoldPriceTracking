@@ -2,7 +2,7 @@
 const db = require('../dal/db');
 const Client = require('@line/bot-sdk').Client;
 const moment = require("moment-timezone");
-const lineConfig = require("./lineConfig.json");
+const lineConfig = require("../config/lineConfig.json");
 
 const client = new Client({
   channelAccessToken: lineConfig.channelAccessToken,

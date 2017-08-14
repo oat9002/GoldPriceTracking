@@ -1,7 +1,7 @@
 "use strict";
 const firebase = require("firebase");
-const firebaseConfig = require("./firebaseConfig.json");
-const serverUid = require("./serverUid.json");
+const firebaseConfig = require("../config/firebaseConfig.json");
+const serverUid = require("../config/serverUid.json");
 
 let app = firebase.initializeApp({
   apiKey: firebaseConfig.apiKey,
