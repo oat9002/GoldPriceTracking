@@ -33,11 +33,11 @@ function start() {
       })
       .catch(err => {
         console.log(err);
-      })
-  })
+      });
+  });
   message.pushMessage();
 }
 
 module.exports = {
   start
-}
+};

@@ -1,3 +1,4 @@
+"use strict";
 const db = require('../dal/db');
 const Client = require('@line/bot-sdk').Client;
 const moment = require("moment-timezone");
@@ -24,10 +25,11 @@ function pushMessage() {
       priceDiffMessage = priceDiffMessage + data.buyDifferent + ' บาท';
     }
     let message = dateMessage + '\n' + priceMessage + '\n' + priceDiffMessage;
-    client.pushMessage('U192446f179afffe5d1cf02c27125081e', { type: 'text', text: message });
+    client.pushMessage('1527430011', { type: 'text', text: message });
+    //client.pushMessage('U192446f179afffe5d1cf02c27125081e', { type: 'text', text: message }); Test pushMessage
   });
 }
 
 module.exports = {
   pushMessage
-}
+};

@@ -1,5 +1,5 @@
+"use strict";
 const firebase = require("firebase");
-const async = require("async");
 
 let app = firebase.initializeApp({
   apiKey: "AIzaSyDCD8IhA1OoJ4852sNuiLahW1l1EHnaiP8",
@@ -26,7 +26,7 @@ function addPrice(buy, sell) {
       sellDifferent: sell - latestPrice[Object.keys(latestPrice)[0]].sell,
       created_at: new Date().getTime()
     }).catch(err => {
-      reject(err);
+      console.log(err);
     });
   })
 }
@@ -65,4 +65,4 @@ module.exports = {
   addPrice,
   getLatestPrice,
   shouldAddPrice
-}
+};

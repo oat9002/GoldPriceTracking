@@ -60,3 +60,5 @@ typings/
 deployment-config\.json
 
 package-lock\.json
+serverUid.json
+
