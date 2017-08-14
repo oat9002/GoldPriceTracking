@@ -1,13 +1,16 @@
 "use strict";
 const firebase = require("firebase");
+const firebaseConfig = require("./firebaseConfig.json");
+const serverUid = require("./serverUid.json");
 
 let app = firebase.initializeApp({
-  apiKey: "AIzaSyDCD8IhA1OoJ4852sNuiLahW1l1EHnaiP8",
-  authDomain: "goldpricetracking.firebaseapp.com",
-  databaseURL: "https://goldpricetracking.firebaseio.com",
-  projectId: "goldpricetracking",
-  storageBucket: "goldpricetracking.appspot.com",
-  messagingSenderId: "780822195460"
+  apiKey: firebaseConfig.apiKey,
+  authDomain: firebaseConfig.authDomain,
+  databaseURL: firebaseConfig.databaseURL,
+  projectId: firebaseConfig.projectId,
+  storageBucket: firebaseConfig.storageBucket,
+  messagingSenderId: firebaseConfig.messagingSenderId,
+  databaseAuthVariableOverride: serverUid.uid,
 });
 
 let db = app.database();

@@ -2,10 +2,11 @@
 const db = require('../dal/db');
 const Client = require('@line/bot-sdk').Client;
 const moment = require("moment-timezone");
+const lineConfig = require("./lineConfig.json");
 
 const client = new Client({
-  channelAccessToken: 'zfeTtx+CfkxcNrvRw0qg15hs80mf9ycnzw1PIA5LUawNHiXZyok3547oF+tev5bmo2uN6kqFOJC0xiJ8D5n7GgJ5c8j6KdRnIZIuonL8BdPez/EVowGF/p/6uk4Sunm54rOz+n08ase86tY5O96xWQdB04t89/1O/w1cDnyilFU=',
-  channelSecret: '585982911ee20d50d90de40024a45647'
+  channelAccessToken: lineConfig.channelAccessToken,
+  channelSecret: lineConfig.channelSecret
 });
 
 const monthName = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ษ.", "พ.ค.", "มิ.ย.", "ฟ.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
