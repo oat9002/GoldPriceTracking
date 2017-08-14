@@ -4,7 +4,7 @@
   "description": "GoldPriceTracking with Node.js and IFTTT",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon ./start.js"
+    "start": "nodemon ./index.js"
   },
   "repository": {
     "type": "git",
