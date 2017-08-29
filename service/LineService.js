@@ -31,9 +31,11 @@ function pushMessage() {
     }
     let message = dateMessage + '\n' + priceMessage + '\n' + priceDiffMessage;
     db.getAllUser().then(users => {
-      Object.keys(users).forEach(key => {
-        client.pushMessage(users[key].id, { type: 'text', text: message });
-      });
+      if(users != null) {
+        Object.keys(users).forEach(key => {
+          client.pushMessage(users[key].id, { type: 'text', text: message });
+        });
+      }
     }).catch(err => {
       console.log(err);
     })
