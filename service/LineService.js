@@ -21,7 +21,7 @@ function pushMessage() {
       showMinute = '0' + date.minute();
     }
     let dateMessage = 'วันที่ ' + date.date() + ' ' + monthName[date.month()] + ' ' + (date.year() + 543) + ' เวลา ' + date.hour() + ':' + showMinute + ' น.\n';
-    let priceMessage = 'ราคาซื้อ: ' + data.buy + ' บาท\n' + 'ราคาขาย: ' + data.sell + ' บาท';
+    let priceMessage = 'ราคารับซื้อ: ' + data.buy + ' บาท\n' + 'ราคาขาย: ' + data.sell + ' บาท';
     let priceDiffMessage = 'เทียบราคาจากครั้งก่อน: ';
     if(data.buyDifferent > 0) {
       priceDiffMessage = priceDiffMessage + '+' + data.buyDifferent + ' บาท';
