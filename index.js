@@ -2,7 +2,7 @@ const track = require('./service/TrackingService');
 const express = require('express');
 const middleware = require('@line/bot-sdk').middleware;
 const lineConfig = require('./config/lineConfig.json');
-const lineService = require('./service/LineSerivce');
+const lineService = require('./service/LineService');
 
 const app = express();
 const config = {

@@ -62,12 +62,23 @@ function getLatestPrice() {
 
 function addLineUser(userId) {
   return new Promise((resolve, reject) => {
-    db.ref('user').set({
-      userId: userId
+    let uid = db.ref().child('user').push().key;
+    db.ref('user/' + uid).set({
+      id: userId
     }).catch(err => {
       reject(err);
     });
   });
+}
+
+function getAllUser() {
+  return new Promise((resolve, reject) => {
+    db.ref('user').once('value').then(snapshot => {
+      resolve(snapshot.val());
+    }).catch(err => {
+      reject(err);
+    })
+  })
 }
 
 module.exports = {
@@ -75,5 +86,6 @@ module.exports = {
   addPrice,
   getLatestPrice,
   shouldAddPrice,
-  addLineUser
+  addLineUser,
+  getAllUser
 };

@@ -30,8 +30,14 @@ function pushMessage() {
       priceDiffMessage = priceDiffMessage + data.buyDifferent + ' บาท';
     }
     let message = dateMessage + '\n' + priceMessage + '\n' + priceDiffMessage;
-    // client.pushMessage('1527430011', { type: 'text', text: message });
-    client.pushMessage('U192446f179afffe5d1cf02c27125081e', { type: 'text', text: message }); // Test pushMessage
+    db.getAllUser().then(users => {
+      Object.keys(users).forEach(key => {
+        client.pushMessage(users[key].id, { type: 'text', text: message });
+      });
+    }).catch(err => {
+      console.log(err);
+    })
+    // client.pushMessage('U192446f179afffe5d1cf02c27125081e', { type: 'text', text: message }); // Test pushMessage
   });
 }
 
