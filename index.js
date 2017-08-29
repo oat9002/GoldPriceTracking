@@ -11,7 +11,7 @@ const config = {
 
 app.use(middleware(config))
 
-app.get('/', () => {
+app.get('/', (req, res) => {
     res.send('Hello, welcome to GoldpriceTracking.');
 })
 
