@@ -2,6 +2,7 @@ const track = require('./service/TrackingService');
 const express = require('express');
 const middleware = require('@line/bot-sdk').middleware;
 const lineConfig = require('./config/lineConfig.json');
+const lineService = require('./service/LineSerivce');
 
 const app = express();
 const config = {
@@ -16,7 +17,15 @@ app.get('/', (req, res) => {
 })
 
 app.post('/webhook', (req, res) => {
-    console.log(req.body.events)
+    req.body.events.forEach((event) => {
+        switch(event.type) {
+            case "follow": 
+                if(event.source.type == 'user') {
+                    lineService.addUser(event.source.userId);
+                }
+                break;
+        }
+    }, this);
 });
 
 app.listen(3000, () => {

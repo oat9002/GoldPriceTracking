@@ -35,6 +35,11 @@ function pushMessage() {
   });
 }
 
+function addUser(userId) {
+  db.addLineUser(userId).catch(err => console.log(err));
+}
+
 module.exports = {
-  pushMessage
+  pushMessage,
+  addUser
 };

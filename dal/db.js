@@ -60,9 +60,20 @@ function getLatestPrice() {
   });
 }
 
+function addLineUser(userId) {
+  return new Promise((resolve, reject) => {
+    db.ref('user').set({
+      userId: userId
+    }).catch(err => {
+      reject(err);
+    });
+  });
+}
+
 module.exports = {
   getInstance,
   addPrice,
   getLatestPrice,
-  shouldAddPrice
+  shouldAddPrice,
+  addLineUser
 };
