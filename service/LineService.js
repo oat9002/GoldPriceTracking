@@ -33,7 +33,7 @@ function pushMessage() {
 function replyMessage(replyToken) {
   db.getLatestPrice().then(data => {
     generateMessage(data).then(message => {
-      client.replyMessage(replyToken, { type: 'text', text: 'เรารู้ว่าคุณอยากได้ข้อมูลล่าสุดใช่มั้ยหล่ะ\n' + message});
+      client.replyMessage(replyToken, { type: 'text', text: message});
     });
   });
 }
