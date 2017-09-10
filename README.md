@@ -6,3 +6,5 @@ GoldPriceTracking with Node.js and Line bot
 <div style="text-align:center;width:100%">
   <img src="./static/pics/xs4sFk-u12.png" />
 </div>
+
+* Feel free to leave feedback if you have :)
