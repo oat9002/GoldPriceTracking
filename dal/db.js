@@ -38,7 +38,7 @@ function shouldAddPrice(buy, sell) {
       let id = Object.keys(data)[0];
       let oldBuy = data[id].buy;
       let oldSell = data[id].sell;
-      if(buy - oldBuy != 0 || sell - oldSell != 0) {
+      if(buy - oldBuy !== 0 || sell - oldSell !== 0) {
         resolve(true);
       }
       else {
@@ -53,7 +53,9 @@ function shouldAddPrice(buy, sell) {
 function getLatestPrice() {
   return new Promise((resolve, reject) => {
     db.ref('price').orderByChild('created_at').limitToLast(1).once('value').then(snapshot => {
-      resolve(snapshot.val());
+      snapshot.forEach(childSnapshot => {
+        resolve(childSnapshot.val());
+      });
     }).catch(err => {
       reject(err);
     });

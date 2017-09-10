@@ -24,7 +24,7 @@ function pushMessage() {
         }
       }).catch(err => {
         console.log(err);
-      })
+      });
       // client.pushMessage('U192446f179afffe5d1cf02c27125081e', { type: 'text', text: message }); // Test pushMessage
     });
   });
@@ -61,7 +61,7 @@ function generateMessage(firebaseData) {
 }
 
 function addCommaToNumber(number) {
-  let numberStr = number.toString();
+  let numberStr = number + '';
   let belowZero = false;
   if(number < 0) {
     numberStr = numberStr.replace('-', '');
