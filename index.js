@@ -9,19 +9,19 @@ const app = express();
 const config = {
     channelAccessToken: lineConfig.channelAccessToken,
     channelSecret: lineConfig.channelSecret
-}
+};
 
-app.use(middleware(config))
+app.use(middleware(config));
 
 app.get('/', (req, res) => {
     res.send('Hello, welcome to GoldpriceTracking.');
-})
+});
 
 app.post('/webhook', (req) => {
     req.body.events.forEach((event) => {
-        switch(event.type) {
-            case "follow": 
-                if(event.source.type == 'user') {
+        switch (event.type) {
+            case "follow":
+                if (event.source.type === 'user') {
                     lineService.addUser(event.source.userId);
                 }
                 break;

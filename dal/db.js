@@ -1,7 +1,7 @@
 "use strict";
 const admin = require("firebase-admin");
 const firebaseConfig = require("../config/firebaseConfig.json");
-const serviceAccount = require("../config/goldpricetracking-firebase-adminsdk-718s5-85e720333f.json")
+const serviceAccount = require("../config/goldpricetracking-firebase-adminsdk-718s5-85e720333f.json");
 
 let app = admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
@@ -28,7 +28,7 @@ function addPrice(buy, sell) {
     });
   }).catch(err => {
     console.log(err);
-  })
+  });
 }
 
 function shouldAddPrice(buy, sell) {
@@ -38,15 +38,14 @@ function shouldAddPrice(buy, sell) {
       let id = Object.keys(data)[0];
       let oldBuy = data[id].buy;
       let oldSell = data[id].sell;
-      if(buy - oldBuy !== 0 || sell - oldSell !== 0) {
+      if (buy - oldBuy !== 0 || sell - oldSell !== 0) {
         resolve(true);
-      }
-      else {
+      } else {
         resolve(false);
       }
     }).catch(err => {
       reject(err);
-    })
+    });
   });
 }
 
@@ -79,8 +78,8 @@ function getAllUser() {
       resolve(snapshot.val());
     }).catch(err => {
       reject(err);
-    })
-  })
+    });
+  });
 }
 
 module.exports = {
