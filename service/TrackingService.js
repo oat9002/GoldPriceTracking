@@ -19,15 +19,14 @@ function start() {
         let bpTemp = $('#DetailPlace_uc_goldprices1_lblBLBuy').text();
         let spTemp = $('#DetailPlace_uc_goldprices1_lblBLSell').text();
         buyPrice = parseInt(bpTemp.substring(0, bpTemp.length - 3).replace(',', ''));
-        sellPrice = parseInt(spTemp.substring(0, spTemp.length - 3).replace(',', ''))
-        if(buyPrice !== null && sellPrice !== null) {
+        sellPrice = parseInt(spTemp.substring(0, spTemp.length - 3).replace(',', ''));
+        if (buyPrice !== null && sellPrice !== null) {
           db.shouldAddPrice(buyPrice, sellPrice).then(shouldAdd => {
-            if(shouldAdd) {
-               db.addPrice(buyPrice, sellPrice);
+            if (shouldAdd) {
+              db.addPrice(buyPrice, sellPrice);
             }
-          })
-        }
-        else {
+          });
+        } else {
           console.log('Something wrong in price');
         }
       })
