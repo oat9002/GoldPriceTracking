@@ -20,8 +20,8 @@ function addPrice(buy, sell) {
     db.ref('price/' + uid).set({
       buy: buy,
       sell: sell,
-      buyDifferent: buy - latestPrice[Object.keys(latestPrice)[0]].buy,
-      sellDifferent: sell - latestPrice[Object.keys(latestPrice)[0]].sell,
+      buyDifferent: buy - latestPrice.buy,
+      sellDifferent: sell - latestPrice.sell,
       created_at: new Date().getTime()
     }).catch(err => {
       console.log(err);
