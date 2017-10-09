@@ -6,10 +6,12 @@
     "react-scripts": "1.0.14"
   },
   "dependencies": {
+    "axios": "^0.16.2",
     "jsxhint": "^0.15.1",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
-    "react-vis": "^1.7.9"
+    "react-vis": "^1.7.9",
+    "recharts": "^1.0.0-apha.5"
   },
   "scripts": {
     "start": "react-scripts start",

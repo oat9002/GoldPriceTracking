@@ -4,6 +4,7 @@ const express = require('express');
 const middleware = require('@line/bot-sdk').middleware;
 const lineConfig = require('./config/lineConfig.json');
 const lineService = require('./service/LineService');
+const db = require("./dal/db");
 
 const app = express();
 const config = {
@@ -32,8 +33,14 @@ app.post('/webhook', (req) => {
     }, this);
 });
 
+app.get('/prices', (req, res) => {
+  db.getLatestPrices(parseInt(req.query.number)).then(data => {
+    res.json(data);
+  });
+});
+
 app.listen(3000, () => {
     console.log('listen to port 3000');
 });
 
-track.start();
+// track.start();
