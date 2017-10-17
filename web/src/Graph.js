@@ -8,7 +8,7 @@ export default class Graph extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      prices: null;
+      prices: null
     };
   }
 
