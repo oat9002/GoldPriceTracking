@@ -4,6 +4,7 @@ const express = require('express');
 const middleware = require('@line/bot-sdk').middleware;
 const lineConfig = require('./config/lineConfig.json');
 const lineService = require('./service/LineService');
+const cors = require('cors');
 const db = require("./dal/db");
 const port = 4000;
 
@@ -13,6 +14,7 @@ const config = {
     channelSecret: lineConfig.channelSecret
 };
 
+app.use(cors())
 app.use(middleware(config));
 
 app.get('/', (req, res) => {
@@ -44,4 +46,4 @@ app.listen(port, () => {
     console.log('listen to port ' + port);
 });
 
-track.start();
+//track.start();
