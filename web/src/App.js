@@ -1,15 +1,16 @@
 import React, { Component } from 'react';
 import Graph from './Graph';
+import './App.css';
 
 class App extends Component {
   render() {
     return (
-      <div>
-        <div className='graph'>
-          <Graph />
-        </div>
+      <div className='content'>
         <div className='title'>
           Let's see the history
+        </div>
+        <div className='graph'>
+          <Graph />
         </div>
       </div>
     );

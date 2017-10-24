@@ -3,8 +3,8 @@ import axios from 'axios';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
 import moment from 'moment-timezone';
 
-const numberOfLatestPrices = 0;
-const getLatestPricesUrl = "http://localhost:4000/prices?number=" + numberOfLatestPrices;//"https://6ef244bd.ngrok.io/prices?number=";
+const numberOfLatestPrices = 50;
+const getLatestPricesUrl = 'http://localhost:4000/prices?number=' + numberOfLatestPrices; 
 
 export default class Graph extends React.Component {
   constructor(props) {
@@ -91,7 +91,7 @@ export default class Graph extends React.Component {
   render() {
     return (
       <div>
-        <LineChart width={1000} height={250} data={this.state.prices}>
+        <LineChart width={window.innerWidth * 0.8} height={window.innerHeight * 0.3} data={this.state.prices}>
           <XAxis dataKey="created_at" />
           <YAxis domain={[this.minPrice, this.maxPrice]} />/>
           <CartesianGrid strokeDasharray="3 3" />
