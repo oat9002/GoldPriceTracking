@@ -7,7 +7,7 @@ class App extends Component {
     return (
       <div className='content'>
         <div className='title'>
-          Let's see the history
+          History
         </div>
         <div className='graph'>
           <Graph />

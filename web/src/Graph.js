@@ -1,6 +1,6 @@
 import React from 'react';
 import axios from 'axios';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import moment from 'moment-timezone';
 
 const numberOfLatestPrices = 50;
@@ -89,18 +89,18 @@ export default class Graph extends React.Component {
   }
 
   render() {
-    return (
-      <div>
-        <LineChart width={window.innerWidth * 0.8} height={window.innerHeight * 0.3} data={this.state.prices}>
+    return (  
+      <ResponsiveContainer width={window.innerWidth * 0.8} height={window.innerHeight * 0.8}>
+        <LineChart data={this.state.prices}>
           <XAxis dataKey="created_at" />
           <YAxis domain={[this.minPrice, this.maxPrice]} />/>
           <CartesianGrid strokeDasharray="3 3" />
           <Tooltip />
           <Legend />
-          <Line type="monotone" dataKey="buy" stroke="#8884d8" />
-          <Line type="monotone" dataKey="sell" stroke="#82ca9d" />
+          <Line type="monotone" dataKey="buy" stroke="#56b8ff" />
+          <Line type="monotone" dataKey="sell" stroke="#f4426b" />
         </LineChart>
-      </div>
+      </ResponsiveContainer>
     );
   }
 }
