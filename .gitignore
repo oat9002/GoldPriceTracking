@@ -87,3 +87,5 @@ yarn-debug.log*
 yarn-error.log*
 
 web/build/
+
+host/
