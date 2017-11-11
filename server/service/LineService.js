@@ -66,6 +66,7 @@ function generateMessage(firebaseData) {
     priceDiffMessage = priceDiffMessage + addCommaToNumber(firebaseData.buyDifferent) + ' บาท';
   }
   let message = dateMessage + '\n' + priceMessage + '\n' + priceDiffMessage;
+  message += '\n' + 'ดูประวัติ https://goo.gl/wX58dQ';
   return new Promise((resolve) => {
     resolve(message);
   });
