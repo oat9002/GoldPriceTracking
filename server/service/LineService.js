@@ -10,26 +10,32 @@ const client = new Client({
 });
 
 const monthName = ["ม.ค.", "ก.พ.", "มี.ค.", "เม.ษ.", "พ.ค.", "มิ.ย.", "ฟ.ค.", "ส.ค.", "ก.ย.", "ต.ค.", "พ.ย.", "ธ.ค."];
+let first = true;
 
 function pushMessage() {
   let dbInstance = db.getInstance();
   dbInstance.ref('price').orderByChild('created_at').limitToLast(1).on('child_added', snapshot => {
-    let data = snapshot.val();
-    generateMessage(data).then(message => {
-      db.getAllUser().then(users => {
-        if (users !== null) {
-          Object.keys(users).forEach(key => {
-            client.pushMessage(users[key].id, {
-              type: 'text',
-              text: message
+    if(!first) {
+      let data = snapshot.val();
+      generateMessage(data).then(message => {
+        db.getAllUser().then(users => {
+          if (users !== null) {
+            Object.keys(users).forEach(key => {
+              client.pushMessage(users[key].id, {
+                type: 'text',
+                text: message
+              });
             });
-          });
-        }
-      }).catch(err => {
-        console.log(err);
+          }
+        }).catch(err => {
+          console.log(err.stack);
+        });
+        // client.pushMessage('U192446f179afffe5d1cf02c27125081e', { type: 'text', text: message }); // Test pushMessage
       });
-      // client.pushMessage('U192446f179afffe5d1cf02c27125081e', { type: 'text', text: message }); // Test pushMessage
-    });
+    }
+    else {
+      first = false;
+    }
   });
 }
 

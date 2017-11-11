@@ -1,0 +1,23 @@
+{
+  "name": "GoldPriceTracking",
+  "version": "0.0.1",
+  "private": true,
+  "devDependencies": {
+    "react-scripts": "1.0.14"
+  },
+  "dependencies": {
+    "axios": "^0.16.2",
+    "eslint": "^4.9.0",
+    "moment-timezone": "^0.5.13",
+    "react": "^16.0.0",
+    "react-dom": "^16.0.0",
+    "react-vis": "^1.7.9",
+    "recharts": "^1.0.0-apha.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}

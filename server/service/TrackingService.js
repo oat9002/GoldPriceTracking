@@ -31,7 +31,7 @@ function start() {
         }
       })
       .catch(err => {
-        console.log(err);
+        console.log(err.stack);
       });
   });
   message.pushMessage();

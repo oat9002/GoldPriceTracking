@@ -24,10 +24,10 @@ function addPrice(buy, sell) {
       sellDifferent: sell - latestPrice.sell,
       created_at: new Date().getTime()
     }).catch(err => {
-      console.log(err);
+      console.log(err.message + '\n' + err.stack);
     });
   }).catch(err => {
-    console.log(err);
+    console.log(err.stack);
   });
 }
 
@@ -44,7 +44,7 @@ function shouldAddPrice(buy, sell) {
         resolve(false);
       }
     }).catch(err => {
-      reject(err);
+      reject(err.stack);
     });
   });
 }
@@ -56,7 +56,7 @@ function getLatestPrice() {
         resolve(childSnapshot.val());
       });
     }).catch(err => {
-      reject(err);
+      reject(err.stack);
     });
   });
 }
@@ -67,7 +67,7 @@ function addLineUser(userId) {
     db.ref('user/' + uid).set({
       id: userId
     }).catch(err => {
-      reject(err);
+      reject(err.stack);
     });
   });
 }
@@ -77,9 +77,46 @@ function getAllUser() {
     db.ref('user').once('value').then(snapshot => {
       resolve(snapshot.val());
     }).catch(err => {
-      reject(err);
+      reject(err.stack);
     });
   });
+}
+
+/* number: number of latest data (0 = all)*/
+function getLatestPrices(number) {
+  let priceArr = new Array(number);
+  let count = 0;
+  if(number !== 0) {
+    return new Promise((resolve, reject) => {
+      db.ref('price').orderByChild('created_at').limitToLast(number).once('value').then(snapshot => {
+        snapshot.forEach(childSnapshot => {
+          priceArr[count] = childSnapshot.val();
+          count += 1;
+        });
+        if(count === number) {
+          resolve(priceArr)
+        }
+      }).catch(err => {
+        reject(err.stack);
+      });
+    });
+  }
+  else {
+    return new Promise((resolve, reject) => {
+      db.ref('price').orderByChild('created_at').once('value').then(snapshot => {
+        priceArr = new Array(snapshot.numChildren());
+        snapshot.forEach(childSnapshot => {
+          priceArr[count] = childSnapshot.val();
+          count += 1;
+        });
+        if(count === snapshot.numChildren()) {
+          resolve(priceArr)
+        }
+      }).catch(err => {
+        reject(err.stack);
+      });
+    });
+  }
 }
 
 module.exports = {
@@ -88,5 +125,6 @@ module.exports = {
   getLatestPrice,
   shouldAddPrice,
   addLineUser,
-  getAllUser
+  getAllUser,
+  getLatestPrices
 };

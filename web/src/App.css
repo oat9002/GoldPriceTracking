@@ -1,0 +1,28 @@
+.content {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  animation: fadein 1s;
+  /* overflow-x: hidden; */
+}
+
+.title {
+  margin-left: 4%;
+  margin-top: 1%;
+  width: 90vw;
+  text-align: center;
+  font-size: 4em;
+  font-family: 'Questrial';
+}
+
+.graph {
+  width: 90vw;
+  margin-left: 8%;
+  margin-top: 10px;
+}
+
+@keyframes fadein {
+  from { opacity: 0; };
+  to   { opacity: 1; };
+}
+
