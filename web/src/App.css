@@ -16,9 +16,9 @@
 }
 
 .graph {
-  width: 90vw;
-  margin-left: 8%;
-  margin-top: 10px;
+  position: relative;
+  width: 90vw;  
+  margin-top: 9%;
 }
 
 @keyframes fadein {

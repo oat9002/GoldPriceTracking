@@ -51,7 +51,7 @@ export default class Graph extends React.Component {
         revisedData[idx] = {
           buy: element.buy,
           sell: element.sell,
-          created_at: date.format('L') + ' ' + date.format('LT')
+          created_at: date.format('L')
         };
       }, this);
       return revisedData;
@@ -90,7 +90,7 @@ export default class Graph extends React.Component {
 
   render() {
     return (  
-      <ResponsiveContainer width={window.innerWidth * 0.8} height={window.innerHeight * 0.8}>
+      <ResponsiveContainer width={window.innerWidth * 0.98} height={window.innerHeight * 0.4}>
         <LineChart data={this.state.prices}>
           <XAxis dataKey="created_at" />
           <YAxis domain={[this.minPrice, this.maxPrice]} />/>
