@@ -14,8 +14,6 @@ export default class Graph extends React.Component {
       maxPrice: 0,
       minPrice: 0
     };
-    this.getGraphData = this.getGraphData.bind(this);
-    this.getMaxAndMinPrice = this.getMaxAndMinPrice.bind(this);
   }
 
   componentWillMount() {
@@ -43,7 +41,7 @@ export default class Graph extends React.Component {
       });
   }
 
-  getGraphData(rawData) {
+  getGraphData = (rawData) => {
     let revisedData = [];
     if(rawData !== null && rawData.length !== 0) {
       rawData.forEach((element, idx) => {
@@ -66,7 +64,7 @@ export default class Graph extends React.Component {
     }
   }
 
-  getMaxAndMinPrice(rawData) {
+  getMaxAndMinPrice = (rawData) => {
     let price = {
       min: 0,
       max: 0
