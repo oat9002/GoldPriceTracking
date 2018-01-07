@@ -4,7 +4,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Responsi
 import moment from 'moment-timezone';
 
 const numberOfLatestPrices = 50;
-const getLatestPricesUrl = 'https://167d8d9e.ngrok.io/prices?number=' + numberOfLatestPrices; 
+const getLatestPricesUrl = 'https://8dab52dd.ngrok.io/prices?number=' + numberOfLatestPrices; 
 
 export default class Graph extends React.Component {
   constructor(props) {
