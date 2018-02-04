@@ -6,6 +6,7 @@ const lineConfig = require('./config/lineConfig.json');
 const lineService = require('./service/LineService');
 const cors = require('cors');
 const db = require("./dal/db");
+const enums = require("./util/enums");
 const port = 4000;
 
 const app = express();
@@ -37,13 +38,35 @@ app.post('/webhook', (req) => {
 });
 
 app.get('/prices', (req, res) => {
-  db.getLatestPrices(parseInt(req.query.number)).then(data => {
-    res.json(data);
-  });
+    if(req.query.number < 0) {
+        res.status(enums.STATUS_CODE.BAD_REQUEST);
+        res.send("number must be more than or equal to 0");
+    }
+    db.getLatestPrices(parseInt(req.query.number)).then(data => {
+        res.status = enums.STATUS_CODE.OKAY;
+        res.json(data);
+    })
 });
+
+app.get('/priceslastday', (req, res) => {
+    if(req.query.days < 0) {
+        res.status(enums.STATUS_CODE.BAD_REQUEST);
+        res.send("days must be more than or equal to 0");
+    }
+    else {
+        db.getPricesLastByDay(parseInt(req.query.days)).then(data => {
+            res.status(enums.STATUS_CODE.OKAY);
+            res.json(data)
+        })
+        .catch(err => {
+            res.status(enums.STATUS_CODE.INTERNAL_SERVER_ERROR);
+            res.json(err);
+        });
+    }
+})
 
 app.listen(port, () => {
     console.log('listen to port ' + port);
 });
 
-track.start();
+//track.start();
