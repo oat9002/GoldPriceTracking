@@ -7,6 +7,8 @@
   },
   "dependencies": {
     "axios": "^0.16.2",
+    "element-react": "^1.4.5",
+    "element-theme-default": "^1.4.13",
     "eslint": "^4.9.0",
     "moment-timezone": "^0.5.13",
     "react": "^16.0.0",

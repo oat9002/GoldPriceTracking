@@ -90,11 +90,11 @@ export default class Graph extends React.Component {
     return (  
       <ResponsiveContainer width={window.innerWidth * 0.98} height={window.innerHeight * 0.4}>
         <LineChart data={this.state.prices}>
-          <XAxis dataKey="created_at" />
-          <YAxis domain={[this.minPrice, this.maxPrice]} />/>
+          <XAxis dataKey="created_at" tick={{fontSize: '0.8em', fontFamily: 'Questrial'}}/>
+          <YAxis domain={[this.minPrice, this.maxPrice]} tick={{fontFamily: 'Questrial'}}/>/>
           <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip />
-          <Legend />
+          <Tooltip wrapperStyle={{fontFamily: 'Questrial'}}/>
+          <Legend wrapperStyle={{fontFamily: 'Questrial'}}/>
           <Line type="monotone" dataKey="buy" stroke="#56b8ff" />
           <Line type="monotone" dataKey="sell" stroke="#f4426b" />
         </LineChart>
