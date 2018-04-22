@@ -2,9 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import moment from 'moment-timezone';
+import { config } from './config/appConfig';
 
 const numberOfLatestPrices = 50;
-const getLatestPricesUrl = 'https://8dab52dd.ngrok.io/prices?number=' + numberOfLatestPrices; 
+const getLatestPricesUrl = config.serverDomain + '/prices?number=' + numberOfLatestPrices; 
 
 export default class Graph extends React.Component {
   constructor(props) {
