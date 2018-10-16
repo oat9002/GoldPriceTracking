@@ -10,7 +10,7 @@ function start() {
   let sellPrice = 0;
 
   cron.schedule('*/5 * * * *', () => {
-    axios.get('http://www.goldtraders.or.th/default.aspx')
+    axios.get('http://www.goldtraders.or.th')
       .then(res => {
         return res.data;
       })

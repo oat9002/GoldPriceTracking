@@ -2,9 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import moment from 'moment-timezone';
+import { config } from './config/appConfig';
 
 const numberOfLatestPrices = 50;
-const getLatestPricesUrl = 'https://167d8d9e.ngrok.io/prices?number=' + numberOfLatestPrices; 
+const getLatestPricesUrl = config.serverDomain + '/prices?number=' + numberOfLatestPrices; 
 
 export default class Graph extends React.Component {
   constructor(props) {
@@ -14,8 +15,6 @@ export default class Graph extends React.Component {
       maxPrice: 0,
       minPrice: 0
     };
-    this.getGraphData = this.getGraphData.bind(this);
-    this.getMaxAndMinPrice = this.getMaxAndMinPrice.bind(this);
   }
 
   componentWillMount() {
@@ -43,7 +42,7 @@ export default class Graph extends React.Component {
       });
   }
 
-  getGraphData(rawData) {
+  getGraphData = (rawData) => {
     let revisedData = [];
     if(rawData !== null && rawData.length !== 0) {
       rawData.forEach((element, idx) => {
@@ -66,7 +65,7 @@ export default class Graph extends React.Component {
     }
   }
 
-  getMaxAndMinPrice(rawData) {
+  getMaxAndMinPrice = (rawData) => {
     let price = {
       min: 0,
       max: 0
@@ -92,11 +91,11 @@ export default class Graph extends React.Component {
     return (  
       <ResponsiveContainer width={window.innerWidth * 0.98} height={window.innerHeight * 0.4}>
         <LineChart data={this.state.prices}>
-          <XAxis dataKey="created_at" />
-          <YAxis domain={[this.minPrice, this.maxPrice]} />/>
+          <XAxis dataKey="created_at" tick={{fontSize: '0.8em', fontFamily: 'Questrial'}}/>
+          <YAxis domain={[this.minPrice, this.maxPrice]} tick={{fontFamily: 'Questrial'}}/>/>
           <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip />
-          <Legend />
+          <Tooltip wrapperStyle={{fontFamily: 'Questrial'}}/>
+          <Legend wrapperStyle={{fontFamily: 'Questrial'}}/>
           <Line type="monotone" dataKey="buy" stroke="#56b8ff" />
           <Line type="monotone" dataKey="sell" stroke="#f4426b" />
         </LineChart>
