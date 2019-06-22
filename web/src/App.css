@@ -3,7 +3,10 @@
   justify-content: center;
   flex-direction: column;
   animation: fadein 1s;
-  /* overflow-x: hidden; */
+}
+
+body {
+  margin: 0;
 }
 
 .title {
@@ -13,6 +16,10 @@
   text-align: center;
   font-size: 4em;
   font-family: Roboto;
+}
+
+.titleIcon {
+  margin-left: 4px;
 }
 
 .graph {

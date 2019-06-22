@@ -2,6 +2,10 @@ import React, { PureComponent } from 'react';
 import Graph from './Graph';
 import GoldTable from './Table';
 import { fetchGoldPrices } from './util/Util';
+import AppBar from '@material-ui/core/AppBar';
+import Toolbar from '@material-ui/core/Toolbar';
+import Typography from '@material-ui/core/Typography';
+import TableChart from '@material-ui/icons/TableChart';
 import './App.css';
 
 class App extends PureComponent {
@@ -76,9 +80,16 @@ class App extends PureComponent {
   render() {
     return (
       <div className='content'>
-        <div className='title'>
-          History
-        </div>
+        <AppBar position="static" color='primary'>
+          <Toolbar>
+            <Typography variant="h4">
+              Hitstory
+            </Typography>
+            <span className="titleIcon">
+              <TableChart fontSize='large' />
+            </span>
+          </Toolbar>
+        </AppBar>
         <div className='graph'>
           <Graph prices={this.state.prices} maxPrice={this.maxPrice} minPrice={this.minPrice} />
         </div>
