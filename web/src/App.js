@@ -1,20 +1,76 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import Graph from './Graph';
 import GoldTable from './Table';
+import { fetchGoldPrices } from './util/Util';
 import './App.css';
 
-class App extends Component {
+class App extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      daysBack: 5
+      numOfRec: 10,
+      prices: null,
+    }
+
+    this.maxPrice = 0;
+    this.minPrice = 0;
+  }
+
+  componentDidMount() {
+    this.intializeGraphData();
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    if (prevState.numOfRec !== this.state.numOfRec) {
+      this.intializeGraphData();
     }
   }
 
-  onChangeDaysBack = (days) => {
+  onChangeNumOfRec = (days) => {
     this.setState({
-      daysBack: days
+      numOfRec: days
     });
+  }
+
+  intializeGraphData = async () => {
+    try {
+      const goldPrices = await fetchGoldPrices(this.state.numOfRec);
+      const maxAndMin = this.getMaxAndMinPrice(goldPrices);
+
+      this.maxPrice = maxAndMin.max;
+      this.minPrice = maxAndMin.min;
+
+      this.setState({
+        prices: goldPrices,
+      });
+    }
+    catch (err) {
+      console.log(err);
+    }
+  }
+
+  getMaxAndMinPrice = (rawData) => {
+    let price = {
+      min: 0,
+      max: 0
+    };
+
+    rawData.forEach((element, idx) => {
+      if (idx === 0) {
+        price.min = element.buy;
+        price.max = element.sell;
+      }
+      else {
+        if (element.buy < price.min) {
+          price.min = element.buy;
+        }
+        if (element.sell > price.max) {
+          price.max = element.sell;
+        }
+      }
+    });
+
+    return price;
   }
 
   render() {
@@ -24,10 +80,10 @@ class App extends Component {
           History
         </div>
         <div className='graph'>
-          <Graph daysBack={this.state.daysBack}/>
+          <Graph prices={this.state.prices} maxPrice={this.maxPrice} minPrice={this.minPrice} />
         </div>
         <div className='Table'>
-          <GoldTable daysBack={this.state.daysBack} onChangeDaysBack={this.onChangeDaysBack}/> 
+          <GoldTable numOfRec={this.state.numOfRec} onChangeNumOfRec={this.onChangeNumOfRec} prices={this.state.prices} />
         </div>
       </div>
     );

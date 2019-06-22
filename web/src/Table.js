@@ -8,10 +8,9 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import moment from 'moment-timezone';
 import Filter from './Filter';
-import axios from './util/Axios';
 import './Table.css';
 
-function GoldTable() {
+function GoldTable(props) {
     const classes = makeStyles(theme => ({
         root: {
             width: '100%',
@@ -23,24 +22,26 @@ function GoldTable() {
         },
     }))();
 
-    const [numOfRec, setNumOfRec] = React.useState(5);
-
     function mapDataForTable(goldPrices) {
-        let data = goldPrices.map(x => Object.create({
+        if (goldPrices === null || goldPrices.length === 0) {
+            return [];
+        }
+
+        console.log(goldPrices)
+
+        return goldPrices.map(x => Object.create({
             date: moment(x.created_at).tz('Asia/Bangkok').format('YYYY-MM-DD HH:mm'),
             buy: x.buy,
             sell: x.sell
         }));
-
-        return data;
     }
 
-    const rows = mapDataForTable([{ date: moment(), buy: 10, sell: 5 }, { date: moment(), buy: 10, sell: 5 }, { date: moment(), buy: 10, sell: 5 }]);
+    const rows = mapDataForTable(props.prices);
 
     return (
         <div className='table'>
             <div className="filter">
-                <Filter setValue={setNumOfRec} />
+                <Filter setValue={props.onChangeNumOfRec} />
             </div>
             <Paper className={classes.root}>
                 <Table className={classes.table} size="small">
