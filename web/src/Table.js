@@ -33,7 +33,7 @@ function GoldTable(props) {
             date: moment(x.created_at).tz('Asia/Bangkok').format('YYYY-MM-DD HH:mm'),
             buy: x.buy,
             sell: x.sell
-        }));
+        })).reverse();
     }
 
     const rows = mapDataForTable(props.prices);
