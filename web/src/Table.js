@@ -7,22 +7,24 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import moment from 'moment-timezone';
+import Filter from './Filter';
+import './Table.css';
 
 function GoldTable() {
     const classes = makeStyles(theme => ({
         root: {
             width: '100%',
-            marginTop: theme.spacing(2),
+            marginTop: theme.spacing(1),
             overflowX: 'auto',
         },
         table: {
-            minWidth: 650,
+            minWidth: 300,
         },
     }))();
 
     function mapDataForTable(goldPrices) {
         let data = goldPrices.map(x => Object.create({
-            date: moment(x.created_at).tz('Asia/Bangkok').format('LLL'),
+            date: moment(x.created_at).tz('Asia/Bangkok').format('YYYY-MM-DD HH:mm'),
             buy: x.buy,
             sell: x.sell
         }));
@@ -33,26 +35,31 @@ function GoldTable() {
     const rows = mapDataForTable([{ date: moment(), buy: 10, sell: 5 }, { date: moment(), buy: 10, sell: 5 }, { date: moment(), buy: 10, sell: 5 }]);
 
     return (
-        <Paper className={classes.root}>
-            <Table className={classes.table}>
-                <TableHead>
-                    <TableRow>
-                        <TableCell align='center'>Date</TableCell>
-                        <TableCell align='center'>Buy(baht)</TableCell>
-                        <TableCell align='center'>Sell(baht)</TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row, idx) => (
-                        <TableRow key={idx}>
-                            <TableCell align='center'>{row.date}</TableCell>
-                            <TableCell align='center'>{row.buy}</TableCell>
-                            <TableCell align='center'>{row.sell}</TableCell>
+        <div className='table'>
+            <div className="filter">
+                <Filter />
+            </div>
+            <Paper className={classes.root}>
+                <Table className={classes.table} size="small">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell align='center'>Date</TableCell>
+                            <TableCell align='center'>Buy(baht)</TableCell>
+                            <TableCell align='center'>Sell(baht)</TableCell>
                         </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </Paper>
+                    </TableHead>
+                    <TableBody>
+                        {rows.map((row, idx) => (
+                            <TableRow key={idx}>
+                                <TableCell align='center'>{row.date}</TableCell>
+                                <TableCell align='center'>{row.buy}</TableCell>
+                                <TableCell align='center'>{row.sell}</TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </Paper>
+        </div>
     );
 }
 
