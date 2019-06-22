@@ -1,11 +1,9 @@
 import React from 'react';
-import axios from 'axios';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import moment from 'moment-timezone';
-import { config } from './config/appConfig';
+import { fetchGoldPrices } from './util/Util';
 
 const numberOfLatestPrices = 50;
-const getLatestPricesUrl = config.serverDomain + '/prices?number=' + numberOfLatestPrices; 
 
 export default class Graph extends React.Component {
   constructor(props) {
@@ -17,34 +15,26 @@ export default class Graph extends React.Component {
     };
   }
 
-  componentWillMount() {
-    axios.get(getLatestPricesUrl)
-      .then(res => {
-        return this.getGraphData(res.data);  
-      })
-      .then(data => {
-        this.setState({
-          prices: data
-        });
-        return data;
-      })
-      .then(data => {
-        return this.getMaxAndMinPrice(data);
-      })
-      .then(price => {
-        this.setState({
-          max: price.max,
-          min: price.min
-        })
-      })
-      .catch(err => {
-        console.log(err);
+  async componentDidMount() {
+    try {
+      const goldPrices = await fetchGoldPrices(numberOfLatestPrices);
+      const maxAndMin = this.getMaxAndMinPrice(goldPrices);
+      const graphData = this.getGraphData(goldPrices);
+
+      this.setState({
+        prices: graphData,
+        max: maxAndMin.max,
+        min: maxAndMin.min,
       });
+    }
+    catch (err) {
+      console.log(err);
+    }
   }
 
   getGraphData = (rawData) => {
     let revisedData = [];
-    if(rawData !== null && rawData.length !== 0) {
+    if (rawData !== null && rawData.length !== 0) {
       rawData.forEach((element, idx) => {
         let date = moment(element.created_at).tz('Asia/Bangkok');
         revisedData[idx] = {
@@ -69,35 +59,37 @@ export default class Graph extends React.Component {
     let price = {
       min: 0,
       max: 0
-    }
+    };
+
     rawData.forEach((element, idx) => {
-      if(idx === 0) {
+      if (idx === 0) {
         price.min = element.buy;
         price.max = element.sell;
       }
       else {
-        if(element.buy < price.min) {
+        if (element.buy < price.min) {
           price.min = element.buy;
         }
-        if(element.sell > price.max) {
+        if (element.sell > price.max) {
           price.max = element.sell;
         }
       }
-    })
+    });
+
     return price;
   }
 
   render() {
     const fontFamily = 'Roboto';
 
-    return (  
+    return (
       <ResponsiveContainer width={window.innerWidth * 0.98} height={window.innerHeight * 0.4}>
         <LineChart data={this.state.prices}>
-          <XAxis dataKey="created_at" tick={{fontSize: '0.8em', fontFamily}}/>
-          <YAxis domain={[this.minPrice, this.maxPrice]} tick={{fontFamily}}/>/>
+          <XAxis dataKey="created_at" tick={{ fontSize: '0.8em', fontFamily }} />
+          <YAxis domain={[this.minPrice, this.maxPrice]} tick={{ fontFamily }} />/>
           <CartesianGrid strokeDasharray="3 3" />
-          <Tooltip wrapperStyle={{fontFamily}}/>
-          <Legend wrapperStyle={{fontFamily}}/>
+          <Tooltip wrapperStyle={{ fontFamily }} />
+          <Legend wrapperStyle={{ fontFamily }} />
           <Line type="monotone" dataKey="buy" stroke="#56b8ff" />
           <Line type="monotone" dataKey="sell" stroke="#f4426b" />
         </LineChart>

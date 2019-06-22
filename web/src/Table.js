@@ -8,6 +8,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import moment from 'moment-timezone';
 import Filter from './Filter';
+import axios from './util/Axios';
 import './Table.css';
 
 function GoldTable() {
@@ -21,6 +22,8 @@ function GoldTable() {
             minWidth: 300,
         },
     }))();
+
+    const [numOfRec, setNumOfRec] = React.useState(5);
 
     function mapDataForTable(goldPrices) {
         let data = goldPrices.map(x => Object.create({
@@ -37,7 +40,7 @@ function GoldTable() {
     return (
         <div className='table'>
             <div className="filter">
-                <Filter />
+                <Filter setValue={setNumOfRec} />
             </div>
             <Paper className={classes.root}>
                 <Table className={classes.table} size="small">
