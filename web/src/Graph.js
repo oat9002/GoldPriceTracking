@@ -19,9 +19,8 @@ export default function Graph(props) {
     }));
   }
 
-
   return (
-    <ResponsiveContainer width={window.innerWidth * 0.95} height={window.innerHeight * 0.4}>
+    <ResponsiveContainer width={window.innerWidth * 0.97} height={window.innerHeight * 0.4}>
       <LineChart data={graphData}>
         <XAxis dataKey="created_at" tick={{ fontSize: '0.8em', fontFamily }} />
         <YAxis domain={[props.minPrice, props.maxPrice]} tick={{ fontFamily }} />/>
