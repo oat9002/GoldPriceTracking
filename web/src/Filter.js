@@ -1,47 +1,29 @@
-import React, { Component } from 'react';
-import { Select } from 'element-react';
+import React from 'react';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
 
-class Filter extends Component {
+function Filter(props) {
+  const [numOfRec, setNumOfRec] = React.useState(10);
 
-    constructor(props) {
-        super(props);
-      
-        this.state = {
-          options: [{
-            value: 5,
-            label: '5'
-          }, {
-            value: 10,
-            label: '10'
-          }, {
-            value: 15,
-            label: '15'
-          }, {
-            value: 20,
-            label: '20'
-          }, {
-            value: 30,
-            label: '30'
-          }],
-          value: 5
-        };
-      }
+  function onChangeHandler(event) {
+    setNumOfRec(event.target.value);
+    if (!!props.setValue) {
+      props.setValue(event.target.value);
+    }
+  }
 
-      handleOnchange = () => {
-          this.props.onChangeDaysBack(this.state.value);
-      }
-      
-      render() {
-        return ( 
-          <Select value={this.state.value} onChange={() => this.handleOnchange()}>
-            {
-              this.state.options.map(el => {
-                return <Select.Option key={el.value} label={el.label} value={el.value} />
-              })
-            }
-          </Select>
-        )
-      }
+  return (
+    <Select
+      value={numOfRec}
+      onChange={onChangeHandler}
+    >
+      <MenuItem value={10}>10</MenuItem>
+      <MenuItem value={20}>20</MenuItem>
+      <MenuItem value={50}>50</MenuItem>
+      <MenuItem value={100}>100</MenuItem>
+      <MenuItem value={500}>500</MenuItem>
+    </Select>
+  );
 }
 
 export default Filter;

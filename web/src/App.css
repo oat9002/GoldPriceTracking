@@ -3,7 +3,10 @@
   justify-content: center;
   flex-direction: column;
   animation: fadein 1s;
-  /* overflow-x: hidden; */
+}
+
+body {
+  margin: 0;
 }
 
 .title {
@@ -12,7 +15,11 @@
   width: 90vw;
   text-align: center;
   font-size: 4em;
-  font-family: 'Questrial';
+  font-family: Roboto;
+}
+
+.titleIcon {
+  margin-left: 4px;
 }
 
 .graph {
