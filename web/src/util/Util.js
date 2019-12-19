@@ -1,10 +1,10 @@
-import axios from './Axios';
+import axios from "./Axios";
 
 export async function fetchGoldPrices(numOfRec) {
-    const response = await axios.get('/prices?number=' + numOfRec);
+    const response = await axios.get("/prices?number=" + numOfRec);
 
     if (response.status !== httpStatus.ok) {
-        console.log('Fetch gold price failed');
+        console.log("Fetch gold price failed");
         return [];
     }
 
@@ -14,5 +14,5 @@ export async function fetchGoldPrices(numOfRec) {
 export const httpStatus = {
     ok: 200,
     internalServerError: 500,
-    badRequest: 400,
-}
+    badRequest: 400
+};

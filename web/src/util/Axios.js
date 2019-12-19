@@ -1,8 +1,7 @@
-import axios from 'axios';
-import { config } from '../config/appConfig';
+import axios from "axios";
 
 const instance = axios.create({
-    baseURL: config.serverDomain
+    baseURL: process.env.REACT_APP_SERVER_URL
 });
 
 export default instance;
