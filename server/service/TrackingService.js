@@ -11,7 +11,7 @@ function start() {
 
     cron.schedule("0 * * * *", () => {
         axios
-            .get("http://www.goldtraders.or.th")
+            .get("https://www.goldtraders.or.th/default.aspx")
             .then(res => {
                 return res.data;
             })
