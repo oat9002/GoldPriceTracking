@@ -48,6 +48,12 @@ app.get("/prices", (req, res) => {
     });
 });
 
+app.get("/retrieveAndSavePrice", (req, res) => {
+    track.retreiveAndSavePrice();
+    res.status = enums.STATUS_CODE.OKAY;
+    res.send("Success");
+});
+
 app.get("/priceslastday", (req, res) => {
     if (req.query.days < 0) {
         res.status(enums.STATUS_CODE.BAD_REQUEST);
