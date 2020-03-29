@@ -36,7 +36,8 @@ async function pushMessage() {
             if (!first) {
                 try {
                     const data = snapshot.val();
-                    const message = await generateMessage(data);
+                    const message = await generateMessage(data, true);
+                    const messageNotify = await generateMessage(data);
                     const users = await db.getAllUser();
 
                     if (users !== null) {
@@ -50,7 +51,7 @@ async function pushMessage() {
 
                     await lineNotify(
                         process.env.NOTIFY_GOLD_PRICE_TRACKING,
-                        message
+                        messageNotify
                     );
                     // client.pushMessage('U192446f179afffe5d1cf02c27125081e', { type: 'text', text: message }); // Test pushMessage
                 } catch (err) {
@@ -64,7 +65,7 @@ async function pushMessage() {
 
 function replyMessage(replyToken) {
     db.getLatestPrice().then(data => {
-        generateMessage(data).then(message => {
+        generateMessage(data, true).then(message => {
             client.replyMessage(replyToken, {
                 type: "text",
                 text: message
@@ -73,7 +74,7 @@ function replyMessage(replyToken) {
     });
 }
 
-function generateMessage(firebaseData) {
+function generateMessage(firebaseData, isOfficialAccount) {
     let date = moment(firebaseData.created_at).tz("Asia/Bangkok");
     let showMinute = "" + date.minute();
     if (date.minute() < 10) {
@@ -114,6 +115,14 @@ function generateMessage(firebaseData) {
     }
     let message = dateMessage + "\n" + priceMessage + "\n" + priceDiffMessage;
     message += "\n" + "ดูประวัติ https://goo.gl/wX58dQ";
+
+    if (isOfficialAccount) {
+        message +=
+            "\n\n" +
+            "เนื่องจากว่า line official account นี้มีข้อจำกัดในการส่งข้อความ อาจจะทำให้ไม่ได้รับข้อความอย่างสม่ำเสมอ" +
+            "\nกรุณาย้ายไปใช้ที่ไลน์กรุปนี้แทน http://line.me/ti/g/jrVMb20zsU";
+    }
+
     return new Promise(resolve => {
         resolve(message);
     });
