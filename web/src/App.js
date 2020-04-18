@@ -1,19 +1,21 @@
-import React, { PureComponent } from "react";
-import Graph from "./Graph";
-import GoldTable from "./Table";
-import { fetchGoldPrices } from "./util/Util";
 import AppBar from "@material-ui/core/AppBar";
 import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import TableChart from "@material-ui/icons/TableChart";
+import React, { PureComponent } from "react";
 import "./App.css";
+import Graph from "./Graph";
+import Loading from "./Loading";
+import GoldTable from "./Table";
+import { fetchGoldPrices } from "./util/Util";
 
 class App extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
             numOfRec: 10,
-            prices: null
+            prices: null,
+            isLoading: true,
         };
 
         this.maxPrice = 0;
@@ -30,32 +32,42 @@ class App extends PureComponent {
         }
     }
 
-    onChangeNumOfRec = days => {
+    onChangeNumOfRec = (days) => {
         this.setState({
-            numOfRec: days
+            numOfRec: days,
         });
     };
 
     intializeGraphData = async () => {
-        try {
-            const goldPrices = await fetchGoldPrices(this.state.numOfRec);
-            const maxAndMin = this.getMaxAndMinPrice(goldPrices);
+        this.setState(
+            {
+                isLoading: true,
+            },
+            async () => {
+                try {
+                    const goldPrices = await fetchGoldPrices(
+                        this.state.numOfRec
+                    );
+                    const maxAndMin = this.getMaxAndMinPrice(goldPrices);
 
-            this.maxPrice = maxAndMin.max;
-            this.minPrice = maxAndMin.min;
+                    this.maxPrice = maxAndMin.max;
+                    this.minPrice = maxAndMin.min;
 
-            this.setState({
-                prices: goldPrices
-            });
-        } catch (err) {
-            console.log(err);
-        }
+                    this.setState({
+                        prices: goldPrices,
+                        isLoading: false,
+                    });
+                } catch (err) {
+                    console.log(err);
+                }
+            }
+        );
     };
 
-    getMaxAndMinPrice = rawData => {
+    getMaxAndMinPrice = (rawData) => {
         let price = {
             min: 0,
-            max: 0
+            max: 0,
         };
 
         rawData.forEach((element, idx) => {
@@ -78,6 +90,7 @@ class App extends PureComponent {
     render() {
         return (
             <div className="content">
+                {this.state.isLoading ? <Loading /> : null}
                 <AppBar position="static" color="primary">
                     <Toolbar>
                         <Typography variant="h4">History</Typography>
