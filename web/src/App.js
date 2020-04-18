@@ -15,7 +15,7 @@ class App extends PureComponent {
         this.state = {
             numOfRec: 10,
             prices: null,
-            isLoading: false,
+            isLoading: true,
         };
 
         this.maxPrice = 0;
