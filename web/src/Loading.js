@@ -20,7 +20,7 @@ const LoadingText = styled.div`
 const LoadingCotainer = styled.div`
     position: relative;
     text-align: center;
-    top: 40%;
+    top: 37%;
 `;
 
 function Loading() {
@@ -35,7 +35,7 @@ function Loading() {
         return isShow ? (
             <Container>
                 <LoadingCotainer>
-                    <CircularProgress />
+                    <CircularProgress size={60} thickness={5} />
                     <LoadingText>Loading...</LoadingText>
                 </LoadingCotainer>
             </Container>
