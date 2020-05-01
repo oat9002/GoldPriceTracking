@@ -27,7 +27,7 @@
         "express": "^4.17.1",
         "firebase": "^7.6.1",
         "firebase-admin": "^8.8.0",
-        "jquery": "^3.4.1",
+        "jquery": "^3.5.0",
         "jshint": "^2.10.2",
         "moment-timezone": "^0.5.13",
         "node-cron": "^1.2.0",
