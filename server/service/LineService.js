@@ -7,7 +7,7 @@ const qs = require("qs");
 
 const client = new Client({
     channelAccessToken: process.env.OFFICIAL_ACCOUNT_CHANNEL_ACCESS_TOKEN,
-    channelSecret: process.env.OFFICIAL_ACCOUNT_CHANNEL_SECRET
+    channelSecret: process.env.OFFICIAL_ACCOUNT_CHANNEL_SECRET,
 });
 
 const monthName = [
@@ -22,7 +22,7 @@ const monthName = [
     "ก.ย.",
     "ต.ค.",
     "พ.ย.",
-    "ธ.ค."
+    "ธ.ค.",
 ];
 let first = true;
 
@@ -32,22 +32,24 @@ async function pushMessage() {
         .ref("price")
         .orderByChild("created_at")
         .limitToLast(1)
-        .on("child_added", async snapshot => {
+        .on("child_added", async (snapshot) => {
             if (!first) {
                 try {
                     const data = snapshot.val();
-                    const message = await generateMessage(data, true);
                     const messageNotify = await generateMessage(data);
-                    const users = await db.getAllUser();
 
-                    if (users !== null) {
-                        Object.keys(users).forEach(key => {
-                            client.pushMessage(users[key].id, {
-                                type: "text",
-                                text: message
-                            });
-                        });
-                    }
+                    // Stop using line official account
+                    // const message = await generateMessage(data, true);
+                    // const users = await db.getAllUser();
+
+                    // if (users !== null) {
+                    //     Object.keys(users).forEach(key => {
+                    //         client.pushMessage(users[key].id, {
+                    //             type: "text",
+                    //             text: message
+                    //         });
+                    //     });
+                    // }
 
                     await lineNotify(
                         process.env.NOTIFY_GOLD_PRICE_TRACKING,
@@ -64,11 +66,11 @@ async function pushMessage() {
 }
 
 function replyMessage(replyToken) {
-    db.getLatestPrice().then(data => {
-        generateMessage(data, true).then(message => {
+    db.getLatestPrice().then((data) => {
+        generateMessage(data, true).then((message) => {
             client.replyMessage(replyToken, {
                 type: "text",
-                text: message
+                text: message,
             });
         });
     });
@@ -123,7 +125,7 @@ function generateMessage(firebaseData, isOfficialAccount) {
             "\nกรุณาย้ายไปใช้ที่ไลน์กรุปนี้แทน http://line.me/ti/g/jrVMb20zsU";
     }
 
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
         resolve(message);
     });
 }
@@ -163,7 +165,7 @@ function addCommaToNumber(number) {
 }
 
 function addUser(userId) {
-    db.addLineUser(userId).catch(err => console.log(err));
+    db.addLineUser(userId).catch((err) => console.log(err));
 }
 
 async function lineNotify(token, message) {
@@ -175,20 +177,20 @@ async function lineNotify(token, message) {
         .post(
             "https://notify-api.line.me/api/notify",
             qs.stringify({
-                message
+                message,
             }),
             {
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
-                    Authorization: `Bearer ${token}`
-                }
+                    Authorization: `Bearer ${token}`,
+                },
             }
         )
-        .catch(err => console.log(err.message));
+        .catch((err) => console.log(err.message));
 }
 
 module.exports = {
     pushMessage,
     replyMessage,
-    addUser
+    addUser,
 };
