@@ -10,6 +10,7 @@ import moment from "moment-timezone";
 import React from "react";
 import Filter from "./Filter";
 import "./Table.css";
+import { formatNumber } from "./util/Util";
 
 function GoldTable(props) {
     const [page, setPage] = React.useState(0);
@@ -40,16 +41,14 @@ function GoldTable(props) {
             return [];
         }
 
-        console.log(goldPrices);
-
         return goldPrices
             .map((x) =>
                 Object.create({
                     date: moment(x.created_at)
                         .tz("Asia/Bangkok")
                         .format("YYYY-MM-DD HH:mm"),
-                    buy: x.buy,
-                    sell: x.sell,
+                    buy: formatNumber(x.buy),
+                    sell: formatNumber(x.sell),
                 })
             )
             .reverse();
