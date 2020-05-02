@@ -11,8 +11,12 @@ export async function fetchGoldPrices(numOfRec) {
     return response.data;
 }
 
+export function formatNumber(number, lang = "th-TH") {
+    return number.toLocaleString(lang);
+}
+
 export const httpStatus = {
     ok: 200,
     internalServerError: 500,
-    badRequest: 400
+    badRequest: 400,
 };
