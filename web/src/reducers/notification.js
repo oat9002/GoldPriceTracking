@@ -1,20 +1,20 @@
 import * as notificationActionTypes from "../actions/notificatoinActionsType";
 
 const initialState = {
-    notification = []
+    notification: [],
 };
 
 const reducer = (state = initialState, action) => {
-    switch(action.type) {
-        case notificationActionTypes.ADD: 
+    switch (action.type) {
+        case notificationActionTypes.ADD:
             return {
-                ...state
+                ...state,
             };
         case notificationActionTypes.REMOVE:
             return {
-                ...state
-            }
+                ...state,
+            };
     }
-}
+};
 
 export default reducer;
