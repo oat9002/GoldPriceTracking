@@ -45,7 +45,6 @@ export default function Graph(props) {
                     domain={[props.minPrice, props.maxPrice]}
                     tick={{ fontFamily }}
                 />
-                />
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip wrapperStyle={{ fontFamily }} />
                 <Legend wrapperStyle={{ fontFamily }} />

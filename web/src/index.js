@@ -2,6 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { applyMiddleware, combineReducers, compose, createStore } from "redux";
+import { thunk } from "redux-thunk";
 import App from "./App";
 import notificationReducer from "./reducers/notification";
 import registerServiceWorker from "./registerServiceWorker";
