@@ -1,6 +1,6 @@
 import moment from "moment-timezone";
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
 import {
     CartesianGrid,
     Legend,
@@ -12,10 +12,11 @@ import {
     YAxis,
 } from "recharts";
 
-function Graph(props) {
+function Graph() {
     const fontFamily = "Roboto";
-    const graphData = getGraphData(props.prices);
-    const { min, max } = getMaxAndMinPrice(props.prices);
+    const prices = useSelector((state) => state.goldPrice.prices);
+    const graphData = getGraphData(prices);
+    const { min, max } = getMaxAndMinPrice(prices);
 
     function getGraphData(rawData) {
         if (rawData === null || rawData.length === 0) {
@@ -77,10 +78,4 @@ function Graph(props) {
     );
 }
 
-const mapStateToProps = (state) => {
-    return {
-        prices: state.goldPrice.prices,
-    };
-};
-
-export default connect(mapStateToProps)(Graph);
+export default React.memo(Graph);

@@ -8,15 +8,17 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import moment from "moment-timezone";
 import React from "react";
-import { connect } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import * as actionCreators from "./actions/goldPrice";
 import Filter from "./Filter";
 import "./Table.css";
 import { formatNumber } from "./util/Util";
 
-function GoldTable(props) {
+function GoldTable() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const dispatch = useDispatch();
+    const prices = useSelector((state) => state.goldPrice.prices);
     const classes = makeStyles((theme) => ({
         root: {
             width: "100%",
@@ -27,7 +29,7 @@ function GoldTable(props) {
             minWidth: 300,
         },
     }))();
-    const rows = mapDataForTable(props.prices);
+    const rows = mapDataForTable(prices);
     const StyledTableCell = withStyles((theme) => ({
         head: {
             backgroundColor: theme.palette.common.black,
@@ -65,7 +67,7 @@ function GoldTable(props) {
     }
 
     function onFilterChangeHandler(value) {
-        props.onSetNumbOfRec(value);
+        dispatch(actionCreators.setNumberOfRecord(value));
         setPage(0);
     }
 
@@ -130,18 +132,4 @@ function GoldTable(props) {
     );
 }
 
-const mapStateToProps = (state) => {
-    return {
-        prices: state.goldPrice.prices,
-        numOfRec: state.goldPrice.numOfRec,
-    };
-};
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        onSetNumbOfRec: (numOfRec) =>
-            dispatch(actionCreators.setNumberOfRecord(numOfRec)),
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(GoldTable);
+export default React.memo(GoldTable);
