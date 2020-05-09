@@ -1,5 +1,6 @@
 import moment from "moment-timezone";
 import React from "react";
+import { connect } from "react-redux";
 import {
     CartesianGrid,
     Legend,
@@ -11,9 +12,10 @@ import {
     YAxis,
 } from "recharts";
 
-export default function Graph(props) {
+function Graph(props) {
     const fontFamily = "Roboto";
     const graphData = getGraphData(props.prices);
+    const { min, max } = getMaxAndMinPrice(props.prices);
 
     function getGraphData(rawData) {
         if (rawData === null || rawData.length === 0) {
@@ -31,6 +33,29 @@ export default function Graph(props) {
         );
     }
 
+    function getMaxAndMinPrice(rawData) {
+        let price = {
+            min: 0,
+            max: 0,
+        };
+
+        rawData.forEach((element, idx) => {
+            if (idx === 0) {
+                price.min = element.buy;
+                price.max = element.sell;
+            } else {
+                if (element.buy < price.min) {
+                    price.min = element.buy;
+                }
+                if (element.sell > price.max) {
+                    price.max = element.sell;
+                }
+            }
+        });
+
+        return price;
+    }
+
     return (
         <ResponsiveContainer
             width={window.innerWidth * 0.97}
@@ -41,10 +66,7 @@ export default function Graph(props) {
                     dataKey="created_at"
                     tick={{ fontSize: "0.8em", fontFamily }}
                 />
-                <YAxis
-                    domain={[props.minPrice, props.maxPrice]}
-                    tick={{ fontFamily }}
-                />
+                <YAxis domain={[min, max]} tick={{ fontFamily }} />
                 <CartesianGrid strokeDasharray="3 3" />
                 <Tooltip wrapperStyle={{ fontFamily }} />
                 <Legend wrapperStyle={{ fontFamily }} />
@@ -54,3 +76,11 @@ export default function Graph(props) {
         </ResponsiveContainer>
     );
 }
+
+const mapStateToProps = (state) => {
+    return {
+        prices: state.goldPrice.prices,
+    };
+};
+
+export default connect(mapStateToProps)(Graph);

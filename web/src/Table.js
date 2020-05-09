@@ -8,6 +8,8 @@ import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import moment from "moment-timezone";
 import React from "react";
+import { connect } from "react-redux";
+import * as actionCreators from "./actions/goldPrice";
 import Filter from "./Filter";
 import "./Table.css";
 import { formatNumber } from "./util/Util";
@@ -63,7 +65,7 @@ function GoldTable(props) {
     }
 
     function onFilterChangeHandler(value) {
-        props.onChangeNumOfRec(value);
+        props.onSetNumbOfRec(value);
         setPage(0);
     }
 
@@ -128,4 +130,18 @@ function GoldTable(props) {
     );
 }
 
-export default GoldTable;
+const mapStateToProps = (state) => {
+    return {
+        prices: state.goldPrice.prices,
+        numOfRec: state.goldPrice.numOfRec,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        onSetNumbOfRec: (numOfRec) =>
+            dispatch(actionCreators.setNumberOfRecord(numOfRec)),
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(GoldTable);

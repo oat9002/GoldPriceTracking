@@ -2,13 +2,13 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import { applyMiddleware, combineReducers, compose, createStore } from "redux";
-import { thunk } from "redux-thunk";
+import thunk from "redux-thunk";
 import App from "./App";
-import notificationReducer from "./reducers/notification";
+import goldPrice from "./reducers/goldPrice";
 import registerServiceWorker from "./registerServiceWorker";
 
 const rootReducer = combineReducers({
-    notification: notificationReducer,
+    goldPrice: goldPrice,
 });
 
 const logger = (store) => {
