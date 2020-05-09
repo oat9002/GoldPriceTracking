@@ -4,7 +4,7 @@ const serviceAccount = require("../config/goldpricetracking-firebase-adminsdk-71
 
 let app = admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: process.env.FIREBASE_DATABASE_URL
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
 });
 
 let db = app.database();
@@ -15,24 +15,21 @@ function getInstance() {
 
 function addPrice(buy, sell) {
     getLatestPrice()
-        .then(latestPrice => {
-            let uid = db
-                .ref()
-                .child("price")
-                .push().key;
+        .then((latestPrice) => {
+            let uid = db.ref().child("price").push().key;
             db.ref("price/" + uid)
                 .set({
                     buy: buy,
                     sell: sell,
                     buyDifferent: buy - latestPrice.buy,
                     sellDifferent: sell - latestPrice.sell,
-                    created_at: new Date().getTime()
+                    created_at: new Date().getTime(),
                 })
-                .catch(err => {
+                .catch((err) => {
                     console.log(err.message + "\n" + err.stack);
                 });
         })
-        .catch(err => {
+        .catch((err) => {
             console.log(err.message + "\n" + err.stack);
         });
 }
@@ -43,7 +40,7 @@ function shouldAddPrice(buy, sell) {
             .orderByChild("created_at")
             .limitToLast(1)
             .once("value")
-            .then(snapshot => {
+            .then((snapshot) => {
                 let data = snapshot.val();
                 let id = Object.keys(data)[0];
                 let oldBuy = data[id].buy;
@@ -54,56 +51,50 @@ function shouldAddPrice(buy, sell) {
                     resolve(false);
                 }
             })
-            .catch(err => {
+            .catch((err) => {
                 reject(err.message + "\n" + err.stack);
             });
     });
 }
 
-function getLatestPrice() {
-    return new Promise((resolve, reject) => {
-        db.ref("price")
+async function getLatestPrice() {
+    try {
+        const snapshot = await db
+            .ref("price")
             .orderByChild("created_at")
             .limitToLast(1)
-            .once("value")
-            .then(snapshot => {
-                snapshot.forEach(childSnapshot => {
-                    resolve(childSnapshot.val());
-                });
-            })
-            .catch(err => {
-                reject(err.message + "\n" + err.stack);
-            });
-    });
+            .once("value");
+        const toReturn = [];
+
+        snapshot.forEach((childSnapshot) => {
+            toReturn.push(childSnapshot.val());
+        });
+
+        return toReturn[0];
+    } catch (err) {
+        throw createErrorFromException(err);
+    }
 }
 
-function addLineUser(userId) {
-    return new Promise((resolve, reject) => {
-        let uid = db
-            .ref()
-            .child("user")
-            .push().key;
-        db.ref("user/" + uid)
-            .set({
-                id: userId
-            })
-            .catch(err => {
-                reject(err.message + "\n" + err.stack);
-            });
-    });
+async function addLineUser(userId) {
+    try {
+        const uid = db.ref().child("user").push().key;
+        await db.ref("user/" + uid).set({
+            id: userId,
+        });
+    } catch (err) {
+        throw createErrorFromException(err);
+    }
 }
 
-function getAllUser() {
-    return new Promise((resolve, reject) => {
-        db.ref("user")
-            .once("value")
-            .then(snapshot => {
-                resolve(snapshot.val());
-            })
-            .catch(err => {
-                reject(err.message + "\n" + err.stack);
-            });
-    });
+async function getAllUser() {
+    try {
+        const snapshot = await db.ref("user").once("value");
+
+        return snapshot.val();
+    } catch (err) {
+        throw createErrorFromException(err);
+    }
 }
 
 /* number: number of latest data (0 = all)*/
@@ -116,8 +107,8 @@ function getLatestPrices(number) {
                 .orderByChild("created_at")
                 .limitToLast(number)
                 .once("value")
-                .then(snapshot => {
-                    snapshot.forEach(childSnapshot => {
+                .then((snapshot) => {
+                    snapshot.forEach((childSnapshot) => {
                         priceArr[idx] = childSnapshot.val();
                         idx += 1;
                     });
@@ -125,7 +116,7 @@ function getLatestPrices(number) {
                         resolve(priceArr);
                     }
                 })
-                .catch(err => {
+                .catch((err) => {
                     reject(err.message + "\n" + err.stack);
                 });
         });
@@ -134,9 +125,9 @@ function getLatestPrices(number) {
             db.ref("price")
                 .orderByChild("created_at")
                 .once("value")
-                .then(snapshot => {
+                .then((snapshot) => {
                     priceArr = new Array(snapshot.numChildren());
-                    snapshot.forEach(childSnapshot => {
+                    snapshot.forEach((childSnapshot) => {
                         priceArr[idx] = childSnapshot.val();
                         idx += 1;
                     });
@@ -144,7 +135,7 @@ function getLatestPrices(number) {
                         resolve(priceArr);
                     }
                 })
-                .catch(err => {
+                .catch((err) => {
                     reject(err.message + "\n" + err.stack);
                 });
         });
@@ -164,12 +155,12 @@ function getPricesLastByDay(days) {
             .startAt(start)
             .endAt(end)
             .once("value")
-            .then(snapshot => {
+            .then((snapshot) => {
                 let priceArr = new Array(snapshot.numChildren());
                 if (snapshot.numChildren() === 0) {
                     resolve(null);
                 }
-                snapshot.forEach(childSnapshot => {
+                snapshot.forEach((childSnapshot) => {
                     priceArr[idx] = childSnapshot.val();
                     if (idx === snapshot.numChildren() - 1) {
                         resolve(priceArr.reverse());
@@ -177,10 +168,14 @@ function getPricesLastByDay(days) {
                     idx++;
                 });
             })
-            .catch(err => {
+            .catch((err) => {
                 reject(err.message + "\n" + err.stack);
             });
     });
+}
+
+function createErrorFromException(err) {
+    return new Error(err.message + "\n" + err.stack);
 }
 
 module.exports = {
@@ -191,5 +186,5 @@ module.exports = {
     addLineUser,
     getAllUser,
     getLatestPrices,
-    getPricesLastByDay
+    getPricesLastByDay,
 };
