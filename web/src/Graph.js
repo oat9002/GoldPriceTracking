@@ -6,7 +6,6 @@ import {
     Legend,
     Line,
     LineChart,
-    ResponsiveContainer,
     Tooltip,
     XAxis,
     YAxis,
@@ -58,23 +57,22 @@ function Graph() {
     }
 
     return (
-        <ResponsiveContainer
+        <LineChart
+            data={graphData}
             width={window.innerWidth * 0.97}
             height={window.innerHeight * 0.4}
         >
-            <LineChart data={graphData}>
-                <XAxis
-                    dataKey="created_at"
-                    tick={{ fontSize: "0.8em", fontFamily }}
-                />
-                <YAxis domain={[min, max]} tick={{ fontFamily }} />
-                <CartesianGrid strokeDasharray="3 3" />
-                <Tooltip wrapperStyle={{ fontFamily }} />
-                <Legend wrapperStyle={{ fontFamily }} />
-                <Line type="monotone" dataKey="buy" stroke="#56b8ff" />
-                <Line type="monotone" dataKey="sell" stroke="#f4426b" />
-            </LineChart>
-        </ResponsiveContainer>
+            <XAxis
+                dataKey="created_at"
+                tick={{ fontSize: "0.8em", fontFamily }}
+            />
+            <YAxis domain={[min, max]} tick={{ fontFamily }} />
+            <CartesianGrid strokeDasharray="3 3" />
+            <Tooltip wrapperStyle={{ fontFamily }} />
+            <Legend wrapperStyle={{ fontFamily }} />
+            <Line type="monotone" dataKey="buy" stroke="#56b8ff" />
+            <Line type="monotone" dataKey="sell" stroke="#f4426b" />
+        </LineChart>
     );
 }
 

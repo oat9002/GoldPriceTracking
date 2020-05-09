@@ -1,4 +1,6 @@
-import { Alert, Snackbar } from "@material-ui/core";
+import { Snackbar } from "@material-ui/core";
+import { Alert } from "@material-ui/lab";
+import PropTypes from "prop-types";
 import React from "react";
 
 function Notification(props) {
@@ -19,5 +21,11 @@ function Notification(props) {
         </Snackbar>
     );
 }
+
+Notification.propTypes = {
+    autoHideDuration: PropTypes.number,
+    severity: PropTypes.oneOf(["warning", "success", "error", "info"]),
+    text: PropTypes.string,
+};
 
 export default Notification;

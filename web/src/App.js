@@ -8,25 +8,27 @@ import * as actionCreators from "./actions/goldPrice";
 import "./App.css";
 import Graph from "./Graph";
 import Loading from "./Loading";
+import Notification from "./Notification";
 import GoldTable from "./Table";
 import { fetchGoldPrices } from "./util/Util";
 
 function App() {
     const [isLoading, setIsLoading] = React.useState(true);
+    const [errorMsg, setErrMsg] = React.useState(null);
     const numOfRec = useSelector((state) => state.goldPrice.numOfRec);
     const dispatch = useDispatch();
 
     React.useEffect(() => {
         setIsLoading(true);
-        try {
-            fetchGoldPrices(numOfRec).then((goldPrices) => {
+        fetchGoldPrices(numOfRec)
+            .then((goldPrices) => {
                 dispatch(actionCreators.setGoldPrice(goldPrices));
                 setIsLoading(false);
+            })
+            .catch(() => {
+                setIsLoading(false);
+                setErrMsg("Cannot fetch gold data. Please try again");
             });
-        } catch (err) {
-            console.log(err);
-            setIsLoading(false);
-        }
     }, [dispatch, numOfRec]);
 
     return (
@@ -46,6 +48,9 @@ function App() {
             <div className="Table">
                 <GoldTable />
             </div>
+            {errorMsg ? (
+                <Notification text={errorMsg} severity="error" />
+            ) : null}
         </div>
     );
 }
