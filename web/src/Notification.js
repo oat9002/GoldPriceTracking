@@ -15,7 +15,11 @@ function Notification(props) {
             autoHideDuration={props.autoHideDuration ?? 5000}
             onClose={handleClose}
         >
-            <Alert onClose={handleClose} severity={props.severity}>
+            <Alert
+                onClose={handleClose}
+                severity={props.severity}
+                variant={props.variant}
+            >
                 {props.text}
             </Alert>
         </Snackbar>
@@ -25,6 +29,7 @@ function Notification(props) {
 Notification.propTypes = {
     autoHideDuration: PropTypes.number,
     severity: PropTypes.oneOf(["warning", "success", "error", "info"]),
+    variant: PropTypes.oneOf(["filled", "outlined", null]),
     text: PropTypes.string,
 };
 

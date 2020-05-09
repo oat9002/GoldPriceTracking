@@ -49,7 +49,11 @@ function App() {
                 <GoldTable />
             </div>
             {errorMsg ? (
-                <Notification text={errorMsg} severity="error" />
+                <Notification
+                    text={errorMsg}
+                    severity="error"
+                    variant="filled"
+                />
             ) : null}
         </div>
     );
