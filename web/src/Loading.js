@@ -15,7 +15,7 @@ const Container = styled.div`
 const LoadingText = styled.div`
     font-family: Roboto;
     font-weight: bold;
-    margin-top 3px;
+    margin-top: 3px;
 `;
 const LoadingCotainer = styled.div`
     position: relative;
