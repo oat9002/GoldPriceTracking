@@ -79,4 +79,4 @@ app.listen(port, () => {
     console.log("listen to port " + port);
 });
 
-//track.start();
+track.start();
