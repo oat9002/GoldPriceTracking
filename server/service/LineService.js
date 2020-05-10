@@ -4,6 +4,7 @@ const Client = require("@line/bot-sdk").Client;
 const moment = require("moment-timezone");
 const axios = require("axios");
 const qs = require("qs");
+const utils = require("../util/utils");
 
 const client = new Client({
     channelAccessToken: process.env.OFFICIAL_ACCOUNT_CHANNEL_ACCESS_TOKEN,
@@ -36,7 +37,7 @@ async function pushMessage() {
             if (!first) {
                 try {
                     const data = snapshot.val();
-                    const messageNotify = await generateMessage(data);
+                    const messageNotify = generateMessage(data);
 
                     // Stop using line official account
                     // const message = await generateMessage(data, true);
@@ -65,14 +66,13 @@ async function pushMessage() {
         });
 }
 
-function replyMessage(replyToken) {
-    db.getLatestPrice().then((data) => {
-        generateMessage(data, true).then((message) => {
-            client.replyMessage(replyToken, {
-                type: "text",
-                text: message,
-            });
-        });
+async function replyMessage(replyToken) {
+    const data = await db.getLatestPrice();
+    const message = generateMessage(data, true);
+
+    client.replyMessage(replyToken, {
+        type: "text",
+        text: message,
     });
 }
 
@@ -125,47 +125,19 @@ function generateMessage(firebaseData, isOfficialAccount) {
             "\nกรุณาย้ายไปใช้ที่ไลน์กรุปนี้แทน http://line.me/ti/g/jrVMb20zsU";
     }
 
-    return new Promise((resolve) => {
-        resolve(message);
-    });
+    return message;
 }
 
 function addCommaToNumber(number) {
-    let numberStr = number + "";
-    let belowZero = false;
-    let haveDecimal = false;
-    let decimalStr = "";
-    if (number < 0) {
-        numberStr = numberStr.replace("-", "");
-        belowZero = true;
-    }
-    if (numberStr.includes(".")) {
-        [numberStr, decimalStr] = numberStr.split(".");
-        haveDecimal = true;
-    }
-    let numReturn = [];
-    for (let i = 1; i <= numberStr.length; i++) {
-        if (i === numberStr.length) {
-            numReturn.push(numberStr[numberStr.length - i]);
-            if (belowZero) {
-                numReturn.push("-");
-            }
-            if (haveDecimal) {
-                return numReturn.reverse().join("") + "." + decimalStr;
-            }
-            return numReturn.reverse().join("");
-        }
-        if (i % 3 === 0) {
-            numReturn.push(numberStr[numberStr.length - i]);
-            numReturn.push(",");
-        } else {
-            numReturn.push(numberStr[numberStr.length - i]);
-        }
-    }
+    return Number(number).toLocaleString("th-TH");
 }
 
-function addUser(userId) {
-    db.addLineUser(userId).catch((err) => console.log(err));
+async function addUser(userId) {
+    try {
+        await db.addLineUser(userId);
+    } catch (err) {
+        utils.log(err.message);
+    }
 }
 
 async function lineNotify(token, message) {
@@ -186,7 +158,7 @@ async function lineNotify(token, message) {
                 },
             }
         )
-        .catch((err) => console.log(err.message));
+        .catch((err) => utils.log(err.message));
 }
 
 module.exports = {

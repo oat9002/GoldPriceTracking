@@ -1,6 +1,6 @@
 "use strict";
 const admin = require("firebase-admin");
-const util = require("../util/utils");
+const utils = require("../util/utils");
 const serviceAccount = require("../config/goldpricetracking-firebase-adminsdk-718s5-85e720333f.json");
 
 let app = admin.initializeApp({
@@ -26,7 +26,7 @@ async function addPrice(buy, sell) {
             created_at: new Date().getTime(),
         });
     } catch (err) {
-        util.log(err.message + "\n" + err.stack);
+        utils.log(err.message + "\n" + err.stack);
     }
 }
 
@@ -155,7 +155,7 @@ async function getPricesLastByDay(days) {
 
 function createErrorFromException(err) {
     const errMsg = err.message + "\n" + err.stack;
-    util.log(errMsg);
+    utils.log(errMsg);
     return new Error(errMsg);
 }
 
