@@ -1,10 +1,11 @@
 "use strict";
 const admin = require("firebase-admin");
+const utils = require("../util/utils");
 const serviceAccount = require("../config/goldpricetracking-firebase-adminsdk-718s5-85e720333f.json");
 
 let app = admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: process.env.FIREBASE_DATABASE_URL
+    databaseURL: process.env.FIREBASE_DATABASE_URL,
 });
 
 let db = app.database();
@@ -13,174 +14,149 @@ function getInstance() {
     return db;
 }
 
-function addPrice(buy, sell) {
-    getLatestPrice()
-        .then(latestPrice => {
-            let uid = db
-                .ref()
-                .child("price")
-                .push().key;
-            db.ref("price/" + uid)
-                .set({
-                    buy: buy,
-                    sell: sell,
-                    buyDifferent: buy - latestPrice.buy,
-                    sellDifferent: sell - latestPrice.sell,
-                    created_at: new Date().getTime()
-                })
-                .catch(err => {
-                    console.log(err.message + "\n" + err.stack);
-                });
-        })
-        .catch(err => {
-            console.log(err.message + "\n" + err.stack);
+async function addPrice(buy, sell) {
+    try {
+        const latestPrice = await getLatestPrice();
+        const uid = db.ref().child("price").push().key;
+        await db.ref("price/" + uid).set({
+            buy: buy,
+            sell: sell,
+            buyDifferent: buy - latestPrice.buy,
+            sellDifferent: sell - latestPrice.sell,
+            created_at: new Date().getTime(),
         });
-}
-
-function shouldAddPrice(buy, sell) {
-    return new Promise((resolve, reject) => {
-        db.ref("price")
-            .orderByChild("created_at")
-            .limitToLast(1)
-            .once("value")
-            .then(snapshot => {
-                let data = snapshot.val();
-                let id = Object.keys(data)[0];
-                let oldBuy = data[id].buy;
-                let oldSell = data[id].sell;
-                if (buy - oldBuy !== 0 || sell - oldSell !== 0) {
-                    resolve(true);
-                } else {
-                    resolve(false);
-                }
-            })
-            .catch(err => {
-                reject(err.message + "\n" + err.stack);
-            });
-    });
-}
-
-function getLatestPrice() {
-    return new Promise((resolve, reject) => {
-        db.ref("price")
-            .orderByChild("created_at")
-            .limitToLast(1)
-            .once("value")
-            .then(snapshot => {
-                snapshot.forEach(childSnapshot => {
-                    resolve(childSnapshot.val());
-                });
-            })
-            .catch(err => {
-                reject(err.message + "\n" + err.stack);
-            });
-    });
-}
-
-function addLineUser(userId) {
-    return new Promise((resolve, reject) => {
-        let uid = db
-            .ref()
-            .child("user")
-            .push().key;
-        db.ref("user/" + uid)
-            .set({
-                id: userId
-            })
-            .catch(err => {
-                reject(err.message + "\n" + err.stack);
-            });
-    });
-}
-
-function getAllUser() {
-    return new Promise((resolve, reject) => {
-        db.ref("user")
-            .once("value")
-            .then(snapshot => {
-                resolve(snapshot.val());
-            })
-            .catch(err => {
-                reject(err.message + "\n" + err.stack);
-            });
-    });
-}
-
-/* number: number of latest data (0 = all)*/
-function getLatestPrices(number) {
-    let priceArr = new Array(number);
-    let idx = 0;
-    if (number !== 0) {
-        return new Promise((resolve, reject) => {
-            db.ref("price")
-                .orderByChild("created_at")
-                .limitToLast(number)
-                .once("value")
-                .then(snapshot => {
-                    snapshot.forEach(childSnapshot => {
-                        priceArr[idx] = childSnapshot.val();
-                        idx += 1;
-                    });
-                    if (idx === number) {
-                        resolve(priceArr);
-                    }
-                })
-                .catch(err => {
-                    reject(err.message + "\n" + err.stack);
-                });
-        });
-    } else {
-        return new Promise((resolve, reject) => {
-            db.ref("price")
-                .orderByChild("created_at")
-                .once("value")
-                .then(snapshot => {
-                    priceArr = new Array(snapshot.numChildren());
-                    snapshot.forEach(childSnapshot => {
-                        priceArr[idx] = childSnapshot.val();
-                        idx += 1;
-                    });
-                    if (idx === snapshot.numChildren()) {
-                        resolve(priceArr);
-                    }
-                })
-                .catch(err => {
-                    reject(err.message + "\n" + err.stack);
-                });
-        });
+    } catch (err) {
+        utils.log(err.message + "\n" + err.stack);
     }
 }
 
-function getPricesLastByDay(days) {
+async function shouldAddPrice(buy, sell) {
+    try {
+        const snapshot = await db
+            .ref("price")
+            .orderByChild("created_at")
+            .limitToLast(1)
+            .once("value");
+
+        const data = snapshot.val();
+        const id = Object.keys(data)[0];
+        const oldBuy = data[id].buy;
+        const oldSell = data[id].sell;
+
+        if (buy - oldBuy !== 0 || sell - oldSell !== 0) {
+            return true;
+        }
+
+        return false;
+    } catch (err) {
+        throw createErrorFromException(err);
+    }
+}
+
+async function getLatestPrice() {
+    try {
+        const snapshot = await db
+            .ref("price")
+            .orderByChild("created_at")
+            .limitToLast(1)
+            .once("value");
+        const toReturn = [];
+
+        snapshot.forEach((childSnapshot) => {
+            toReturn.push(childSnapshot.val());
+        });
+
+        return toReturn[0];
+    } catch (err) {
+        throw createErrorFromException(err);
+    }
+}
+
+async function addLineUser(userId) {
+    try {
+        const uid = db.ref().child("user").push().key;
+        await db.ref("user/" + uid).set({
+            id: userId,
+        });
+    } catch (err) {
+        throw createErrorFromException(err);
+    }
+}
+
+async function getAllUser() {
+    try {
+        const snapshot = await db.ref("user").once("value");
+
+        return snapshot.val();
+    } catch (err) {
+        throw createErrorFromException(err);
+    }
+}
+
+/* number: number of latest data (0 = all)*/
+async function getLatestPrices(number) {
+    const priceArr = new Array(number);
+    let idx = 0;
+    try {
+        const snapshot =
+            number !== 0
+                ? await db
+                      .ref("price")
+                      .orderByChild("created_at")
+                      .limitToLast(number)
+                      .once("value")
+                : await db
+                      .ref("price")
+                      .orderByChild("created_at")
+                      .once("value");
+
+        snapshot.forEach((childSnapshot) => {
+            priceArr[idx++] = childSnapshot.val();
+        });
+
+        return priceArr;
+    } catch (err) {
+        throw createErrorFromException(err);
+    }
+}
+
+async function getPricesLastByDay(days) {
     let now = new Date();
     let end = now.getTime();
+    let idx = 0;
+
     now.setHours(0, 0, 0, 0);
     now.setDate(now.getDate() - days);
+
     let start = now.getTime();
-    let idx = 0;
-    return new Promise((resolve, reject) => {
-        db.ref("price")
+    try {
+        const snapshot = await db
+            .ref("price")
             .orderByChild("created_at")
             .startAt(start)
             .endAt(end)
-            .once("value")
-            .then(snapshot => {
-                let priceArr = new Array(snapshot.numChildren());
-                if (snapshot.numChildren() === 0) {
-                    resolve(null);
-                }
-                snapshot.forEach(childSnapshot => {
-                    priceArr[idx] = childSnapshot.val();
-                    if (idx === snapshot.numChildren() - 1) {
-                        resolve(priceArr.reverse());
-                    }
-                    idx++;
-                });
-            })
-            .catch(err => {
-                reject(err.message + "\n" + err.stack);
-            });
-    });
+            .once("value");
+
+        const numberOfChildren = snapshot.numChildren();
+        if (numberOfChildren === 0) {
+            return null;
+        }
+
+        const priceArr = new Array(numberOfChildren);
+        snapshot.forEach((childSnapshot) => {
+            priceArr[idx++] = childSnapshot.val();
+        });
+
+        return priceArr.reverse();
+    } catch (err) {
+        throw createErrorFromException(err);
+    }
+}
+
+function createErrorFromException(err) {
+    const errMsg = err.message + "\n" + err.stack;
+    utils.log(errMsg);
+    return new Error(errMsg);
 }
 
 module.exports = {
@@ -191,5 +167,5 @@ module.exports = {
     addLineUser,
     getAllUser,
     getLatestPrices,
-    getPricesLastByDay
+    getPricesLastByDay,
 };

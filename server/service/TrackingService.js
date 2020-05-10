@@ -4,49 +4,48 @@ const cheerio = require("cheerio");
 const db = require("../dal/db.js");
 const cron = require("node-cron");
 const message = require("./LineService");
+const utils = require("../util/utils");
 
-function retrieveAndSavePrice() {
+async function retrieveAndSavePrice() {
     let buyPrice = 0;
     let sellPrice = 0;
 
-    axios
-        .get("https://www.goldtraders.or.th/default.aspx")
-        .then(res => {
-            return res.data;
-        })
-        .then(html => {
-            let $ = cheerio.load(html);
-            let bpTemp = $("#DetailPlace_uc_goldprices1_lblBLBuy").text();
-            let spTemp = $("#DetailPlace_uc_goldprices1_lblBLSell").text();
-            buyPrice = parseInt(
-                bpTemp.substring(0, bpTemp.length - 3).replace(",", "")
-            );
-            sellPrice = parseInt(
-                spTemp.substring(0, spTemp.length - 3).replace(",", "")
-            );
-            if (buyPrice !== null && sellPrice !== null) {
-                db.shouldAddPrice(buyPrice, sellPrice).then(shouldAdd => {
-                    if (shouldAdd) {
-                        db.addPrice(buyPrice, sellPrice);
-                    }
-                });
-            } else {
-                console.log("Something wrong in price");
+    try {
+        const res = await axios.get(
+            "https://www.goldtraders.or.th/default.aspx"
+        );
+        const html = res.data;
+        const $ = cheerio.load(html);
+        let bpTemp = $("#DetailPlace_uc_goldprices1_lblBLBuy").text();
+        let spTemp = $("#DetailPlace_uc_goldprices1_lblBLSell").text();
+        buyPrice = parseInt(
+            bpTemp.substring(0, bpTemp.length - 3).replace(",", "")
+        );
+        sellPrice = parseInt(
+            spTemp.substring(0, spTemp.length - 3).replace(",", "")
+        );
+        if (buyPrice !== null && sellPrice !== null) {
+            const shouldAdd = await db.shouldAddPrice(buyPrice, sellPrice);
+
+            if (shouldAdd) {
+                await db.addPrice(buyPrice, sellPrice);
             }
-        })
-        .catch(err => {
-            console.log(err.stack);
-        });
+        } else {
+            utils.log("Something wrong in price");
+        }
+    } catch (err) {
+        utils.log(err.message);
+    }
 }
 
 function start() {
-    cron.schedule("0 * * * *", () => {
-        retrieveAndSavePrice();
+    cron.schedule("0 * * * *", async () => {
+        await retrieveAndSavePrice();
     });
     message.pushMessage();
 }
 
 module.exports = {
     retreiveAndSavePrice: retrieveAndSavePrice,
-    start
+    start,
 };
