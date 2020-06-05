@@ -17,6 +17,7 @@ import { formatNumber } from "./util/Util";
 function GoldTable() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const tableRef = React.useRef(null);
     const dispatch = useDispatch();
     const prices = useSelector((state) => state.goldPrice.prices);
     const classes = makeStyles((theme) => ({
@@ -59,6 +60,7 @@ function GoldTable() {
     }
 
     function handleChangePage(event, newPage) {
+        window.scrollTo(0, tableRef.current.offsetTop);
         setPage(newPage);
     }
 
@@ -72,7 +74,7 @@ function GoldTable() {
     }
 
     return (
-        <div className="table">
+        <div className="table" ref={tableRef}>
             <div className="filter">
                 <Filter setValue={onFilterChangeHandler} />
             </div>
