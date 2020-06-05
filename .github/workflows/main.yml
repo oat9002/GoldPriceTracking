@@ -36,6 +36,9 @@ jobs:
         sudo npm install -g yarn
         yarn install
         yarn build
+      env:
+        REACT_APP_SERVER_URL: ${{ secrets.GOLD_PRICE_SERVER_URL }}
+      
     - name: deploy to firebase
       run: |
         sudo npm install -g firebase-tools
