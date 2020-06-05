@@ -7,14 +7,13 @@ name: Deploy to firebase
 on:
   push:
     branches: [ master ]
-    paths-ignore: 
-      - '**.json'
-      - '**.md' 
-      - '.gitignore'
-      - '.eslintrc.js'
-      - '.firebaserc'
-      - '**.env' 
     paths: 
+      - '!**.json'
+      - '!**.md' 
+      - '!.gitignore'
+      - '!.eslintrc.js'
+      - '!.firebaserc'
+      - '!**.env' 
       - 'web/**'
         
 defaults:
