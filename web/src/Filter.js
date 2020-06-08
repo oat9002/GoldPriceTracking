@@ -1,15 +1,22 @@
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
+import "firebase/analytics";
+import firebase from "firebase/app";
 import React from "react";
 
 function Filter(props) {
     const [numOfRec, setNumOfRec] = React.useState(10);
+    const analytics = firebase.analytics();
 
     function onChangeHandler(event) {
         setNumOfRec(event.target.value);
         if (props.setValue) {
             props.setValue(event.target.value);
         }
+
+        analytics.logEvent("filter_click", {
+            value: event.target.value,
+        });
     }
 
     return (
