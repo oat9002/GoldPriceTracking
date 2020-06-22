@@ -116,7 +116,7 @@ function generateMessage(firebaseData, isOfficialAccount) {
             " บาท";
     }
     let message = dateMessage + "\n" + priceMessage + "\n" + priceDiffMessage;
-    message += "\n" + "ดูประวัติ https://goo.gl/wX58dQ";
+    message += "\n" + "ดูประวัติ https://goldpricetracking.web.app/";
 
     if (isOfficialAccount) {
         message +=
