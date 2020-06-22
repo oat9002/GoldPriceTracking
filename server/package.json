@@ -32,7 +32,8 @@
         "jshint": "^2.10.2",
         "moment-timezone": "^0.5.13",
         "node-cron": "^1.2.0",
-        "qs": "^6.9.3"
+        "qs": "^6.9.3",
+        "tracer": "^1.1.2"
     },
     "devDependencies": {
         "babel-eslint": "^10.1.0",
