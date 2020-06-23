@@ -1,44 +1,32 @@
-const bunyan = require("bunyan");
 const enums = require("./enums");
-const logger = bunyan.createLogger({
-    name: "GoldPriceTracking",
-    serializers: {
-        err: bunyan.stdSerializers.err,
-    },
-    streams: [
-        {
-            type: "rotating-file",
-            path: "logs/gold-price-tracking.log",
-            period: "1d", // daily rotation
-            count: 3, // keep 3 back copies
-        },
-    ],
+const logger = require("tracer").dailyfile({
+    format:
+        "{{timestamp}}|{{title}}|{{file}}:{{line}}:{{pos}}|{{method}}|{{message}}",
+    root: "/var/log/app-logging",
+    maxLogFiles: 5,
+    allLogsFileName: "gold-price-tracking",
 });
 
 function log(msg, logLevel, err = null) {
-    const errObj = {
-        err,
-    };
-
     switch (logLevel) {
         case enums.LOG_LEVEL.TRACE:
-            logger.trace(errObj, msg);
+            logger.trace(msg, err);
             break;
         case enums.LOG_LEVEL.DEBUG:
-            logger.debug(errObj, msg);
+            logger.debug(msg, err);
             break;
         case enums.LOG_LEVEL.WARN:
-            logger.warn(errObj, msg);
+            logger.warn(msg, err);
             break;
         case enums.LOG_LEVEL.ERROR:
-            logger.error(errObj, msg);
+            logger.error(msg, err);
             break;
         case enums.LOG_LEVEL.FATAL:
-            logger.error(errObj, msg);
+            logger.fatal(msg, err);
             break;
         case enums.LOG_LEVEL.INFO:
         default:
-            logger.info(errObj, msg);
+            logger.info(msg, err);
     }
 }
 
