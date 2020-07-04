@@ -8,25 +8,27 @@ const logger = require("tracer").dailyfile({
 });
 
 function log(msg, logLevel, err = null) {
+    const execute = (log) => (err ? log(msg, err) : log(msg));
+
     switch (logLevel) {
         case enums.LOG_LEVEL.TRACE:
-            logger.trace(msg, err);
+            execute(logger.trace);
             break;
         case enums.LOG_LEVEL.DEBUG:
-            logger.debug(msg, err);
+            execute(logger.debug);
             break;
         case enums.LOG_LEVEL.WARN:
-            logger.warn(msg, err);
+            execute(logger.warn);
             break;
         case enums.LOG_LEVEL.ERROR:
-            logger.error(msg, err);
+            execute(logger.error);
             break;
         case enums.LOG_LEVEL.FATAL:
-            logger.fatal(msg, err);
+            execute(logger.fatal);
             break;
         case enums.LOG_LEVEL.INFO:
         default:
-            logger.info(msg, err);
+            execute(logger.info);
     }
 }
 
