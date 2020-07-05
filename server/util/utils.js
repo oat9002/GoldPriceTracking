@@ -8,7 +8,7 @@ const logger = require("tracer").dailyfile({
 });
 
 function log(msg, logLevel, err = null) {
-    const execute = (log) => (err ? log(msg, err) : log(msg));
+    const execute = (log) => (err ? log(msg, err.message) : log(msg));
 
     switch (logLevel) {
         case enums.LOG_LEVEL.TRACE:
