@@ -4,3 +4,12 @@ exports.STATUS_CODE = {
     OKAY: 200,
     INTERNAL_SERVER_ERROR: 500,
 };
+
+exports.LOG_LEVEL = {
+    TRACE: "trace",
+    DEBUG: "debug",
+    INFO: "info",
+    WARN: "warn",
+    ERROR: "error",
+    FATAL: "fatal",
+};

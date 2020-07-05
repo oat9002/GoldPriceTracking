@@ -34,7 +34,7 @@ async function retrieveAndSavePrice() {
             utils.log("Something wrong in price");
         }
     } catch (err) {
-        utils.log(err.message);
+        utils.log("retrieveAndSavePrice failed", err);
     }
 }
 

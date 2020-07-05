@@ -136,7 +136,7 @@ async function addUser(userId) {
     try {
         await db.addLineUser(userId);
     } catch (err) {
-        utils.log(err.message);
+        utils.log(`addUser failed for userId: ${userId}`, err);
     }
 }
 
@@ -158,7 +158,7 @@ async function lineNotify(token, message) {
                 },
             }
         )
-        .catch((err) => utils.log(err.message));
+        .catch((err) => utils.log("line notify failed", err));
 }
 
 module.exports = {

@@ -154,9 +154,9 @@ async function getPricesLastByDay(days) {
 }
 
 function createErrorFromException(err) {
-    const errMsg = err.message + "\n" + err.stack;
-    utils.log(errMsg);
-    return new Error(errMsg);
+    // const errMsg = err.message + "\n" + err.stack;
+    utils.log(err.message);
+    return new Error(err.message);
 }
 
 module.exports = {
