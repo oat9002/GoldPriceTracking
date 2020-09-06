@@ -165,4 +165,5 @@ module.exports = {
     pushMessage,
     replyMessage,
     addUser,
+    lineNotify,
 };
