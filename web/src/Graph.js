@@ -56,6 +56,8 @@ function Graph() {
         return price;
     }
 
+    const dataFormater = (value) => Intl.NumberFormat('en').format(value);
+
     return (
         <LineChart
             data={graphData}
@@ -66,9 +68,9 @@ function Graph() {
                 dataKey="created_at"
                 tick={{ fontSize: "0.8em", fontFamily }}
             />
-            <YAxis domain={[min, max]} tick={{ fontFamily }} />
+            <YAxis domain={[min, max]} tick={{ fontFamily }} tickFormatter={dataFormater}/>
             <CartesianGrid strokeDasharray="3 3" />
-            <Tooltip wrapperStyle={{ fontFamily }} />
+            <Tooltip wrapperStyle={{ fontFamily }} formatter={dataFormater} />
             <Legend wrapperStyle={{ fontFamily }} />
             <Line type="monotone" dataKey="buy" stroke="#56b8ff" />
             <Line type="monotone" dataKey="sell" stroke="#f4426b" />
