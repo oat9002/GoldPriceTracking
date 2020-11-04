@@ -4,9 +4,9 @@
     "private": true,
     "devDependencies": {
         "babel-eslint": "^10.1.0",
-        "eslint": "^6.8.0",
+        "eslint": "^7.11.0",
         "eslint-plugin-react": "^7.19.0",
-        "react-scripts": "^3.4.3"
+        "react-scripts": "^4.0.0"
     },
     "dependencies": {
         "@material-ui/core": "^4.11.0",

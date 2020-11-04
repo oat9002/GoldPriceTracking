@@ -8,7 +8,7 @@ import {
     LineChart,
     Tooltip,
     XAxis,
-    YAxis,
+    YAxis
 } from "recharts";
 
 function Graph() {
@@ -56,7 +56,7 @@ function Graph() {
         return price;
     }
 
-    const dataFormater = (value) => Intl.NumberFormat('en').format(value);
+    const dataFormater = (value) => Intl.NumberFormat("en").format(value);
 
     return (
         <LineChart
