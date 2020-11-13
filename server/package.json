@@ -35,6 +35,14 @@
         "tracer": "^1.1.2"
     },
     "devDependencies": {
+        "@types/axios": "^0.14.0",
+        "@types/cheerio": "^0.22.22",
+        "@types/cors": "^2.8.8",
+        "@types/dotenv": "^8.2.0",
+        "@types/express": "^4.17.9",
+        "@types/node-cron": "^2.0.3",
+        "@typescript-eslint/eslint-plugin": "^4.7.0",
+        "@typescript-eslint/parser": "^4.7.0",
         "babel-eslint": "^10.1.0",
         "eslint-plugin-node": "^11.1.0",
         "nodemon": "^1.19.2"
