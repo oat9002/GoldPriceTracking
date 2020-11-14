@@ -1,4 +1,4 @@
-import * as serviceAccount from "../config/goldpricetracking-firebase-adminsdk-718s5-85e720333f.json";
+import * as serviceAccount from "../../config/goldpricetracking-firebase-adminsdk-718s5-85e720333f.json";
 import { User } from "../models/User";
 import * as utils from "../util/utils";
 import { mapPriceFromDb, Price } from "./../models/Price";
