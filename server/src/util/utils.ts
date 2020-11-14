@@ -1,4 +1,4 @@
-import enums = require("./enums");
+import enums from "./enums";
 import tracer = require("tracer");
 
 const logger = tracer.dailyfile({
@@ -9,7 +9,7 @@ const logger = tracer.dailyfile({
     allLogsFileName: "gold-price-tracking",
 });
 
-function log(msg: string, logLevel: string, err: Error | null = null) {
+export function log(msg: string, logLevel = "info", err: Error | null = null): void {
     const execute = (log: any) => (err ? log(msg, err.message) : log(msg));
 
     switch (logLevel) {
@@ -33,7 +33,3 @@ function log(msg: string, logLevel: string, err: Error | null = null) {
             execute(logger.info);
     }
 }
-
-module.exports = {
-    log,
-};

@@ -11,5 +11,7 @@ module.exports = {
     rules: {
         semi: ["error", "always"],
         quotes: ["error", "double", { allowTemplateLiterals: true }],
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/explicit-module-boundary-types": "off",
     },
 };

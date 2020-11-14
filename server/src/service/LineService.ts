@@ -1,15 +1,14 @@
-"use strict";
-const db = require("../dal/db");
-const Client = require("@line/bot-sdk").Client;
-const moment = require("moment-timezone");
-const axios = require("axios");
-const qs = require("qs");
-const utils = require("../util/utils");
+import axios from "axios";
+// import Client = require("@line/bot-sdk").Client;
+import moment from "moment-timezone";
+import qs from "qs";
+import * as db from "../dal/db";
+import * as utils from "../util/utils";
 
-const client = new Client({
-    channelAccessToken: process.env.OFFICIAL_ACCOUNT_CHANNEL_ACCESS_TOKEN,
-    channelSecret: process.env.OFFICIAL_ACCOUNT_CHANNEL_SECRET,
-});
+// const client = new Client({
+//     channelAccessToken: process.env.OFFICIAL_ACCOUNT_CHANNEL_ACCESS_TOKEN,
+//     channelSecret: process.env.OFFICIAL_ACCOUNT_CHANNEL_SECRET,
+// });
 
 const monthName = [
     "ม.ค.",
@@ -27,8 +26,8 @@ const monthName = [
 ];
 let first = true;
 
-async function pushMessage() {
-    let dbInstance = db.getInstance();
+export async function pushMessage() {
+    const dbInstance = db.getInstance();
     dbInstance
         .ref("price")
         .orderByChild("created_at")
@@ -66,24 +65,24 @@ async function pushMessage() {
         });
 }
 
-async function replyMessage(replyToken) {
-    const data = await db.getLatestPrice();
-    const message = generateMessage(data, true);
+// async function replyMessage(replyToken: string) {
+//     const data = await db.getLatestPrice();
+//     const message = generateMessage(data, true);
 
-    client.replyMessage(replyToken, {
-        type: "text",
-        text: message,
-    });
-}
+//     client.replyMessage(replyToken, {
+//         type: "text",
+//         text: message,
+//     });
+// }
 
-function generateMessage(firebaseData, isOfficialAccount) {
-    let date = moment(firebaseData.created_at).tz("Asia/Bangkok");
+export function generateMessage(firebaseData: any): string {
+    const date = moment(firebaseData.created_at).tz("Asia/Bangkok");
     let showMinute = "" + date.minute();
     if (date.minute() < 10) {
         showMinute = "0" + date.minute();
     }
 
-    let dateMessage =
+    const dateMessage =
         "วันที่ " +
         date.date() +
         " " +
@@ -95,7 +94,7 @@ function generateMessage(firebaseData, isOfficialAccount) {
         ":" +
         showMinute +
         " น.\n";
-    let priceMessage =
+    const priceMessage =
         "ราคารับซื้อ: " +
         addCommaToNumber(firebaseData.buy) +
         " บาท\n" +
@@ -118,21 +117,14 @@ function generateMessage(firebaseData, isOfficialAccount) {
     let message = dateMessage + "\n" + priceMessage + "\n" + priceDiffMessage;
     message += "\n" + "ดูประวัติ https://goldpricetracking.web.app/";
 
-    if (isOfficialAccount) {
-        message +=
-            "\n\n" +
-            "เนื่องจากว่า line official account นี้มีข้อจำกัดในการส่งข้อความ อาจจะทำให้ไม่ได้รับข้อความอย่างสม่ำเสมอ" +
-            "\nกรุณาย้ายไปใช้ที่ไลน์กรุปนี้แทน http://line.me/ti/g/jrVMb20zsU";
-    }
-
     return message;
 }
 
-function addCommaToNumber(number) {
+export function addCommaToNumber(number: number): string {
     return Number(number).toLocaleString("th-TH");
 }
 
-async function addUser(userId) {
+export async function addUser(userId: string): Promise<void> {
     try {
         await db.addLineUser(userId);
     } catch (err) {
@@ -140,7 +132,10 @@ async function addUser(userId) {
     }
 }
 
-async function lineNotify(token, message) {
+export async function lineNotify(
+    token: string | undefined,
+    message: string
+): Promise<void> {
     if (!token) {
         return;
     }
@@ -160,10 +155,3 @@ async function lineNotify(token, message) {
         )
         .catch((err) => utils.log("line notify failed", err));
 }
-
-module.exports = {
-    pushMessage,
-    replyMessage,
-    addUser,
-    lineNotify,
-};
