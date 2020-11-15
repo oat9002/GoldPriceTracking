@@ -1,4 +1,3 @@
-// import lineBotSdk from "@line/bot-sdk";
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
@@ -8,31 +7,12 @@ import { STATUS_CODE } from "./util/enums";
 const port = 4000;
 
 const app = express();
-// const config: Line.MiddlewareConfig = {
-//     channelSecret: process?.env.OFFICIAL_ACCOUNT_CHANNEL_SECRET ?? "",
-// };
 
 app.use(cors());
-// app.use(lineBotSdk.middleware(config));
 
 app.get("/", (_, res) => {
     res.send("Hello, welcome to GoldpriceTracking.");
 });
-
-// app.post("/webhook", (req) => {
-//     req.body.events.forEach(async (event) => {
-//         switch (event.type) {
-//             case "follow":
-//                 if (event.source.type === "user") {
-//                     await lineService.addUser(event.source.userId);
-//                 }
-//                 break;
-//             case "message":
-//                 await lineService.replyMessage(event.replyToken);
-//                 break;
-//         }
-//     }, this);
-// });
 
 app.get("/prices", async (req, res) => {
     const numOfLatestPrice: number = parseInt(
