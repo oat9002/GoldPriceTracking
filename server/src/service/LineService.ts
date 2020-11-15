@@ -1,14 +1,8 @@
 import axios from "axios";
-// import Client = require("@line/bot-sdk").Client;
 import moment from "moment-timezone";
 import qs from "qs";
 import * as db from "../dal/db";
 import * as utils from "../util/utils";
-
-// const client = new Client({
-//     channelAccessToken: process.env.OFFICIAL_ACCOUNT_CHANNEL_ACCESS_TOKEN,
-//     channelSecret: process.env.OFFICIAL_ACCOUNT_CHANNEL_SECRET,
-// });
 
 const monthName = [
     "ม.ค.",
@@ -38,24 +32,10 @@ export async function pushMessage() {
                     const data = snapshot.val();
                     const messageNotify = generateMessage(data);
 
-                    // Stop using line official account
-                    // const message = await generateMessage(data, true);
-                    // const users = await db.getAllUser();
-
-                    // if (users !== null) {
-                    //     Object.keys(users).forEach(key => {
-                    //         client.pushMessage(users[key].id, {
-                    //             type: "text",
-                    //             text: message
-                    //         });
-                    //     });
-                    // }
-
                     await lineNotify(
                         process.env.NOTIFY_GOLD_PRICE_TRACKING,
                         messageNotify
                     );
-                    // client.pushMessage('U192446f179afffe5d1cf02c27125081e', { type: 'text', text: message }); // Test pushMessage
                 } catch (err) {
                     console.log(err.stack);
                 }
@@ -64,16 +44,6 @@ export async function pushMessage() {
             }
         });
 }
-
-// async function replyMessage(replyToken: string) {
-//     const data = await db.getLatestPrice();
-//     const message = generateMessage(data, true);
-
-//     client.replyMessage(replyToken, {
-//         type: "text",
-//         text: message,
-//     });
-// }
 
 export function generateMessage(firebaseData: any): string {
     const date = moment(firebaseData.created_at).tz("Asia/Bangkok");
