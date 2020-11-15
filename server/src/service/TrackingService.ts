@@ -1,7 +1,7 @@
 import axios from "axios";
 import cheerio from "cheerio";
 import cron from "node-cron";
-import * as db from "../dal/db.js";
+import * as db from "../dal/db";
 import * as utils from "../util/utils";
 import * as message from "./LineService";
 

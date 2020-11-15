@@ -4,7 +4,8 @@
     "description": "GoldPriceTracking with Node.js and IFTTT",
     "main": "index.js",
     "scripts": {
-        "start": "nodemon ./index.js"
+        "start": "nodemon ./src/index.ts",
+        "build": "tsc"
     },
     "repository": {
         "type": "git",
@@ -46,7 +47,8 @@
         "@typescript-eslint/parser": "^4.7.0",
         "babel-eslint": "^10.1.0",
         "eslint-plugin-node": "^11.1.0",
-        "nodemon": "^1.19.2"
+        "nodemon": "^1.19.2",
+        "ts-node": "^9.0.0"
     },
     "eslintConfig": {
         "env": {

@@ -1,20 +1,19 @@
-import lineBotSdk from "@line/bot-sdk";
+// import lineBotSdk from "@line/bot-sdk";
 import cors from "cors";
-import dotenv from "dotenv";
+import "dotenv/config";
 import express from "express";
 import * as db from "./dal/db";
 import * as track from "./service/TrackingService";
 import { STATUS_CODE } from "./util/enums";
 const port = 4000;
 
-dotenv.config();
 const app = express();
-const config: Line.MiddlewareConfig = {
-    channelSecret: process?.env.OFFICIAL_ACCOUNT_CHANNEL_SECRET ?? "",
-};
+// const config: Line.MiddlewareConfig = {
+//     channelSecret: process?.env.OFFICIAL_ACCOUNT_CHANNEL_SECRET ?? "",
+// };
 
 app.use(cors());
-app.use(lineBotSdk.middleware(config));
+// app.use(lineBotSdk.middleware(config));
 
 app.get("/", (_, res) => {
     res.send("Hello, welcome to GoldpriceTracking.");
@@ -54,7 +53,7 @@ app.get("/prices", async (req, res) => {
     }
 });
 
-app.get("/retrieveAndSavePrice", async (req, res) => {
+app.get("/retrieveAndSavePrice", async (_, res) => {
     await track.retrieveAndSavePrice();
     res.status(STATUS_CODE.OKAY);
     res.send("Success");
