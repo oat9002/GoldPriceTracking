@@ -1,5 +1,7 @@
-const enums = require("./enums");
-const logger = require("tracer").dailyfile({
+import * as enums from "./enums";
+import tracer = require("tracer");
+
+const logger = tracer.dailyfile({
     format:
         "{{timestamp}}|{{title}}|{{file}}:{{line}}:{{pos}}|{{method}}|{{message}}",
     root: "/var/log/app-logging",
@@ -7,8 +9,12 @@ const logger = require("tracer").dailyfile({
     allLogsFileName: "gold-price-tracking",
 });
 
-function log(msg, logLevel, err = null) {
-    const execute = (log) => (err ? log(msg, err.message) : log(msg));
+export function log(
+    msg: string,
+    logLevel = "info",
+    err: Error | null = null
+): void {
+    const execute = (log: any) => (err ? log(msg, err.message) : log(msg));
 
     switch (logLevel) {
         case enums.LOG_LEVEL.TRACE:
@@ -31,7 +37,3 @@ function log(msg, logLevel, err = null) {
             execute(logger.info);
     }
 }
-
-module.exports = {
-    log,
-};

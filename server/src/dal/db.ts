@@ -1,20 +1,33 @@
-"use strict";
-const admin = require("firebase-admin");
-const utils = require("../util/utils");
-const serviceAccount = require("../config/goldpricetracking-firebase-adminsdk-718s5-85e720333f.json");
+import admin from "firebase-admin";
+import * as serviceAccount from "../../config/goldpricetracking-firebase-adminsdk-718s5-85e720333f.json";
+import { User } from "../models/User";
+import * as utils from "../util/utils";
+import { mapPriceFromDb, Price } from "./../models/Price";
 
-let app = admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
+const firebaseConfig = {
+    type: serviceAccount.type,
+    projectId: serviceAccount.project_id,
+    privateKeyId: serviceAccount.private_key_id,
+    privateKey: serviceAccount.private_key,
+    clientEmail: serviceAccount.client_email,
+    clientId: serviceAccount.client_id,
+    authUri: serviceAccount.auth_uri,
+    tokenUri: serviceAccount.token_uri,
+    authProviderX509CertUrl: serviceAccount.auth_provider_x509_cert_url,
+    clientC509CertUrl: serviceAccount.client_x509_cert_url,
+};
+const app = admin.initializeApp({
+    credential: admin.credential.cert(firebaseConfig),
     databaseURL: process.env.FIREBASE_DATABASE_URL,
 });
 
-let db = app.database();
+const db = app.database();
 
-function getInstance() {
+export function getInstance() {
     return db;
 }
 
-async function addPrice(buy, sell) {
+export async function addPrice(buy: number, sell: number): Promise<void> {
     try {
         const latestPrice = await getLatestPrice();
         const uid = db.ref().child("price").push().key;
@@ -30,7 +43,10 @@ async function addPrice(buy, sell) {
     }
 }
 
-async function shouldAddPrice(buy, sell) {
+export async function shouldAddPrice(
+    buy: number,
+    sell: number
+): Promise<boolean> {
     try {
         const snapshot = await db
             .ref("price")
@@ -53,17 +69,17 @@ async function shouldAddPrice(buy, sell) {
     }
 }
 
-async function getLatestPrice() {
+export async function getLatestPrice(): Promise<Price> {
     try {
         const snapshot = await db
             .ref("price")
             .orderByChild("created_at")
             .limitToLast(1)
             .once("value");
-        const toReturn = [];
+        const toReturn: Price[] = [];
 
         snapshot.forEach((childSnapshot) => {
-            toReturn.push(childSnapshot.val());
+            toReturn.push(mapPriceFromDb(childSnapshot.val()));
         });
 
         return toReturn[0];
@@ -72,7 +88,7 @@ async function getLatestPrice() {
     }
 }
 
-async function addLineUser(userId) {
+export async function addLineUser(userId: string): Promise<void> {
     try {
         const uid = db.ref().child("user").push().key;
         await db.ref("user/" + uid).set({
@@ -83,7 +99,7 @@ async function addLineUser(userId) {
     }
 }
 
-async function getAllUser() {
+export async function getAllUser(): Promise<User[]> {
     try {
         const snapshot = await db.ref("user").once("value");
 
@@ -94,8 +110,8 @@ async function getAllUser() {
 }
 
 /* number: number of latest data (0 = all)*/
-async function getLatestPrices(number) {
-    const priceArr = new Array(number);
+export async function getLatestPrices(number: number): Promise<Price[]> {
+    const priceArr: Price[] = new Array(number);
     let idx = 0;
     try {
         const snapshot =
@@ -111,7 +127,7 @@ async function getLatestPrices(number) {
                       .once("value");
 
         snapshot.forEach((childSnapshot) => {
-            priceArr[idx++] = childSnapshot.val();
+            priceArr[idx++] = mapPriceFromDb(childSnapshot.val());
         });
 
         return priceArr;
@@ -120,15 +136,15 @@ async function getLatestPrices(number) {
     }
 }
 
-async function getPricesLastByDay(days) {
-    let now = new Date();
-    let end = now.getTime();
+export async function getPricesLastByDay(days: number) {
+    const now = new Date();
+    const end = now.getTime();
     let idx = 0;
 
     now.setHours(0, 0, 0, 0);
     now.setDate(now.getDate() - days);
 
-    let start = now.getTime();
+    const start = now.getTime();
     try {
         const snapshot = await db
             .ref("price")
@@ -142,9 +158,9 @@ async function getPricesLastByDay(days) {
             return null;
         }
 
-        const priceArr = new Array(numberOfChildren);
+        const priceArr: Price[] = new Array(numberOfChildren);
         snapshot.forEach((childSnapshot) => {
-            priceArr[idx++] = childSnapshot.val();
+            priceArr[idx++] = mapPriceFromDb(childSnapshot.val());
         });
 
         return priceArr.reverse();
@@ -153,19 +169,8 @@ async function getPricesLastByDay(days) {
     }
 }
 
-function createErrorFromException(err) {
+export function createErrorFromException(err: Error) {
     // const errMsg = err.message + "\n" + err.stack;
     utils.log(err.message);
     return new Error(err.message);
 }
-
-module.exports = {
-    getInstance,
-    addPrice,
-    getLatestPrice,
-    shouldAddPrice,
-    addLineUser,
-    getAllUser,
-    getLatestPrices,
-    getPricesLastByDay,
-};
