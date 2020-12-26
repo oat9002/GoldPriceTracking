@@ -2,6 +2,7 @@ import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import * as db from "./dal/db";
+import * as dockerService from "./service/DockerService";
 import * as track from "./service/TrackingService";
 import { STATUS_CODE } from "./util/enums";
 const port = 4000;
@@ -54,6 +55,15 @@ app.get("/priceslastday", async (req, res) => {
             res.json(err);
         }
     }
+});
+
+app.post("/dockerDeploy", async (req, res) => {
+    const isValid = await dockerService.validateDeploymentRequest(req.body);
+    if (!isValid) {
+        res.status(STATUS_CODE.BAD_REQUEST);
+    }
+
+    res.status(STATUS_CODE.OKAY);
 });
 
 app.listen(port, () => {
