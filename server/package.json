@@ -1,6 +1,6 @@
 {
     "name": "goldpricetraking",
-    "version": "2.0.0",
+    "version": "2.1.0",
     "description": "GoldPriceTracking with Node.js and IFTTT",
     "main": "index.js",
     "scripts": {
@@ -11,7 +11,7 @@
         "type": "git",
         "url": "git+https://github.com/oat9002/GoldPriceTraking.git"
     },
-    "author": "",
+    "author": "oat9002",
     "license": "ISC",
     "bugs": {
         "url": "https://github.com/oat9002/GoldPriceTraking/issues"
