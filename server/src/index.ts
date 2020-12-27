@@ -13,6 +13,7 @@ const whitelist = [
     "https://dg.oatto.com",
     "https://goldpricetracking.web.app",
     "https://registry.hub.docker.com",
+    "https://goldpricetracking.firebaseio.com",
 ];
 const corsOptions: CorsOptions = {
     origin: (origin, callback) => {
