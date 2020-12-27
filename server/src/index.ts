@@ -1,14 +1,31 @@
-import cors from "cors";
+import bodyParser from "body-parser";
+import cors, { CorsOptions } from "cors";
 import "dotenv/config";
 import express from "express";
 import * as db from "./dal/db";
+import * as dockerService from "./service/DockerService";
 import * as track from "./service/TrackingService";
 import { STATUS_CODE } from "./util/enums";
 const port = 4000;
 
+const whitelist = [
+    "http://localhost",
+    "https://dg.oatto.com",
+    "https://goldpricetracking.web.app",
+];
+const corsOptions: CorsOptions = {
+    origin: (origin, callback) => {
+        if (origin && whitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+};
+const jsonParser = bodyParser.json();
 const app = express();
 
-app.use(cors());
+app.use(cors(corsOptions));
 
 app.get("/", (_, res) => {
     res.send("Hello, welcome to GoldpriceTracking.");
@@ -54,6 +71,16 @@ app.get("/priceslastday", async (req, res) => {
             res.json(err);
         }
     }
+});
+
+app.post("/dockerDeploy", jsonParser, async (req, res) => {
+    const isValid = await dockerService.validateDeploymentRequest(req.body);
+    if (!isValid) {
+        res.sendStatus(STATUS_CODE.BAD_REQUEST);
+        return;
+    }
+
+    res.sendStatus(STATUS_CODE.OKAY);
 });
 
 app.listen(port, () => {

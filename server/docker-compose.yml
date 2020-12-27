@@ -1,0 +1,14 @@
+version: "3.9"
+services:
+    gold-price-tracking-server:
+        image: oat9002/gold-price-tracking-server:latest
+        ports:
+            - 4000:4000
+        healthcheck:
+            test: ["CMD", "curl", "-f", "http://localhost:4000/"]
+            interval: 10s
+            timeout: 10s
+        volumes:
+            - ./config:/usr/src/app/config:ro
+        env_file:
+            - .env
