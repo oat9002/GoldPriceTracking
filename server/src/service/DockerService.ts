@@ -6,6 +6,10 @@ import { STATUS_CODE } from "../util/enums";
 const exec = childProcess.exec;
 
 export async function validateDeploymentRequest(req: any) {
+    if (!req) {
+        return false;
+    }
+
     const dockerWebHook = mapDockerWebHook(req);
     const response = await axios.post(dockerWebHook.callbackUrl, dockerWebHook);
 
