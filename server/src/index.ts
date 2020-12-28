@@ -6,24 +6,8 @@ import * as db from "./dal/db";
 import * as dockerService from "./service/DockerService";
 import * as track from "./service/TrackingService";
 import { STATUS_CODE } from "./util/enums";
-const port = 4000;
 
-// const whitelist = [
-//     "http://localhost",
-//     "https://dg.oatto.com",
-//     "https://goldpricetracking.web.app",
-//     "https://registry.hub.docker.com",
-//     "https://goldpricetracking.firebaseio.com",
-// ];
-// const corsOptions: CorsOptions = {
-//     origin: (origin, callback) => {
-//         if (origin && whitelist.indexOf(origin) !== -1) {
-//             callback(null, true);
-//         } else {
-//             callback(new Error("Not allowed by CORS"));
-//         }
-//     },
-// };
+const port = process.env.API_PORT ?? 4000;
 const jsonParser = bodyParser.json();
 const app = express();
 
