@@ -8,7 +8,7 @@ import {
     LineChart,
     Tooltip,
     XAxis,
-    YAxis
+    YAxis,
 } from "recharts";
 
 function Graph() {
@@ -26,7 +26,7 @@ function Graph() {
             Object.create({
                 buy: element.buy,
                 sell: element.sell,
-                created_at: moment(element.created_at)
+                createdAt: moment(element.createdAt)
                     .tz("Asia/Bangkok")
                     .format("YYYY/MM/DD HH:mm"),
             })
@@ -65,10 +65,14 @@ function Graph() {
             height={window.innerHeight * 0.4}
         >
             <XAxis
-                dataKey="created_at"
+                dataKey="createdAt"
                 tick={{ fontSize: "0.8em", fontFamily }}
             />
-            <YAxis domain={[min, max]} tick={{ fontFamily }} tickFormatter={dataFormater}/>
+            <YAxis
+                domain={[min, max]}
+                tick={{ fontFamily }}
+                tickFormatter={dataFormater}
+            />
             <CartesianGrid strokeDasharray="3 3" />
             <Tooltip wrapperStyle={{ fontFamily }} formatter={dataFormater} />
             <Legend wrapperStyle={{ fontFamily }} />

@@ -49,7 +49,7 @@ function GoldTable() {
         return goldPrices
             .map((x) =>
                 Object.create({
-                    date: moment(x.created_at)
+                    date: moment(x.createdAt)
                         .tz("Asia/Bangkok")
                         .format("YYYY-MM-DD HH:mm"),
                     buy: formatNumber(x.buy),
