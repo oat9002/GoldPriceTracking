@@ -5,7 +5,7 @@ import firebase from "firebase/app";
 import React from "react";
 
 function Filter(props) {
-    const [numOfDay, setNumOfDay] = React.useState(10);
+    const [numOfDay, setNumOfDay] = React.useState(0);
     const analytics = firebase.analytics();
 
     function onChangeHandler(event) {

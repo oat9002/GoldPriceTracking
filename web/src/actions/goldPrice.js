@@ -5,9 +5,9 @@ export const setGoldPrice = (prices) => {
     };
 };
 
-export const setNumberOfRecord = (numOfRec) => {
+export const setNumberOfDay = (numOfDay) => {
     return {
-        numOfRec,
+        numOfDay,
         type: SET_NUMBER_OF_REC,
     };
 };

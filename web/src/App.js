@@ -17,7 +17,7 @@ import { fetchGoldPrices } from "./util/Util";
 function App() {
     const [isLoading, setIsLoading] = React.useState(true);
     const [errorMsg, setErrMsg] = React.useState(null);
-    const numOfRec = useSelector((state) => state.goldPrice.numOfRec);
+    const numOfDay = useSelector((state) => state.goldPrice.numOfDay);
     const dispatch = useDispatch();
     const analytics = firebase.analytics();
 
@@ -29,7 +29,7 @@ function App() {
 
     React.useEffect(() => {
         setIsLoading(true);
-        fetchGoldPrices(numOfRec)
+        fetchGoldPrices(numOfDay)
             .then((goldPrices) => {
                 dispatch(actionCreators.setGoldPrice(goldPrices));
                 setIsLoading(false);
@@ -38,7 +38,7 @@ function App() {
                 setIsLoading(false);
                 setErrMsg("Cannot fetch gold data. Please try again");
             });
-    }, [dispatch, numOfRec]);
+    }, [dispatch, numOfDay]);
 
     return (
         <div className="content">

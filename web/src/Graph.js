@@ -1,4 +1,4 @@
-import moment from "moment-timezone";
+import dayjs from "dayjs";
 import React from "react";
 import { useSelector } from "react-redux";
 import {
@@ -22,15 +22,15 @@ function Graph() {
             return [];
         }
 
-        return rawData.map((element) =>
-            Object.create({
+        return rawData.map((element) => {
+            return {
                 buy: element.buy,
                 sell: element.sell,
-                createdAt: moment(element.createdAt)
-                    .tz("Asia/Bangkok")
-                    .format("YYYY/MM/DD HH:mm"),
-            })
-        );
+                created_at: dayjs(element.created_at).format(
+                    "YYYY/MM/DD HH:mm"
+                ),
+            };
+        });
     }
 
     function getMaxAndMinPrice(rawData) {
