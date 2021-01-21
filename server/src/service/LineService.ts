@@ -1,8 +1,11 @@
 import axios from "axios";
-import moment from "moment-timezone";
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
 import qs from "qs";
 import * as db from "../dal/db";
 import * as utils from "../util/utils";
+
+dayjs.extend(timezone);
 
 const monthName = [
     "ม.ค.",
@@ -46,7 +49,7 @@ export async function pushMessage() {
 }
 
 export function generateMessage(firebaseData: any): string {
-    const date = moment(firebaseData.created_at).tz("Asia/Bangkok");
+    const date = dayjs(firebaseData.created_at);
     let showMinute = "" + date.minute();
     if (date.minute() < 10) {
         showMinute = "0" + date.minute();
