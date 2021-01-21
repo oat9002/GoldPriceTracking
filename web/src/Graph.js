@@ -26,9 +26,7 @@ function Graph() {
             return {
                 buy: element.buy,
                 sell: element.sell,
-                created_at: dayjs(element.created_at).format(
-                    "YYYY/MM/DD HH:mm"
-                ),
+                created_at: dayjs(element.createdAt).format("YYYY/MM/DD HH:mm"),
             };
         });
     }
