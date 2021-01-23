@@ -5,8 +5,6 @@ import * as db from "../dal/db";
 import * as utils from "../util/utils";
 import { isDevelopmentMode } from "./../util/mode";
 
-dayjs.extend(timezone);
-
 const monthName = [
     "ม.ค.",
     "ก.พ.",
