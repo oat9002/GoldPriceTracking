@@ -1,14 +1,11 @@
-import bodyParser from "body-parser";
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import * as db from "./dal/db";
-import * as dockerService from "./service/DockerService";
 import * as track from "./service/TrackingService";
 import { StatusCode } from "./util/enums";
 
 const port = process.env.API_PORT ?? 4000;
-const jsonParser = bodyParser.json();
 const app = express();
 
 app.use(cors());
@@ -57,16 +54,6 @@ app.get("/priceslastday", async (req, res) => {
             res.json(err);
         }
     }
-});
-
-app.post("/dockerDeploy", jsonParser, async (req, res) => {
-    const isValid = await dockerService.validateDeploymentRequest(req.body);
-    if (!isValid) {
-        res.sendStatus(StatusCode.badRequest);
-        return;
-    }
-
-    res.sendStatus(StatusCode.okay);
 });
 
 app.listen(port, () => {
