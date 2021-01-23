@@ -6,12 +6,12 @@ import TableCell from "@material-ui/core/TableCell";
 import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
-import dayjs from "dayjs";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as actionCreators from "./actions/goldPrice";
 import Filter from "./Filter";
 import "./Table.css";
+import dayjs from "./util/Dayjs";
 import { formatNumber } from "./util/Util";
 
 function GoldTable() {

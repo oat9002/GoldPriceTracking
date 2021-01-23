@@ -1,4 +1,3 @@
-import dayjs from "dayjs";
 import React from "react";
 import { useSelector } from "react-redux";
 import {
@@ -10,6 +9,7 @@ import {
     XAxis,
     YAxis,
 } from "recharts";
+import dayjs from "./util/Dayjs";
 
 function Graph() {
     const fontFamily = "Roboto";
