@@ -2,6 +2,7 @@ import axios from "axios";
 import cheerio from "cheerio";
 import cron from "node-cron";
 import * as db from "../dal/db";
+import { isDevelopmentMode } from "../util/mode";
 import * as utils from "../util/utils";
 import * as message from "./LineService";
 
@@ -38,6 +39,10 @@ export async function retrieveAndSavePrice(): Promise<void> {
 }
 
 export function start(): void {
+    if (isDevelopmentMode()) {
+        return;
+    }
+
     cron.schedule("0 * * * *", async () => {
         await retrieveAndSavePrice();
     });

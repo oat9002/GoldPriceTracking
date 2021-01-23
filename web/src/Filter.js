@@ -5,11 +5,11 @@ import firebase from "firebase/app";
 import React from "react";
 
 function Filter(props) {
-    const [numOfRec, setNumOfRec] = React.useState(10);
+    const [numOfDay, setNumOfDay] = React.useState(0);
     const analytics = firebase.analytics();
 
     function onChangeHandler(event) {
-        setNumOfRec(event.target.value);
+        setNumOfDay(event.target.value);
         if (props.setValue) {
             props.setValue(event.target.value);
         }
@@ -20,12 +20,16 @@ function Filter(props) {
     }
 
     return (
-        <Select value={numOfRec} onChange={onChangeHandler}>
-            <MenuItem value={10}>10</MenuItem>
-            <MenuItem value={20}>20</MenuItem>
-            <MenuItem value={50}>50</MenuItem>
-            <MenuItem value={100}>100</MenuItem>
-            <MenuItem value={500}>500</MenuItem>
+        <Select value={numOfDay} onChange={onChangeHandler}>
+            <MenuItem value={0}>Today</MenuItem>
+            <MenuItem value={1}>Last 1 day</MenuItem>
+            <MenuItem value={2}>Last 2 days</MenuItem>
+            <MenuItem value={3}>Last 3 days</MenuItem>
+            <MenuItem value={5}>Last 5 days</MenuItem>
+            <MenuItem value={30}>Last 1 month</MenuItem>
+            <MenuItem value={60}>Last 2 months</MenuItem>
+            <MenuItem value={180}>Last 6 months</MenuItem>
+            <MenuItem value={360}>Last 1 year</MenuItem>
         </Select>
     );
 }

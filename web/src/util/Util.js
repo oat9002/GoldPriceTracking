@@ -1,7 +1,7 @@
 import axios from "./Axios";
 
-export async function fetchGoldPrices(numOfRec) {
-    const response = await axios.get("/prices?number=" + numOfRec);
+export async function fetchGoldPrices(numOfDay) {
+    const response = await axios.get("/priceslastday?days=" + numOfDay);
 
     if (response.status !== httpStatus.ok) {
         console.log("Fetch gold price failed");

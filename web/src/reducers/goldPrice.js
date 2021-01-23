@@ -1,7 +1,7 @@
 import { SET_GOLD_PRICE, SET_NUMBER_OF_REC } from "../actions/goldPrice";
 
 const initialState = {
-    numOfRec: 10,
+    numOfDay: 0,
     prices: [],
 };
 
@@ -16,7 +16,7 @@ const reducer = (state = initialState, action) => {
         case SET_NUMBER_OF_REC:
             return {
                 ...state,
-                numOfRec: action.numOfRec,
+                numOfDay: action.numOfDay,
             };
         default:
             return state;

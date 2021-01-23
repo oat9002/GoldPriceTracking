@@ -1,4 +1,3 @@
-import moment from "moment-timezone";
 import React from "react";
 import { useSelector } from "react-redux";
 import {
@@ -10,6 +9,7 @@ import {
     XAxis,
     YAxis,
 } from "recharts";
+import dayjs from "./util/Dayjs";
 
 function Graph() {
     const fontFamily = "Roboto";
@@ -22,15 +22,13 @@ function Graph() {
             return [];
         }
 
-        return rawData.map((element) =>
-            Object.create({
+        return rawData.map((element) => {
+            return {
                 buy: element.buy,
                 sell: element.sell,
-                createdAt: moment(element.createdAt)
-                    .tz("Asia/Bangkok")
-                    .format("YYYY/MM/DD HH:mm"),
-            })
-        );
+                created_at: dayjs(element.createdAt).format("YYYY/MM/DD HH:mm"),
+            };
+        });
     }
 
     function getMaxAndMinPrice(rawData) {

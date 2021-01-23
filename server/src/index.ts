@@ -1,14 +1,11 @@
-import bodyParser from "body-parser";
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import * as db from "./dal/db";
-import * as dockerService from "./service/DockerService";
 import * as track from "./service/TrackingService";
-import { STATUS_CODE } from "./util/enums";
+import { StatusCode } from "./util/enums";
 
 const port = process.env.API_PORT ?? 4000;
-const jsonParser = bodyParser.json();
 const app = express();
 
 app.use(cors());
@@ -22,51 +19,41 @@ app.get("/prices", async (req, res) => {
         (req.query?.number as string) ?? "-1"
     );
     if (numOfLatestPrice < 0) {
-        res.status(STATUS_CODE.BAD_REQUEST);
+        res.status(StatusCode.badRequest);
         res.send("number must be more than or equal to 0");
     }
 
     try {
         const data = await db.getLatestPrices(numOfLatestPrice);
-        res.status(STATUS_CODE.OKAY);
+        res.status(StatusCode.okay);
         res.json(data);
     } catch (err) {
-        res.status(STATUS_CODE.INTERNAL_SERVER_ERROR);
+        res.status(StatusCode.InternalServerError);
         res.json(err);
     }
 });
 
 app.get("/retrieveAndSavePrice", async (_, res) => {
     await track.retrieveAndSavePrice();
-    res.status(STATUS_CODE.OKAY);
+    res.status(StatusCode.okay);
     res.send("Success");
 });
 
 app.get("/priceslastday", async (req, res) => {
     const days = parseInt((req.query?.days as string) ?? "-1");
     if (days < 0) {
-        res.status(STATUS_CODE.BAD_REQUEST);
+        res.status(StatusCode.badRequest);
         res.send("days must be more than or equal to 0");
     } else {
         try {
             const data = await db.getPricesLastByDay(days);
-            res.status(STATUS_CODE.OKAY);
+            res.status(StatusCode.okay);
             res.json(data);
         } catch (err) {
-            res.status(STATUS_CODE.INTERNAL_SERVER_ERROR);
+            res.status(StatusCode.InternalServerError);
             res.json(err);
         }
     }
-});
-
-app.post("/dockerDeploy", jsonParser, async (req, res) => {
-    const isValid = await dockerService.validateDeploymentRequest(req.body);
-    if (!isValid) {
-        res.sendStatus(STATUS_CODE.BAD_REQUEST);
-        return;
-    }
-
-    res.sendStatus(STATUS_CODE.OKAY);
 });
 
 app.listen(port, () => {

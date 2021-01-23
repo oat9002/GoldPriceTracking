@@ -1,8 +1,9 @@
 import axios from "axios";
-import moment from "moment-timezone";
 import qs from "qs";
 import * as db from "../dal/db";
+import dayjs from "../util/dayjs";
 import * as utils from "../util/utils";
+import { isDevelopmentMode } from "./../util/mode";
 
 const monthName = [
     "ม.ค.",
@@ -46,7 +47,7 @@ export async function pushMessage() {
 }
 
 export function generateMessage(firebaseData: any): string {
-    const date = moment(firebaseData.created_at).tz("Asia/Bangkok");
+    const date = dayjs(firebaseData.created_at);
     let showMinute = "" + date.minute();
     if (date.minute() < 10) {
         showMinute = "0" + date.minute();
@@ -106,7 +107,7 @@ export async function lineNotify(
     token: string | undefined,
     message: string
 ): Promise<void> {
-    if (!token) {
+    if (!token || isDevelopmentMode()) {
         return;
     }
 

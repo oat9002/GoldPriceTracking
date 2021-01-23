@@ -1,6 +1,7 @@
 import admin from "firebase-admin";
 import * as serviceAccount from "../../config/goldpricetracking-firebase-adminsdk-718s5-85e720333f.json";
 import { User } from "../models/User";
+import dayjs from "../util/dayjs";
 import * as utils from "../util/utils";
 import { mapPriceFromDb, Price } from "./../models/Price";
 
@@ -36,7 +37,7 @@ export async function addPrice(buy: number, sell: number): Promise<void> {
             sell: sell,
             buyDifferent: buy - latestPrice.buy,
             sellDifferent: sell - latestPrice.sell,
-            created_at: new Date().getTime(),
+            created_at: dayjs().valueOf(),
         });
     } catch (err) {
         utils.log(err.message + "\n" + err.stack);
@@ -137,14 +138,17 @@ export async function getLatestPrices(number: number): Promise<Price[]> {
 }
 
 export async function getPricesLastByDay(days: number) {
-    const now = new Date();
-    const end = now.getTime();
+    const now = dayjs();
+    const end = now.valueOf();
+    const start = now
+        .hour(0)
+        .millisecond(0)
+        .second(0)
+        .millisecond(0)
+        .subtract(days, "day")
+        .valueOf();
     let idx = 0;
 
-    now.setHours(0, 0, 0, 0);
-    now.setDate(now.getDate() - days);
-
-    const start = now.getTime();
     try {
         const snapshot = await db
             .ref("price")
