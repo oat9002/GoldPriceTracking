@@ -1,14 +1,19 @@
-export const STATUS_CODE = {
-    BAD_REQUEST: 400,
-    OKAY: 200,
-    INTERNAL_SERVER_ERROR: 500,
-};
+export enum StatusCode {
+    badRequest = 400,
+    okay = 200,
+    InternalServerError = 500,
+}
 
-export const LOG_LEVEL = {
-    TRACE: "trace",
-    DEBUG: "debug",
-    INFO: "info",
-    WARN: "warn",
-    ERROR: "error",
-    FATAL: "fatal",
-};
+export enum LogLevel {
+    trace = "trace",
+    debug = "debug",
+    info = "info",
+    warn = "warn",
+    error = "error",
+    fatal = "fatal",
+}
+
+export enum Mode {
+    development = "development",
+    production = "production",
+}

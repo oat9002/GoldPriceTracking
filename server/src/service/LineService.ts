@@ -1,9 +1,9 @@
 import axios from "axios";
 import dayjs from "dayjs";
-import timezone from "dayjs/plugin/timezone";
 import qs from "qs";
 import * as db from "../dal/db";
 import * as utils from "../util/utils";
+import { isDevelopmentMode } from "./../util/mode";
 
 dayjs.extend(timezone);
 
@@ -109,7 +109,7 @@ export async function lineNotify(
     token: string | undefined,
     message: string
 ): Promise<void> {
-    if (!token) {
+    if (!token || isDevelopmentMode()) {
         return;
     }
 

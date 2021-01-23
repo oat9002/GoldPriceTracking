@@ -1,4 +1,4 @@
-import * as enums from "./enums";
+import { LogLevel } from "./enums";
 import tracer = require("tracer");
 
 const logger = tracer.dailyfile({
@@ -17,22 +17,22 @@ export function log(
     const execute = (log: any) => (err ? log(msg, err.message) : log(msg));
 
     switch (logLevel) {
-        case enums.LOG_LEVEL.TRACE:
+        case LogLevel.trace:
             execute(logger.trace);
             break;
-        case enums.LOG_LEVEL.DEBUG:
+        case LogLevel.debug:
             execute(logger.debug);
             break;
-        case enums.LOG_LEVEL.WARN:
+        case LogLevel.warn:
             execute(logger.warn);
             break;
-        case enums.LOG_LEVEL.ERROR:
+        case LogLevel.error:
             execute(logger.error);
             break;
-        case enums.LOG_LEVEL.FATAL:
+        case LogLevel.fatal:
             execute(logger.fatal);
             break;
-        case enums.LOG_LEVEL.INFO:
+        case LogLevel.info:
         default:
             execute(logger.info);
     }
