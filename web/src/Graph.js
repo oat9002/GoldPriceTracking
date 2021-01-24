@@ -18,15 +18,14 @@ function Graph() {
     const [height, setHeight] = React.useState(calculateHeight());
     const graphData = getGraphData(prices);
     const { min, max } = getMaxAndMinPrice(prices);
+    const windowsResizeHandler = React.useCallback(() => {
+        setWidth(calculateWidth());
+        setHeight(calculateHeight());
+    }, []);
 
     React.useEffect(() => {
         window.addEventListener("resize", windowsResizeHandler);
-    });
-
-    function windowsResizeHandler() {
-        setWidth(calculateWidth());
-        setHeight(calculateHeight());
-    }
+    }, [windowsResizeHandler]);
 
     function calculateHeight() {
         return window.innerHeight * 0.4;
