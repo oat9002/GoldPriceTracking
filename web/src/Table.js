@@ -69,6 +69,28 @@ function GoldTable() {
         setPage(0);
     }
 
+    function renderTableContent() {
+        if (rows.length === 0) {
+            return (
+                <TableRow>
+                    <TableCell align="center"></TableCell>
+                    <TableCell align="center">No data</TableCell>
+                    <TableCell align="center"></TableCell>
+                </TableRow>
+            );
+        }
+
+        return rows
+            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            .map((row, idx) => (
+                <TableRow key={idx}>
+                    <TableCell align="center">{row.date}</TableCell>
+                    <TableCell align="center">{row.buy}</TableCell>
+                    <TableCell align="center">{row.sell}</TableCell>
+                </TableRow>
+            ));
+    }
+
     return (
         <div className="table" ref={tableRef}>
             <div className="filter">
@@ -89,26 +111,7 @@ function GoldTable() {
                             </StyledTableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
-                        {rows
-                            .slice(
-                                page * rowsPerPage,
-                                page * rowsPerPage + rowsPerPage
-                            )
-                            .map((row, idx) => (
-                                <TableRow key={idx}>
-                                    <TableCell align="center">
-                                        {row.date}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {row.buy}
-                                    </TableCell>
-                                    <TableCell align="center">
-                                        {row.sell}
-                                    </TableCell>
-                                </TableRow>
-                            ))}
-                    </TableBody>
+                    <TableBody>{renderTableContent()}</TableBody>
                 </Table>
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 50]}

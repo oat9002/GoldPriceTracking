@@ -1,9 +1,6 @@
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import TableChart from "@material-ui/icons/TableChart";
 import "firebase/analytics";
 import firebase from "firebase/app";
+import Header from "Header";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as actionCreators from "./actions/goldPrice";
@@ -22,9 +19,13 @@ function App() {
     const analytics = firebase.analytics();
 
     React.useEffect(() => {
-        analytics.logEvent(firebase.analytics.EventName.SCREEN_VIEW, {
-            screen_name: "Home",
-        });
+        analytics.logEvent(
+            firebase.analytics.EventName.SCREEN_VIEW.toString(),
+            {
+                screen_name: "Home",
+            },
+            null
+        );
     }, [analytics]);
 
     React.useEffect(() => {
@@ -43,14 +44,7 @@ function App() {
     return (
         <div className="content">
             {isLoading ? <Loading /> : null}
-            <AppBar position="static" color="primary">
-                <Toolbar>
-                    <Typography variant="h4">History</Typography>
-                    <span className="titleIcon">
-                        <TableChart fontSize="large" />
-                    </span>
-                </Toolbar>
-            </AppBar>
+            <Header />
             <div className="graph">
                 <Graph />
             </div>

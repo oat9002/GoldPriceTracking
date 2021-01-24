@@ -14,7 +14,7 @@
         "@material-ui/lab": "^4.0.0-alpha.56",
         "axios": "^0.21.1",
         "dayjs": "^1.10.3",
-        "firebase": "^7.21.1",
+        "firebase": "^8.2.4",
         "prop-types": "^15.7.2",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",

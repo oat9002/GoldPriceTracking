@@ -14,21 +14,43 @@ import dayjs from "./util/Dayjs";
 function Graph() {
     const fontFamily = "Roboto";
     const prices = useSelector((state) => state.goldPrice.prices);
+    const [width, setWidth] = React.useState(calculateWidth());
+    const [height, setHeight] = React.useState(calculateHeight());
     const graphData = getGraphData(prices);
     const { min, max } = getMaxAndMinPrice(prices);
+    const windowsResizeHandler = React.useCallback(() => {
+        setWidth(calculateWidth());
+        setHeight(calculateHeight());
+    }, []);
+
+    React.useEffect(() => {
+        window.addEventListener("resize", windowsResizeHandler);
+    }, [windowsResizeHandler]);
+
+    function calculateHeight() {
+        return window.innerHeight * 0.4;
+    }
+
+    function calculateWidth() {
+        return window.innerWidth * 0.97;
+    }
 
     function getGraphData(rawData) {
         if (rawData === null || rawData.length === 0) {
             return [];
         }
 
-        return rawData.map((element) => {
-            return {
-                buy: element.buy,
-                sell: element.sell,
-                createdAt: dayjs(element.createdAt).format("YYYY/MM/DD HH:mm"),
-            };
-        });
+        return rawData
+            .map((element) => {
+                return {
+                    buy: element.buy,
+                    sell: element.sell,
+                    createdAt: dayjs(element.createdAt).format(
+                        "YYYY/MM/DD HH:mm"
+                    ),
+                };
+            })
+            .reverse();
     }
 
     function getMaxAndMinPrice(rawData) {
@@ -36,6 +58,10 @@ function Graph() {
             min: 0,
             max: 0,
         };
+
+        if (rawData === null || rawData.length === 0) {
+            return price;
+        }
 
         rawData.forEach((element, idx) => {
             if (idx === 0) {
@@ -57,11 +83,7 @@ function Graph() {
     const dataFormater = (value) => Intl.NumberFormat("en").format(value);
 
     return (
-        <LineChart
-            data={graphData}
-            width={window.innerWidth * 0.97}
-            height={window.innerHeight * 0.4}
-        >
+        <LineChart data={graphData} width={width} height={height}>
             <XAxis
                 dataKey="createdAt"
                 tick={{ fontSize: "0.8em", fontFamily }}
