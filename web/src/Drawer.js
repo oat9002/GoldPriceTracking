@@ -27,6 +27,11 @@ export default function TemporaryDrawer(props) {
         onCloseHandler();
     };
 
+    const donateOnClick = () => {
+        setOpen(false);
+        onCloseHandler();
+    };
+
     React.useEffect(() => {
         setOpen(props.open);
     }, [props.open]);
@@ -45,7 +50,7 @@ export default function TemporaryDrawer(props) {
                     </ListItemIcon>
                     <ListItemText primary="Github" />
                 </ListItem>
-                <ListItem button>
+                <ListItem button onClick={donateOnClick}>
                     <ListItemIcon>
                         <MonetizationOnIcon />
                     </ListItemIcon>
