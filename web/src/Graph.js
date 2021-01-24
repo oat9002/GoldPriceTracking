@@ -37,6 +37,10 @@ function Graph() {
             max: 0,
         };
 
+        if (rawData === null || rawData.length === 0) {
+            return price;
+        }
+
         rawData.forEach((element, idx) => {
             if (idx === 0) {
                 price.min = element.buy;

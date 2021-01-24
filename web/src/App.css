@@ -1,35 +1,25 @@
 .content {
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  animation: fadein 1s;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    animation: fadein 1s;
 }
 
 body {
-  margin: 0;
-}
-
-.title {
-  margin-left: 4%;
-  margin-top: 1%;
-  width: 90vw;
-  text-align: center;
-  font-size: 4em;
-  font-family: Roboto;
-}
-
-.titleIcon {
-  margin-left: 4px;
+    margin: 0;
 }
 
 .graph {
-  position: relative;
-  width: 90vw;  
-  margin-top: 3%;
+    position: relative;
+    width: 90vw;
+    margin-top: 3%;
 }
 
 @keyframes fadein {
-  from { opacity: 0; };
-  to   { opacity: 1; };
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
-
