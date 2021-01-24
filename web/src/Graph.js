@@ -14,8 +14,27 @@ import dayjs from "./util/Dayjs";
 function Graph() {
     const fontFamily = "Roboto";
     const prices = useSelector((state) => state.goldPrice.prices);
+    const [width, setWidth] = React.useState(calculateWidth());
+    const [height, setHeight] = React.useState(calculateHeight());
     const graphData = getGraphData(prices);
     const { min, max } = getMaxAndMinPrice(prices);
+
+    React.useEffect(() => {
+        window.addEventListener("resize", windowsResizeHandler);
+    });
+
+    function windowsResizeHandler() {
+        setWidth(calculateWidth());
+        setHeight(calculateHeight());
+    }
+
+    function calculateHeight() {
+        return window.innerHeight * 0.4;
+    }
+
+    function calculateWidth() {
+        return window.innerWidth * 0.97;
+    }
 
     function getGraphData(rawData) {
         if (rawData === null || rawData.length === 0) {
@@ -65,11 +84,7 @@ function Graph() {
     const dataFormater = (value) => Intl.NumberFormat("en").format(value);
 
     return (
-        <LineChart
-            data={graphData}
-            width={window.innerWidth * 0.97}
-            height={window.innerHeight * 0.4}
-        >
+        <LineChart data={graphData} width={width} height={height}>
             <XAxis
                 dataKey="createdAt"
                 tick={{ fontSize: "0.8em", fontFamily }}
