@@ -22,13 +22,17 @@ function Graph() {
             return [];
         }
 
-        return rawData.map((element) => {
-            return {
-                buy: element.buy,
-                sell: element.sell,
-                createdAt: dayjs(element.createdAt).format("YYYY/MM/DD HH:mm"),
-            };
-        });
+        return rawData
+            .map((element) => {
+                return {
+                    buy: element.buy,
+                    sell: element.sell,
+                    createdAt: dayjs(element.createdAt).format(
+                        "YYYY/MM/DD HH:mm"
+                    ),
+                };
+            })
+            .reverse();
     }
 
     function getMaxAndMinPrice(rawData) {

@@ -5,6 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import { TableChart } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import React from "react";
+import TemporaryDrawer from "./Drawer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -17,6 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Header() {
+    const [openDrawer, setOpenDrawer] = React.useState(false);
     const classes = useStyles();
 
     return (
@@ -27,11 +29,18 @@ function Header() {
                     <div className={classes.title}>
                         <TableChart fontSize="large" />
                     </div>
-                    <IconButton color="inherit">
+                    <IconButton
+                        color="inherit"
+                        onClick={() => setOpenDrawer(true)}
+                    >
                         <MenuIcon />
                     </IconButton>
                 </Toolbar>
             </AppBar>
+            <TemporaryDrawer
+                open={openDrawer}
+                onClose={() => setOpenDrawer(false)}
+            />
         </div>
     );
 }
