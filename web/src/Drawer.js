@@ -4,13 +4,13 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
-import MailIcon from "@material-ui/icons/Mail";
-import InboxIcon from "@material-ui/icons/MoveToInbox";
+import GitHub from "@material-ui/icons/GitHub";
+import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import React from "react";
 
 const useStyles = makeStyles({
     list: {
-        width: 250,
+        width: 300,
     },
 });
 
@@ -20,6 +20,11 @@ export default function TemporaryDrawer(props) {
     const onCloseHandler = () => {
         setOpen(false);
         props.onClose();
+    };
+    const githubOnClick = () => {
+        window.open("https://github.com/oat9002/GoldPriceTracking", "_blank");
+        setOpen(false);
+        onCloseHandler();
     };
 
     React.useEffect(() => {
@@ -34,16 +39,18 @@ export default function TemporaryDrawer(props) {
             onKeyDown={() => setOpen(false)}
         >
             <List>
-                {["Inbox", "Starred", "Send email", "Drafts"].map(
-                    (text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    )
-                )}
+                <ListItem button onClick={githubOnClick}>
+                    <ListItemIcon>
+                        <GitHub />
+                    </ListItemIcon>
+                    <ListItemText primary="Github" />
+                </ListItem>
+                <ListItem button>
+                    <ListItemIcon>
+                        <MonetizationOnIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Donate (comming soon)" />
+                </ListItem>
             </List>
         </div>
     );
