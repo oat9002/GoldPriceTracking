@@ -45,9 +45,9 @@ function Graph() {
                 return {
                     buy: element.buy,
                     sell: element.sell,
-                    createdAt: dayjs(element.createdAt).format(
-                        "YYYY/MM/DD HH:mm"
-                    ),
+                    createdAt: dayjs
+                        .tz(element.createdAt)
+                        .format("YYYY/MM/DD HH:mm"),
                 };
             })
             .reverse();

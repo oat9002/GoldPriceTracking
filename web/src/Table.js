@@ -48,7 +48,7 @@ function GoldTable() {
 
         return goldPrices.map((x) => {
             return {
-                date: dayjs(x.createdAt).format("YYYY-MM-DD HH:mm"),
+                date: dayjs.tz(x.createdAt).format("YYYY-MM-DD HH:mm"),
                 buy: formatNumber(x.buy),
                 sell: formatNumber(x.sell),
             };
