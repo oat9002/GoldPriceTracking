@@ -1,0 +1,1 @@
+# Gold price tracking server
