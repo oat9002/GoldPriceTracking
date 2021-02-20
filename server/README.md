@@ -1,6 +1,7 @@
 # Gold price tracking server
- 
-- You can run by using `docker-compose`
+
+-   You can run by using `docker-compose`
+
 ```yaml
 version: "3.3"
 services:
@@ -14,11 +15,12 @@ services:
             - .env
 ```
 
-- Using `.sample.env` to create `.env`
+-   Using `.sample.env` to create `.env`
 
 ```
 NOTIFY_GOLD_PRICE_TRACKING="token"
 FIREBASE_DATABASE_URL="databaseURL"
+MACKEREL_API_KEY="apikey" # optional, only if you need to call mackerel service
 API_PORT=4000
 MODE="development"
 ```

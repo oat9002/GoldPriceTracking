@@ -2,6 +2,7 @@ import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import * as db from "./dal/db";
+import * as mackerel from "./service/MackerelServie";
 import * as track from "./service/TrackingService";
 import { StatusCode } from "./util/enums";
 
@@ -61,3 +62,4 @@ app.listen(port, () => {
 });
 
 track.start();
+mackerel.intervalDoHealthCheck();

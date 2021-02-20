@@ -11,7 +11,7 @@ const logger = tracer.dailyfile({
 
 export function log(
     msg: string,
-    logLevel = "info",
+    logLevel: LogLevel = LogLevel.info,
     err: Error | null = null
 ): void {
     const execute = (log: any) => (err ? log(msg, err.message) : log(msg));
