@@ -1,5 +1,8 @@
 # Use the official image as a parent image.
-FROM node:current-slim
+FROM node:15-alpine
+
+# Install curl
+RUN apk --no-cache add curl
 
 # Set the working directory.
 WORKDIR /usr/src/app
