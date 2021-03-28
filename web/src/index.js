@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { applyMiddleware, combineReducers, compose, createStore } from "redux";
 import thunk from "redux-thunk";
 import App from "./App";
+import "./index.css";
 import goldPrice from "./reducers/goldPrice";
 import registerServiceWorker from "./registerServiceWorker";
 
