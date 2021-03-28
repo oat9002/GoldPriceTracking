@@ -1,3 +1,4 @@
+import Donation from "Donation";
 import "firebase/analytics";
 import firebase from "firebase/app";
 import Header from "Header";
@@ -51,6 +52,7 @@ function App() {
             <div className="Table">
                 <GoldTable />
             </div>
+            <Donation />
             {errorMsg ? (
                 <Notification
                     text={errorMsg}
