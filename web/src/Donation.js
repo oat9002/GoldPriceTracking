@@ -22,7 +22,7 @@ function Donation() {
         document.getElementById("omise").appendChild(script);
 
         return () => {
-            document.body.removeChild(script);
+            document.getElementById("omise").removeChild(script);
         };
     }, []);
 

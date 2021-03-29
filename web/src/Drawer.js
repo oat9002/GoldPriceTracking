@@ -7,6 +7,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import GitHub from "@material-ui/icons/GitHub";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import React from "react";
+import { withRouter } from "react-router-dom";
 
 const useStyles = makeStyles({
     list: {
@@ -14,7 +15,7 @@ const useStyles = makeStyles({
     },
 });
 
-export default function TemporaryDrawer(props) {
+function TemporaryDrawer(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const onCloseHandler = () => {
@@ -28,6 +29,7 @@ export default function TemporaryDrawer(props) {
     };
 
     const donateOnClick = () => {
+        props.history.replace("/donate");
         setOpen(false);
         onCloseHandler();
     };
@@ -54,7 +56,7 @@ export default function TemporaryDrawer(props) {
                     <ListItemIcon>
                         <MonetizationOnIcon />
                     </ListItemIcon>
-                    <ListItemText primary="Donate (comming soon)" />
+                    <ListItemText primary="Donate" />
                 </ListItem>
             </List>
         </div>
@@ -66,3 +68,5 @@ export default function TemporaryDrawer(props) {
         </Drawer>
     );
 }
+
+export default withRouter(TemporaryDrawer);
