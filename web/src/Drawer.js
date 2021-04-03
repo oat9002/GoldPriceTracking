@@ -4,6 +4,7 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
+import { HomeRounded } from "@material-ui/icons";
 import GitHub from "@material-ui/icons/GitHub";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import React from "react";
@@ -22,16 +23,30 @@ function TemporaryDrawer(props) {
         setOpen(false);
         props.onClose();
     };
-    const githubOnClick = () => {
-        window.open("https://github.com/oat9002/GoldPriceTracking", "_blank");
+    const onMenuClickHandler = (action) => {
+        action();
         setOpen(false);
         onCloseHandler();
     };
+    const githubOnClick = () => {
+        onMenuClickHandler(() => {
+            window.open(
+                "https://github.com/oat9002/GoldPriceTracking",
+                "_blank"
+            );
+        });
+    };
 
     const donateOnClick = () => {
-        props.history.replace("/donate");
-        setOpen(false);
-        onCloseHandler();
+        onMenuClickHandler(() => {
+            props.history.push("/donate");
+        });
+    };
+
+    const homeOnClick = () => {
+        onMenuClickHandler(() => {
+            props.history.push("/");
+        });
     };
 
     React.useEffect(() => {
@@ -46,6 +61,12 @@ function TemporaryDrawer(props) {
             onKeyDown={() => setOpen(false)}
         >
             <List>
+                <ListItem button onClick={homeOnClick}>
+                    <ListItemIcon>
+                        <HomeRounded />
+                    </ListItemIcon>
+                    <ListItemText primary="Home" />
+                </ListItem>
                 <ListItem button onClick={githubOnClick}>
                     <ListItemIcon>
                         <GitHub />
