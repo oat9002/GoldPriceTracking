@@ -18,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
     },
     paper: {
         position: "relative",
-        margin: theme.spacing(50),
+        marginLeft: theme.spacing(5),
+        marginRight: theme.spacing(5),
         marginTop: theme.spacing(5),
         padding: theme.spacing(5),
         textAlign: "right",
