@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 const OperateBy = styled.span``;
 
 function Donation() {
-    const [amount, setAmount] = React.useState("20");
+    const [amount, setAmount] = React.useState("100");
     const [isAmountError, setIsAmountError] = React.useState(false);
     const classes = useStyles();
     const onAmountChangeHandler = (event) => {
@@ -60,6 +60,7 @@ function Donation() {
             amount: amount * 100,
             currency: "THB",
             defaultPaymentMethod: "credit_card",
+            otherPaymentMethods: "internet_banking,truemoney,rabbit_linepay",
             onCreateTokenSuccess: (nonce) => {
                 if (nonce.startsWith("tokn_")) {
                     // @ts-ignore
