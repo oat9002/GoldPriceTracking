@@ -57,7 +57,7 @@ function Donation(props) {
         // @ts-ignore
         // eslint-disable-next-line no-undef
         OmiseCard.configure({
-            publicKey: "pkey_test_5l9ewesw6om0qxdj448",
+            publicKey: process.env.REACT_APP_OMISE_PUBLIC_KEY,
         });
         // @ts-ignore
         // eslint-disable-next-line no-undef

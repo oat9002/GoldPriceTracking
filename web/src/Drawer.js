@@ -9,6 +9,7 @@ import GitHub from "@material-ui/icons/GitHub";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import React from "react";
 import { withRouter } from "react-router-dom";
+import { isDonateEnable } from "util/Util";
 
 const useStyles = makeStyles({
     list: {
@@ -73,12 +74,14 @@ function TemporaryDrawer(props) {
                     </ListItemIcon>
                     <ListItemText primary="Github" />
                 </ListItem>
-                <ListItem button onClick={donateOnClick}>
-                    <ListItemIcon>
-                        <MonetizationOnIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Donate" />
-                </ListItem>
+                {isDonateEnable() ? (
+                    <ListItem button onClick={donateOnClick}>
+                        <ListItemIcon>
+                            <MonetizationOnIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Donate" />
+                    </ListItem>
+                ) : null}
             </List>
         </div>
     );

@@ -3,6 +3,7 @@ import Home from "Home";
 import Layout from "Layout";
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { isDonateEnable } from "util/Util";
 
 function App() {
     return (
@@ -10,10 +11,14 @@ function App() {
             <Layout>
                 <Switch>
                     <Route path="/" exact component={Home} />
-                    <Route path="/donate/complete">
-                        <Donation complete={true} />
-                    </Route>
-                    <Route path="/donate" component={Donation} />
+                    {isDonateEnable() ? (
+                        <>
+                            <Route path="/donate/complete">
+                                <Donation complete={true} />
+                            </Route>
+                            <Route path="/donate" component={Donation} />
+                        </>
+                    ) : null}
                 </Switch>
             </Layout>
         </Router>
