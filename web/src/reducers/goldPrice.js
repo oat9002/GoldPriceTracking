@@ -1,15 +1,16 @@
 import {
-    SET_ERR_MESSAGE,
+    SET_ERROR_NOTIFICATION,
     SET_GOLD_PRICE,
     SET_IS_LOADING,
     SET_NUMBER_OF_REC,
+    SET_SUCCESS_NOTIFICATION,
 } from "../actions/goldPrice";
 
 const initialState = {
     numOfDay: 0,
     prices: [],
     isLoading: false,
-    errMsg: null,
+    notification: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -30,10 +31,11 @@ const reducer = (state = initialState, action) => {
                 ...state,
                 isLoading: action.isLoading,
             };
-        case SET_ERR_MESSAGE:
+        case SET_SUCCESS_NOTIFICATION:
+        case SET_ERROR_NOTIFICATION:
             return {
                 ...state,
-                errMsg: action.errMsg,
+                notification: action.notification,
             };
         default:
             return state;

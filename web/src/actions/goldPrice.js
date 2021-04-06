@@ -1,3 +1,5 @@
+import { notificationSeverity } from "util/Util";
+
 export const setGoldPrice = (prices) => {
     return {
         prices,
@@ -19,14 +21,28 @@ export const setIsLoading = (isLoading) => {
     };
 };
 
-export const setErrMessage = (errMsg) => {
+export const setErrorNotification = (message) => {
     return {
-        errMsg,
-        type: SET_ERR_MESSAGE,
+        notification: {
+            message,
+            severity: notificationSeverity.error,
+        },
+        type: SET_ERROR_NOTIFICATION,
+    };
+};
+
+export const setSuccessNotification = (message) => {
+    return {
+        notification: {
+            message,
+            severity: notificationSeverity.success,
+        },
+        type: SET_SUCCESS_NOTIFICATION,
     };
 };
 
 export const SET_GOLD_PRICE = "SET_GOLD_PRICE";
 export const SET_NUMBER_OF_REC = "SET_NUMBER_OF_RECS";
 export const SET_IS_LOADING = "SET_IS_LOADING";
-export const SET_ERR_MESSAGE = "SET_ERR_MESSAGE";
+export const SET_SUCCESS_NOTIFICATION = "SET_SUCCESS_NOTIFICATION";
+export const SET_ERROR_NOTIFICATION = "SET_ERROR_NOTIFICATION";

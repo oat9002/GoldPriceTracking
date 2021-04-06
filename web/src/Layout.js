@@ -26,15 +26,19 @@ function Layout(props) {
     // @ts-ignore
     const isLoading = useSelector((state) => state.goldPrice.isLoading);
     // @ts-ignore
-    const errMsg = useSelector((state) => state.goldPrice.errMsg);
+    const notification = useSelector((state) => state.goldPrice.notification);
 
     return (
         <Content>
             {isLoading ? <Loading /> : null}
             <Header />
             {props.children}
-            {errMsg ? (
-                <Notification text={errMsg} severity="error" variant="filled" />
+            {notification ? (
+                <Notification
+                    text={notification.message}
+                    severity={notification.severity}
+                    variant="filled"
+                />
             ) : null}
         </Content>
     );

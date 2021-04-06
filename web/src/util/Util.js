@@ -20,3 +20,8 @@ export const httpStatus = {
     internalServerError: 500,
     badRequest: 400,
 };
+
+export const notificationSeverity = {
+    error: "error",
+    success: "success",
+};

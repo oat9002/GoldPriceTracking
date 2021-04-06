@@ -43,7 +43,7 @@ function Home() {
             .catch(() => {
                 dispatch(actionCreators.setIsLoading(false));
                 dispatch(
-                    actionCreators.setErrMessage(
+                    actionCreators.setErrorNotification(
                         "Cannot fetch gold data. Please try again"
                     )
                 );

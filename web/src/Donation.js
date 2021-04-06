@@ -9,8 +9,10 @@ import {
     Paper,
     Typography,
 } from "@material-ui/core";
+import axios from "axios";
 import React from "react";
-import styled from "styled-components";
+import { useDispatch } from "react-redux";
+import * as actionCreators from "./actions/goldPrice";
 
 const useStyles = makeStyles((theme) => ({
     margin: {
@@ -32,21 +34,24 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-const OperateBy = styled.span``;
-
 function Donation() {
     const [amount, setAmount] = React.useState("100");
     const [isAmountError, setIsAmountError] = React.useState(false);
+    const dispatch = useDispatch();
     const classes = useStyles();
     const onAmountChangeHandler = (event) => {
         const value = event.target.value;
 
         setAmount(value);
-        setIsAmountError(Number.isNaN(+value) ? true : false);
+        setIsAmountError(Number.isNaN(+value) || +value < 20 ? true : false);
     };
     const onDonateClickHandler = (event) => {
         event.preventDefault();
-        const form = document.querySelector("#omise");
+        const token = {
+            omiseToken: null,
+            omiseSource: null,
+        };
+        const realAmount = +amount * 100;
 
         // @ts-ignore
         // eslint-disable-next-line no-undef
@@ -57,21 +62,40 @@ function Donation() {
         // eslint-disable-next-line no-undef
         OmiseCard.open({
             // @ts-ignore
-            amount: amount * 100,
+            amount: realAmount,
             currency: "THB",
             defaultPaymentMethod: "credit_card",
             otherPaymentMethods: "internet_banking,truemoney,rabbit_linepay",
             onCreateTokenSuccess: (nonce) => {
                 if (nonce.startsWith("tokn_")) {
-                    // @ts-ignore
-                    form.omiseToken.value = nonce;
+                    token.omiseToken = nonce;
                 } else {
-                    // @ts-ignore
-                    form.omiseSource.value = nonce;
+                    token.omiseSource = nonce;
                 }
 
-                // @ts-ignore
-                form.submit();
+                dispatch(actionCreators.setIsLoading(true));
+
+                axios
+                    .post("http://localhost:4000/donate", {
+                        description: "Donate for gold price tracking",
+                        amount: realAmount,
+                        currency: "THB",
+                        token,
+                    })
+                    .then(() => {
+                        dispatch(actionCreators.setIsLoading(false));
+                        dispatch(
+                            actionCreators.setSuccessNotification(
+                                "Donate complete"
+                            )
+                        );
+                    })
+                    .catch(() => {
+                        dispatch(actionCreators.setIsLoading(false));
+                        dispatch(
+                            actionCreators.setErrorNotification("Donate failed")
+                        );
+                    });
             },
         });
     };
@@ -86,18 +110,15 @@ function Donation() {
 
         return () => {
             document.getElementById("omise").removeChild(script);
+            document.body.removeChild(
+                document.getElementById("omise-checkout-iframe-app")
+            );
         };
     }, []);
 
     return (
         <Paper variant="outlined" className={classes.paper}>
-            <form
-                id="omise"
-                method="POST"
-                action="http://localhost:4000/donate"
-            >
-                <input type="hidden" name="omiseToken" />
-                <input type="hidden" name="omiseSource" />
+            <form id="omise">
                 <FormControl
                     fullWidth
                     className={classes.margin}
@@ -117,7 +138,8 @@ function Donation() {
                     />
                     {isAmountError ? (
                         <FormHelperText id="component-error-text">
-                            Please fill in only number
+                            Please fill in only number and must be greater than
+                            or equal to 20
                         </FormHelperText>
                     ) : null}
                 </FormControl>
