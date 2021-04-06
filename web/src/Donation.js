@@ -9,10 +9,11 @@ import {
     Paper,
     Typography,
 } from "@material-ui/core";
-import axios from "axios";
+import PropTypes from "prop-types";
 import React from "react";
 import { useDispatch } from "react-redux";
 import * as actionCreators from "./actions/goldPrice";
+import axios from "./util/Axios";
 
 const useStyles = makeStyles((theme) => ({
     margin: {
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Donation() {
+function Donation(props) {
     const [amount, setAmount] = React.useState("100");
     const [isAmountError, setIsAmountError] = React.useState(false);
     const dispatch = useDispatch();
@@ -76,7 +77,7 @@ function Donation() {
                 dispatch(actionCreators.setIsLoading(true));
 
                 axios
-                    .post("http://localhost:4000/donate", {
+                    .post("/donate", {
                         description: "Donate for gold price tracking",
                         amount: realAmount,
                         currency: "THB",
@@ -108,13 +109,17 @@ function Donation() {
 
         document.getElementById("omise").appendChild(script);
 
+        if (props.complete) {
+            dispatch(actionCreators.setSuccessNotification("Donate complete"));
+        }
+
         return () => {
             document.getElementById("omise").removeChild(script);
             document.body.removeChild(
                 document.getElementById("omise-checkout-iframe-app")
             );
         };
-    }, []);
+    }, [dispatch, props.complete]);
 
     return (
         <Paper variant="outlined" className={classes.paper}>
@@ -159,5 +164,9 @@ function Donation() {
         </Paper>
     );
 }
+
+Donation.propTypes = {
+    complete: PropTypes.bool,
+};
 
 export default Donation;

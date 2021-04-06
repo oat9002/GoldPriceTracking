@@ -1,5 +1,6 @@
 import omiseSdk from "omise";
-import { OmiseToken } from "./../models/OmiseToken";
+import { OmiseToken } from "../models/payment/OmiseToken";
+import { OmiseChargeResponse } from "./../models/payment/OmiseChargeResponse";
 
 const omise = omiseSdk({
     secretKey: process.env?.OMISE_SECRET_KEY ?? "",
@@ -10,17 +11,27 @@ export async function charge(
     description: string,
     amount: number,
     currency: string,
-    omiseToken: OmiseToken
-) {
+    token: OmiseToken
+): Promise<OmiseChargeResponse> {
+    const returnUrl = process.env?.WEBSITE_URL + "donate/complete";
     const res = await omise.charges.create({
         description,
         currency,
         amount,
-        card: omiseToken.token,
-        source: omiseToken.source,
+        card: token.omiseToken,
+        source: token.omiseSource,
+        return_uri: returnUrl,
     });
 
-    if (!res.paid) {
-        throw res.failure_code;
-    }
+    return {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        status: res.status as string,
+        returnUrl,
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        authorizeUrl: res.authorize_uri as string,
+        failureCode: res.failure_code,
+        failureMessage: res.failure_message,
+    };
 }

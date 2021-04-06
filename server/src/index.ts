@@ -63,9 +63,14 @@ app.post("/donate", async (req, res) => {
     const { description, amount, currency, token } = req.body;
 
     try {
-        await payment.charge(description, amount, currency, token);
+        const result = await payment.charge(
+            description,
+            amount,
+            currency,
+            token
+        );
         res.status(StatusCode.okay);
-        res.send("success");
+        res.json(result);
     } catch (err) {
         res.status(StatusCode.InternalServerError);
         res.json(err);
