@@ -83,13 +83,27 @@ function Donation(props) {
                         currency: "THB",
                         token,
                     })
-                    .then(() => {
+                    .then((res) => {
                         dispatch(actionCreators.setIsLoading(false));
-                        dispatch(
-                            actionCreators.setSuccessNotification(
-                                "Donate complete"
-                            )
-                        );
+
+                        if (
+                            res.data.status === "pending" &&
+                            res.data.authorizeUrl
+                        ) {
+                            window.location = res.data.authorizeUrl;
+                        } else if (res.data.status === "successful") {
+                            dispatch(
+                                actionCreators.setSuccessNotification(
+                                    "Donate complete"
+                                )
+                            );
+                        } else {
+                            dispatch(
+                                actionCreators.setErrorNotification(
+                                    `Donate failed, ${res.data.failureMessage}`
+                                )
+                            );
+                        }
                     })
                     .catch(() => {
                         dispatch(actionCreators.setIsLoading(false));
