@@ -1,4 +1,5 @@
 import "firebase/analytics";
+import Footer from "Footer";
 import Header from "Header";
 import React from "react";
 import { useSelector } from "react-redux";
@@ -16,9 +17,9 @@ const fadeIn = keyframes`
 `;
 
 const Content = styled.div`
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
+    position: relative;
+    min-height: 100vh;
+    padding-bottom: 100px;
     animation: ${fadeIn} 1s;
 `;
 
@@ -33,6 +34,7 @@ function Layout(props) {
             {isLoading ? <Loading /> : null}
             <Header />
             {props.children}
+            <Footer />
             {notification ? (
                 <Notification
                     text={notification.message}

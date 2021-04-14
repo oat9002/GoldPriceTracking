@@ -129,9 +129,13 @@ function Donation(props) {
 
         return () => {
             document.getElementById("omise").removeChild(script);
-            document.body.removeChild(
-                document.getElementById("omise-checkout-iframe-app")
+            const omiseIframe = document.getElementById(
+                "omise-checkout-iframe-app"
             );
+
+            if (omiseIframe) {
+                document.body.removeChild(omiseIframe);
+            }
         };
     }, [dispatch, props.complete]);
 

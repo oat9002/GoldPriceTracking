@@ -1,8 +1,10 @@
 import Donation from "Donation";
 import Home from "Home";
 import Layout from "Layout";
+import PrivacyPolicy from "PrivacyPolicy";
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import TermsAndCondition from "TermsAndCondition";
 import { isDonateEnable } from "util/Util";
 
 function App() {
@@ -11,14 +13,24 @@ function App() {
             <Layout>
                 <Switch>
                     <Route path="/" exact component={Home} />
-                    {isDonateEnable() ? (
+                    <Route
+                        path="/termsAndCondition"
+                        exact
+                        component={TermsAndCondition}
+                    />
+                    <Route
+                        path="/privacyPolicy"
+                        exact
+                        component={PrivacyPolicy}
+                    />
+                    {isDonateEnable() && (
                         <>
-                            <Route path="/donate/complete">
+                            <Route path="/donate/complete" exact>
                                 <Donation complete={true} />
                             </Route>
-                            <Route path="/donate" component={Donation} />
+                            <Route path="/donate" component={Donation} exact />
                         </>
-                    ) : null}
+                    )}
                 </Switch>
             </Layout>
         </Router>
