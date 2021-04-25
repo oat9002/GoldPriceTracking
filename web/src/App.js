@@ -4,12 +4,14 @@ import Layout from "Layout";
 import PrivacyPolicy from "PrivacyPolicy";
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import ScrollToTop from "ScrollToTop";
 import TermsAndCondition from "TermsAndCondition";
 import { isDonateEnable } from "util/Util";
 
 function App() {
     return (
         <Router>
+            <ScrollToTop />
             <Layout>
                 <Switch>
                     <Route path="/" exact component={Home} />
