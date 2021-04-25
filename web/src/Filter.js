@@ -3,16 +3,17 @@ import Select from "@material-ui/core/Select";
 import "firebase/analytics";
 import firebase from "firebase/app";
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import * as actionCreators from "./actions/goldPrice";
 
 function Filter(props) {
-    const [numOfDay, setNumOfDay] = React.useState(0);
+    // @ts-ignore
+    const numOfDay = useSelector((state) => state.goldPrice.numOfDay);
+    const dispatch = useDispatch();
     const analytics = firebase.analytics();
 
     function onChangeHandler(event) {
-        setNumOfDay(event.target.value);
-        if (props.setValue) {
-            props.setValue(event.target.value);
-        }
+        dispatch(actionCreators.setNumberOfDay(event.target.value));
 
         analytics.logEvent("filter_click", {
             value: event.target.value,

@@ -4,9 +4,12 @@ import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
+import { HomeRounded } from "@material-ui/icons";
 import GitHub from "@material-ui/icons/GitHub";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import React from "react";
+import { withRouter } from "react-router-dom";
+import { isDonateEnable } from "util/Util";
 
 const useStyles = makeStyles({
     list: {
@@ -14,22 +17,37 @@ const useStyles = makeStyles({
     },
 });
 
-export default function TemporaryDrawer(props) {
+function TemporaryDrawer(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const onCloseHandler = () => {
         setOpen(false);
         props.onClose();
     };
-    const githubOnClick = () => {
-        window.open("https://github.com/oat9002/GoldPriceTracking", "_blank");
+    const onMenuClickHandler = (action) => {
+        action();
         setOpen(false);
         onCloseHandler();
     };
+    const githubOnClick = () => {
+        onMenuClickHandler(() => {
+            window.open(
+                "https://github.com/oat9002/GoldPriceTracking",
+                "_blank"
+            );
+        });
+    };
 
     const donateOnClick = () => {
-        setOpen(false);
-        onCloseHandler();
+        onMenuClickHandler(() => {
+            props.history.push("/donate");
+        });
+    };
+
+    const homeOnClick = () => {
+        onMenuClickHandler(() => {
+            props.history.push("/");
+        });
     };
 
     React.useEffect(() => {
@@ -44,18 +62,26 @@ export default function TemporaryDrawer(props) {
             onKeyDown={() => setOpen(false)}
         >
             <List>
+                <ListItem button onClick={homeOnClick}>
+                    <ListItemIcon>
+                        <HomeRounded />
+                    </ListItemIcon>
+                    <ListItemText primary="Home" />
+                </ListItem>
                 <ListItem button onClick={githubOnClick}>
                     <ListItemIcon>
                         <GitHub />
                     </ListItemIcon>
                     <ListItemText primary="Github" />
                 </ListItem>
-                <ListItem button onClick={donateOnClick}>
-                    <ListItemIcon>
-                        <MonetizationOnIcon />
-                    </ListItemIcon>
-                    <ListItemText primary="Donate (comming soon)" />
-                </ListItem>
+                {isDonateEnable() ? (
+                    <ListItem button onClick={donateOnClick}>
+                        <ListItemIcon>
+                            <MonetizationOnIcon />
+                        </ListItemIcon>
+                        <ListItemText primary="Donate" />
+                    </ListItem>
+                ) : null}
             </List>
         </div>
     );
@@ -66,3 +92,5 @@ export default function TemporaryDrawer(props) {
         </Drawer>
     );
 }
+
+export default withRouter(TemporaryDrawer);

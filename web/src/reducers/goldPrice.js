@@ -1,8 +1,16 @@
-import { SET_GOLD_PRICE, SET_NUMBER_OF_REC } from "../actions/goldPrice";
+import {
+    SET_ERROR_NOTIFICATION,
+    SET_GOLD_PRICE,
+    SET_IS_LOADING,
+    SET_NUMBER_OF_REC,
+    SET_SUCCESS_NOTIFICATION,
+} from "../actions/goldPrice";
 
 const initialState = {
     numOfDay: 0,
     prices: [],
+    isLoading: false,
+    notification: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -17,6 +25,17 @@ const reducer = (state = initialState, action) => {
             return {
                 ...state,
                 numOfDay: action.numOfDay,
+            };
+        case SET_IS_LOADING:
+            return {
+                ...state,
+                isLoading: action.isLoading,
+            };
+        case SET_SUCCESS_NOTIFICATION:
+        case SET_ERROR_NOTIFICATION:
+            return {
+                ...state,
+                notification: action.notification,
             };
         default:
             return state;

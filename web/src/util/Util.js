@@ -15,8 +15,20 @@ export function formatNumber(number, lang = "th-TH") {
     return number.toLocaleString(lang);
 }
 
+export function isDonateEnable() {
+    return (
+        process.env.REACT_APP_OMISE_PUBLIC_KEY &&
+        process.env.REACT_APP_OMISE_PUBLIC_KEY !== ""
+    );
+}
+
 export const httpStatus = {
     ok: 200,
     internalServerError: 500,
     badRequest: 400,
+};
+
+export const notificationSeverity = {
+    error: "error",
+    success: "success",
 };

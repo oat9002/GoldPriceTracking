@@ -13,6 +13,7 @@ import dayjs from "./util/Dayjs";
 
 function Graph() {
     const fontFamily = "Roboto";
+    // @ts-ignore
     const prices = useSelector((state) => state.goldPrice.prices);
     const [width, setWidth] = React.useState(calculateWidth());
     const [height, setHeight] = React.useState(calculateHeight());

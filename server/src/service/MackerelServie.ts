@@ -5,7 +5,7 @@ import { LogLevel } from "../util/enums";
 import { log } from "../util/utils";
 
 const baseUrl = "https://api.mackerelio.com";
-const apiKey = process.env?.MACKEREL_API_KEY ?? "";
+const apiKey = process.env.MACKEREL_API_KEY ?? "";
 
 export async function doHealthCheck(): Promise<void> {
     const url = `${baseUrl}/api/v0/services/goldprice-tracking-service/tsdb`;

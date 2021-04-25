@@ -7,18 +7,21 @@ import TableHead from "@material-ui/core/TableHead";
 import TablePagination from "@material-ui/core/TablePagination";
 import TableRow from "@material-ui/core/TableRow";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import * as actionCreators from "./actions/goldPrice";
+import { useSelector } from "react-redux";
+import styled from "styled-components";
 import Filter from "./Filter";
-import "./Table.css";
 import dayjs from "./util/Dayjs";
 import { formatNumber } from "./util/Util";
+
+const FilterWrapper = styled.div`
+    text-align: right;
+`;
 
 function GoldTable() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const tableRef = React.useRef(null);
-    const dispatch = useDispatch();
+    // @ts-ignore
     const prices = useSelector((state) => state.goldPrice.prices);
     const classes = makeStyles((theme) => ({
         root: {
@@ -64,11 +67,6 @@ function GoldTable() {
         setRowsPerPage(+event.target.value);
     }
 
-    function onFilterChangeHandler(value) {
-        dispatch(actionCreators.setNumberOfDay(value));
-        setPage(0);
-    }
-
     function renderTableContent() {
         if (rows.length === 0) {
             return (
@@ -92,10 +90,10 @@ function GoldTable() {
     }
 
     return (
-        <div className="table" ref={tableRef}>
-            <div className="filter">
-                <Filter setValue={onFilterChangeHandler} />
-            </div>
+        <div ref={tableRef}>
+            <FilterWrapper>
+                <Filter />
+            </FilterWrapper>
             <Paper className={classes.root}>
                 <Table className={classes.table} size="small">
                     <TableHead>
