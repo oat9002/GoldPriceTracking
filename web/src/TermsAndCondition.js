@@ -129,10 +129,6 @@ const TermsAndCondition = () => {
                 Terms and Conditions then You may not access the Service.
             </p>
             <p>
-                You represent that you are over the age of 18. The Company does
-                not permit those under 18 to use the Service.
-            </p>
-            <p>
                 Your access to and use of the Service is also conditioned on
                 Your acceptance of and compliance with the Privacy Policy of the
                 Company. Our Privacy Policy describes Our policies and
