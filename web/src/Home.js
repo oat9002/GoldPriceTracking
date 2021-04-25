@@ -14,7 +14,7 @@ const GraphWrapper = styled.div`
     margin-top: 3%;
 `;
 const TableWrapper = styled.div`
-    margin: 0 8px;
+    margin: 0 8px 40px 8px;
 `;
 
 function Home() {
