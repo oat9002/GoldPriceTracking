@@ -7,7 +7,7 @@ import {
 } from "../actions/goldPrice";
 
 const initialState = {
-    numOfDay: 0,
+    numOfDay: 3,
     prices: [],
     isLoading: false,
     notification: null,

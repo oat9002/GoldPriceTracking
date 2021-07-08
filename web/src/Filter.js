@@ -1,30 +1,26 @@
 import MenuItem from "@material-ui/core/MenuItem";
 import Select from "@material-ui/core/Select";
-import "firebase/analytics";
-import firebase from "firebase/app";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as actionCreators from "./actions/goldPrice";
+import * as firebase from "./libs/firebase";
 
 function Filter(props) {
     // @ts-ignore
     const numOfDay = useSelector((state) => state.goldPrice.numOfDay);
     const dispatch = useDispatch();
-    const analytics = firebase.analytics();
 
     function onChangeHandler(event) {
         dispatch(actionCreators.setNumberOfDay(event.target.value));
 
-        analytics.logEvent("filter_click", {
+        firebase.logAnalyticEvent(firebase.eventName.click, {
+            elementName: "filter",
             value: event.target.value,
         });
     }
 
     return (
         <Select value={numOfDay} onChange={onChangeHandler}>
-            <MenuItem value={0}>Today</MenuItem>
-            <MenuItem value={1}>Last 1 day</MenuItem>
-            <MenuItem value={2}>Last 2 days</MenuItem>
             <MenuItem value={3}>Last 3 days</MenuItem>
             <MenuItem value={5}>Last 5 days</MenuItem>
             <MenuItem value={30}>Last 1 month</MenuItem>
