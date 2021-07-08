@@ -3,8 +3,8 @@
 https://goldpricetracking.web.app/
 
 ## Prerequisites 
-- firebase 
-- server to retrieve data
+- Server for retrieving data
+- firebase *__#optional__*
 
 ## How to run
 - Copy `.sample.env` and rename it to `.env`
