@@ -1,5 +1,4 @@
-import { Divider, Grid, makeStyles, Typography } from "@material-ui/core";
-import grey from "@material-ui/core/colors/grey";
+import { Box, Grid, makeStyles, Typography } from "@material-ui/core";
 import React from "react";
 import { Link } from "react-router-dom";
 
@@ -13,11 +12,12 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: theme.spacing(2),
     },
     footerHeader: {
+        color: "white",
         fontWeight: "bold",
     },
     link: {
         textDecoration: "none",
-        color: grey[600],
+        color: "white",
         "& p:hover": {
             textDecoration: "underline",
         },
@@ -28,9 +28,8 @@ const Footer = () => {
     const classes = useStyles();
 
     return (
-        <div className={classes.root}>
-            <Divider />
-            <div className={classes.footer}>
+        <Box className={classes.root} bgcolor="primary.main">
+            <Box className={classes.footer}>
                 <Grid container justify="space-around">
                     <Grid item>
                         <Typography
@@ -73,8 +72,8 @@ const Footer = () => {
                         </Grid>
                     </Grid>
                 </Grid>
-            </div>
-        </div>
+            </Box>
+        </Box>
     );
 };
 
