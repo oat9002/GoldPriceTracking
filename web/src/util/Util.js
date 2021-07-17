@@ -1,6 +1,11 @@
+import { priceLastDay } from "mock/mock";
 import axios from "./Axios";
 
 export async function fetchGoldPrices(numOfDay) {
+    if (isMock) {
+        return priceLastDay;
+    }
+
     const response = await axios.get("/priceslastday?days=" + numOfDay);
 
     if (response.status !== httpStatus.ok) {
@@ -16,9 +21,13 @@ export function formatNumber(number, lang = "th-TH") {
 }
 
 export function isDonateEnable() {
+    return false;
+}
+
+export function isMock() {
     return (
-        process.env.REACT_APP_OMISE_PUBLIC_KEY &&
-        process.env.REACT_APP_OMISE_PUBLIC_KEY !== ""
+        !process.env.REACT_APP_SERVER_URL ||
+        process.env.REACT_APP_SERVER_URL === ""
     );
 }
 
