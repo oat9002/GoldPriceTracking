@@ -4,7 +4,7 @@ https://goldpricetracking.web.app/
 
 ## Prerequisites
 
--   Server for retrieving data
+-   Server for retrieving data _**#optional if you use mock mode**_
 -   firebase _**#optional**_
 
 ## How to run
