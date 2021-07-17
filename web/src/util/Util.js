@@ -2,7 +2,7 @@ import { priceLastDay } from "mock/mock";
 import axios from "./Axios";
 
 export async function fetchGoldPrices(numOfDay) {
-    if (isMock) {
+    if (isMock()) {
         return priceLastDay;
     }
 
