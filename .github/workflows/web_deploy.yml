@@ -13,7 +13,8 @@ on:
       - '!.gitignore'
       - '!.eslintrc.js'
       - '!.firebaserc'
-      - '!**.env' 
+      - '!**.env'
+      - '!server/**'
       - 'web/**'
         
 defaults:
