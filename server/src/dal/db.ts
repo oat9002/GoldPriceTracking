@@ -1,4 +1,6 @@
 import admin from "firebase-admin";
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+//@ts-ignore
 import * as serviceAccount from "../../config/goldpricetracking-firebase-adminsdk-718s5-85e720333f.json";
 import { User } from "../models/User";
 import dayjs from "../util/dayjs";
