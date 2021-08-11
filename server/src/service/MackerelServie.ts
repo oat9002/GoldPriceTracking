@@ -29,7 +29,7 @@ export async function doHealthCheck(): Promise<void> {
 }
 
 export async function intervalDoHealthCheck() {
-    cron.schedule("* * * * *", async () => {
+    cron.schedule("0 */1 * * *", async () => {
         await doHealthCheck();
     });
 }
