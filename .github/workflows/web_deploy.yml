@@ -7,14 +7,9 @@ name: Web - Deploy to firebase
 on:
     push:
         branches: [master]
-        paths-ignore:
-            - "**.json"
-            - "**.md"
-            - ".gitignore"
-            - ".eslintrc.js"
-            - ".firebaserc"
-            - "**.env"
-            - "server/**"
+        paths:
+            - "web/**"
+    workflow_dispatch:
 
 defaults:
     run:
@@ -30,11 +25,25 @@ jobs:
         steps:
             # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
             - uses: actions/checkout@v2
-            - name: build
+               with:
+                  token: ${{ secrets.PUSH_TOKEN }}
+
+            - name: Set GitHub user
               run: |
-                  sudo npm install -g yarn
-                  yarn install
-                  yarn build
+                  git config --global user.name 'oat9002'
+                  git config --global user.email 'oat9002@hotmail.com'
+
+            - name: Install yarn
+              run: npm install -g yarn
+
+            - name: Install package
+              run: yarn install
+
+            - name: Release
+              run: yarn release --minor --ci
+    
+            - name: build
+              run: yarn build
               env:
                   REACT_APP_SERVER_URL: ${{ secrets.GOLD_PRICE_SERVER_URL }}
                   REACT_APP_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
