@@ -1,13 +1,13 @@
 # This is a basic workflow to help you get started with Actions
 
-name: Web - Build Pull Request
+name: Server - Deploy
 
 # Controls when the workflow will run
 on:
     # Triggers the workflow on push or pull request events but only for the master branch
-    pull_request:
+    push:
         branches: [master]
-        paths-ignore:
+        paths:
             - "server/**"
 
     # Allows you to run this workflow manually from the Actions tab
@@ -15,7 +15,7 @@ on:
 
 defaults:
     run:
-        working-directory: web
+        working-directory: server
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
@@ -28,6 +28,13 @@ jobs:
         steps:
             # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
             - uses: actions/checkout@v2
+              with:
+                  token: ${{ secrets.PUSH_TOKEN }}
+
+            - name: Set GitHub user
+              run: |
+                  git config --global user.name 'oat9002'
+                  git config --global user.email 'oat9002@hotmail.com'
 
             - name: Install yarn
               run: npm install -g yarn
@@ -35,5 +42,20 @@ jobs:
             - name: Install package
               run: yarn install
 
-            - name: Build
-              run: yarn build
+            - name: Release
+              run: yarn release --minor --ci
+
+            - name: Login to Docker Hub
+              uses: docker/login-action@v1
+              with:
+                  username: ${{ secrets.DOCKERHUB_USERNAME }}
+                  password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+            - name: Docker build
+              run: docker build -t oat9002/gold-price-tracking-server:latest .
+
+            - name: Docker publish
+              run: docker push oat9002/gold-price-tracking-server
+
+            - name: Deploy
+              run: curl ${{ secrets.SERVER_DEPLOY_URL }}
