@@ -6,7 +6,8 @@
     "scripts": {
         "start": "nodemon ./src/index.ts",
         "debug": "nodemon ./src/index.ts",
-        "build": "tsc"
+        "build": "tsc",
+        "release": "release-it"
     },
     "repository": {
         "type": "git",
@@ -50,6 +51,7 @@
         "babel-eslint": "^10.1.0",
         "eslint-plugin-node": "^11.1.0",
         "nodemon": "^1.19.2",
+        "release-it": "^14.11.3",
         "ts-node": "^9.0.0"
     },
     "eslintConfig": {
