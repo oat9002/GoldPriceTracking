@@ -6,7 +6,8 @@ name: Server - Deploy
 on:
     # Triggers the workflow on push or pull request events but only for the master branch
     push:
-        tags: ["v*"]
+        branches: [main]
+        types: [closed]
 
     # Allows you to run this workflow manually from the Actions tab
     workflow_dispatch:
@@ -15,26 +16,25 @@ defaults:
     run:
         working-directory: server
 
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-    deploy:
+    # This workflow contains a single job called "build"
+    updateVersion:
+        if: github.event.pull_request.merged == true
+        # The type of runner that the job will run on
         runs-on: ubuntu-latest
 
         # Steps represent a sequence of tasks that will be executed as part of the job
         steps:
             # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
             - uses: actions/checkout@v2
-
-            - name: Login to Docker Hub
-              uses: docker/login-action@v1
               with:
-                  username: ${{ secrets.DOCKERHUB_USERNAME }}
-                  password: ${{ secrets.DOCKERHUB_TOKEN }}
+                  token: ${{ secrets.PUSH_TOKEN }}
+                  ref: master
 
-            - name: Docker build
-              run: docker build -t oat9002/gold-price-tracking-server:latest .
-
-            - name: Docker publish
-              run: docker push oat9002/gold-price-tracking-server
-
-            - name: Deploy
-              run: curl ${{ secrets.SERVER_DEPLOY_URL }}
+            - name: Set GitHub user
+              run: |
+                  git config --global user.name 'oat9002'
+                  git config --global user.email 'oat9002@hotmail.com'
+            - name: Release
+              run: yarn release
