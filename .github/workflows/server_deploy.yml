@@ -41,7 +41,7 @@ jobs:
               run: yarn install
 
             - name: Release
-              run: yarn release --minor --ci
+              run: yarn release -- minor --ci
               env:
                   GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
 
@@ -58,4 +58,4 @@ jobs:
               run: docker push oat9002/gold-price-tracking-server
 
             - name: Deploy
-              run: curl ${{ secrets.SERVER_DEPLOY_URL }}
+              run: curl -X POST ${{ secrets.SERVER_DEPLOY_URL }}
