@@ -25,8 +25,6 @@ jobs:
         steps:
             # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
             - uses: actions/checkout@v2
-              with:
-                  token: ${{ secrets.PUSH_TOKEN }}
 
             - name: Set GitHub user
               run: |
@@ -41,6 +39,8 @@ jobs:
 
             - name: Release
               run: yarn release --minor --ci
+              env:
+                  GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
 
             - name: build
               run: yarn build
