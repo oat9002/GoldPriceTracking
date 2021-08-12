@@ -2,6 +2,10 @@
     "npm": {
         "publish": false
     },
+    "git": {
+        "commitMessage": "Release server@v${version}",
+        "tagAnnotation": "server@v${version}"
+    },
     "github": {
         "release": true,
         "tagName": "server@v${version}"
