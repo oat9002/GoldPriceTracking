@@ -38,7 +38,7 @@ jobs:
               run: yarn install
 
             - name: Release
-              run: yarn release --minor --ci
+              run: yarn release -- minor --ci
               env:
                   GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
 
