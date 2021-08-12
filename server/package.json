@@ -1,6 +1,6 @@
 {
     "name": "goldpricetraking",
-    "version": "2.1.1",
+    "version": "2.1.2",
     "description": "GoldPriceTracking with Node.js and IFTTT",
     "main": "index.js",
     "scripts": {
