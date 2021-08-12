@@ -4,11 +4,12 @@
     },
     "git": {
         "commitMessage": "Release web@v${version}",
+        "tagName": "web@v${version}",
         "tagAnnotation": "web@v${version}"
     },
     "github": {
         "release": true,
-        "tagName": "web@v${version}"
+        "releaseName": "web@v${version}"
     },
     "hooks": {
         "before:bump": "git pull"
