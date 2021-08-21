@@ -58,4 +58,6 @@ jobs:
               run: docker push oat9002/gold-price-tracking-server
 
             - name: Deploy
-              run: curl -X POST ${{ secrets.SERVER_DEPLOY_URL }}
+              run: |
+                curl -X POST ${{ secrets.SERVER_DEPLOY_URL }} -H "X-Api-Key: ${{ secrets.DEPLOY_API_KEY }}"
+          
