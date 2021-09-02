@@ -2,6 +2,7 @@ import axios from "axios";
 import cheerio from "cheerio";
 import cron from "node-cron";
 import * as db from "../dal/db";
+import { LogLevel } from "../util/enums";
 import { isDevelopmentMode } from "../util/mode";
 import * as utils from "../util/utils";
 import * as message from "./LineService";
@@ -33,8 +34,10 @@ export async function retrieveAndSavePrice(): Promise<void> {
         } else {
             utils.log("Something wrong in price");
         }
-    } catch (err) {
-        utils.log("retrieveAndSavePrice failed", err);
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            utils.log("retrieveAndSavePrice failed", LogLevel.error, err);
+        }
     }
 }
 

@@ -2,6 +2,7 @@ import axios from "axios";
 import qs from "qs";
 import * as db from "../dal/db";
 import dayjs from "../util/dayjs";
+import { LogLevel } from "../util/enums";
 import * as utils from "../util/utils";
 import { isDevelopmentMode } from "./../util/mode";
 
@@ -37,8 +38,10 @@ export async function pushMessage() {
                         process.env.NOTIFY_GOLD_PRICE_TRACKING,
                         messageNotify
                     );
-                } catch (err) {
-                    console.log(err.stack);
+                } catch (err: unknown) {
+                    if (err instanceof Error) {
+                        utils.log("pushMessage failed", LogLevel.error, err);
+                    }
                 }
             } else {
                 first = false;
@@ -98,8 +101,14 @@ export function addCommaToNumber(number: number): string {
 export async function addUser(userId: string): Promise<void> {
     try {
         await db.addLineUser(userId);
-    } catch (err) {
-        utils.log(`addUser failed for userId: ${userId}`, err);
+    } catch (err: unknown) {
+        if (err instanceof Error) {
+            utils.log(
+                `addUser failed for userId: ${userId}`,
+                LogLevel.error,
+                err
+            );
+        }
     }
 }
 
@@ -124,5 +133,9 @@ export async function lineNotify(
                 },
             }
         )
-        .catch((err) => utils.log("line notify failed", err));
+        .catch((err: unknown) => {
+            if (err instanceof Error) {
+                utils.log("line notify failed", LogLevel.error, err);
+            }
+        });
 }

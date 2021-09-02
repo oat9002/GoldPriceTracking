@@ -30,7 +30,7 @@ app.get("/prices", async (req, res) => {
         const data = await db.getLatestPrices(numOfLatestPrice);
         res.status(StatusCode.okay);
         res.json(data);
-    } catch (err) {
+    } catch (err: unknown) {
         res.status(StatusCode.InternalServerError);
         res.json(err);
     }
@@ -52,7 +52,7 @@ app.get("/priceslastday", async (req, res) => {
             const data = await db.getPricesLastByDay(days);
             res.status(StatusCode.okay);
             res.json(data);
-        } catch (err) {
+        } catch (err: unknown) {
             res.status(StatusCode.InternalServerError);
             res.json(err);
         }
@@ -71,7 +71,7 @@ app.post("/donate", async (req, res) => {
         );
         res.status(StatusCode.okay);
         res.json(result);
-    } catch (err) {
+    } catch (err: unknown) {
         res.status(StatusCode.InternalServerError);
         res.json(err);
     }

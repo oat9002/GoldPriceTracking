@@ -23,9 +23,11 @@ export async function doHealthCheck(): Promise<void> {
         },
     };
 
-    await axios
-        .post(url, data, headers)
-        .catch((err) => log("Cannot call to mackerel", LogLevel.error, err));
+    await axios.post(url, data, headers).catch((err: unknown) => {
+        if (err instanceof Error) {
+            log("Cannot call to mackerel", LogLevel.error, err);
+        }
+    });
 }
 
 export async function intervalDoHealthCheck() {

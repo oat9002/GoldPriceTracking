@@ -4,6 +4,7 @@ import admin from "firebase-admin";
 import * as serviceAccount from "../../config/goldpricetracking-firebase-adminsdk-718s5-85e720333f.json";
 import { User } from "../models/User";
 import dayjs from "../util/dayjs";
+import { LogLevel } from "../util/enums";
 import * as utils from "../util/utils";
 import { mapPriceFromDb, Price } from "./../models/Price";
 
@@ -41,8 +42,8 @@ export async function addPrice(buy: number, sell: number): Promise<void> {
             sellDifferent: sell - latestPrice.sell,
             created_at: dayjs().valueOf(),
         });
-    } catch (err) {
-        utils.log(err.message + "\n" + err.stack);
+    } catch (err: unknown) {
+        throw createErrorFromException(err);
     }
 }
 
@@ -67,7 +68,7 @@ export async function shouldAddPrice(
         }
 
         return false;
-    } catch (err) {
+    } catch (err: unknown) {
         throw createErrorFromException(err);
     }
 }
@@ -86,7 +87,7 @@ export async function getLatestPrice(): Promise<Price> {
         });
 
         return toReturn[0];
-    } catch (err) {
+    } catch (err: unknown) {
         throw createErrorFromException(err);
     }
 }
@@ -97,7 +98,7 @@ export async function addLineUser(userId: string): Promise<void> {
         await db.ref("user/" + uid).set({
             id: userId,
         });
-    } catch (err) {
+    } catch (err: unknown) {
         throw createErrorFromException(err);
     }
 }
@@ -107,7 +108,7 @@ export async function getAllUser(): Promise<User[]> {
         const snapshot = await db.ref("user").once("value");
 
         return snapshot.val();
-    } catch (err) {
+    } catch (err: unknown) {
         throw createErrorFromException(err);
     }
 }
@@ -134,7 +135,7 @@ export async function getLatestPrices(number: number): Promise<Price[]> {
         });
 
         return priceArr;
-    } catch (err) {
+    } catch (err: unknown) {
         throw createErrorFromException(err);
     }
 }
@@ -170,13 +171,18 @@ export async function getPricesLastByDay(days: number) {
         });
 
         return priceArr.reverse();
-    } catch (err) {
+    } catch (err: unknown) {
         throw createErrorFromException(err);
     }
 }
 
-export function createErrorFromException(err: Error) {
-    // const errMsg = err.message + "\n" + err.stack;
-    utils.log(err.message);
-    return new Error(err.message);
+export function createErrorFromException(err: unknown) {
+    if (err instanceof Error) {
+        const errMsg = err.message + "\n" + err.stack;
+        utils.log(errMsg, LogLevel.error, err);
+
+        return new Error(err.message);
+    }
+
+    return new Error();
 }
