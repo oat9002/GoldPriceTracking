@@ -63,3 +63,12 @@ node_modules/
 
 # dotenv environment variables file
 .env
+
+# yarn 2
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
