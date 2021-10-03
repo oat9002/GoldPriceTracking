@@ -5,8 +5,8 @@ name: Server - Deploy
 # Controls when the workflow will run
 on:
     # Triggers the workflow on push or pull request events but only for the master branch
-    push:
-        branches: [master]
+    release:
+        tag: ["v*"]
         paths:
             - "server/**"
 
@@ -44,4 +44,3 @@ jobs:
             - name: Deploy
               run: |
                   curl ${{ secrets.SERVER_DEPLOY_URL }} -H "X-Api-Key: ${{ secrets.DEPLOY_API_KEY }}"
-needs: release

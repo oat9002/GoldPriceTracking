@@ -5,10 +5,11 @@ name: Web - Deploy to firebase
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
 on:
-    push:
-        branches: [master]
+    release:
+        tag: ["v*"]
         paths:
             - "web/**"
+
     workflow_dispatch:
 
 defaults:
@@ -44,4 +45,3 @@ jobs:
                   sudo npm install -g firebase-tools
                   firebase use goldpricetracking --token ${{ secrets.FIREBASE_TOKEN }}
                   firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
-needs: release
