@@ -17,7 +17,7 @@ defaults:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-    deploy:
+    deploy-web:
         # The type of runner that the job will run on
         runs-on: ubuntu-latest
 
@@ -25,22 +25,6 @@ jobs:
         steps:
             # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
             - uses: actions/checkout@v2
-
-            - name: Set GitHub user
-              run: |
-                  git config --global user.name 'oat9002'
-                  git config --global user.email 'oat9002@hotmail.com'
-
-            - name: Install yarn
-              run: npm install -g yarn
-
-            - name: Install package
-              run: yarn install
-
-            - name: Release
-              run: yarn release -- minor --ci
-              env:
-                  GITHUB_TOKEN: ${{ secrets.PUSH_TOKEN }}
 
             - name: build
               run: yarn build
@@ -60,3 +44,4 @@ jobs:
                   sudo npm install -g firebase-tools
                   firebase use goldpricetracking --token ${{ secrets.FIREBASE_TOKEN }}
                   firebase deploy --token ${{ secrets.FIREBASE_TOKEN }}
+needs: release
