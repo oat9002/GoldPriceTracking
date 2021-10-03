@@ -89,3 +89,11 @@ yarn-error.log*
 web/build/
 
 host/
+
+.yarn/*
+!.yarn/patches
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.pnp.*
