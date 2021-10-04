@@ -78,15 +78,13 @@ function GoldTable() {
             );
         }
 
-        return rows
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((row, idx) => (
-                <TableRow key={idx}>
-                    <TableCell align="center">{row.date}</TableCell>
-                    <TableCell align="center">{row.buy}</TableCell>
-                    <TableCell align="center">{row.sell}</TableCell>
-                </TableRow>
-            ));
+        return rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, idx) => (
+            <TableRow key={idx}>
+                <TableCell align="center">{row.date}</TableCell>
+                <TableCell align="center">{row.buy}</TableCell>
+                <TableCell align="center">{row.sell}</TableCell>
+            </TableRow>
+        ));
     }
 
     return (
@@ -98,15 +96,9 @@ function GoldTable() {
                 <Table className={classes.table} size="small">
                     <TableHead>
                         <TableRow>
-                            <StyledTableCell align="center">
-                                Date
-                            </StyledTableCell>
-                            <StyledTableCell align="center">
-                                Buy(baht)
-                            </StyledTableCell>
-                            <StyledTableCell align="center">
-                                Sell(baht)
-                            </StyledTableCell>
+                            <StyledTableCell align="center">Date</StyledTableCell>
+                            <StyledTableCell align="center">Buy(baht)</StyledTableCell>
+                            <StyledTableCell align="center">Sell(baht)</StyledTableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>{renderTableContent()}</TableBody>

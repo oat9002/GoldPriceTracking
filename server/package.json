@@ -9,7 +9,7 @@
         "build": "tsc",
         "lint": "eslint .",
         "lint:fix": "eslint --fix",
-        "format": "prettier --write './**/*.{js,ts}'"
+        "format": "prettier --write './**/*.{js,ts}' --config ./.prettierrc"
     },
     "repository": {
         "type": "git",

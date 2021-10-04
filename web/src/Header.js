@@ -28,28 +28,18 @@ function Header(props) {
         <div className={classes.root}>
             <AppBar position="static" color="primary">
                 <Toolbar>
-                    <Typography
-                        variant="h4"
-                        onClick={goToHome}
-                        style={{ cursor: "pointer" }}
-                    >
+                    <Typography variant="h4" onClick={goToHome} style={{ cursor: "pointer" }}>
                         History
                     </Typography>
                     <div className={classes.title} onClick={goToHome}>
                         <TableChart fontSize="large" />
                     </div>
-                    <IconButton
-                        color="inherit"
-                        onClick={() => setOpenDrawer(true)}
-                    >
+                    <IconButton color="inherit" onClick={() => setOpenDrawer(true)}>
                         <MenuIcon />
                     </IconButton>
                 </Toolbar>
             </AppBar>
-            <TemporaryDrawer
-                open={openDrawer}
-                onClose={() => setOpenDrawer(false)}
-            />
+            <TemporaryDrawer open={openDrawer} onClose={() => setOpenDrawer(false)} />
         </div>
     );
 }

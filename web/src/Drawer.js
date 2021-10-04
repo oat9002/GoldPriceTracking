@@ -31,10 +31,7 @@ function TemporaryDrawer(props) {
     };
     const githubOnClick = () => {
         onMenuClickHandler(() => {
-            window.open(
-                "https://github.com/oat9002/GoldPriceTracking",
-                "_blank"
-            );
+            window.open("https://github.com/oat9002/GoldPriceTracking", "_blank");
         });
     };
 

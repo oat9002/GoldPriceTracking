@@ -15,16 +15,8 @@ function App() {
             <Layout>
                 <Switch>
                     <Route path="/" exact component={Home} />
-                    <Route
-                        path="/termsAndCondition"
-                        exact
-                        component={TermsAndCondition}
-                    />
-                    <Route
-                        path="/privacyPolicy"
-                        exact
-                        component={PrivacyPolicy}
-                    />
+                    <Route path="/termsAndCondition" exact component={TermsAndCondition} />
+                    <Route path="/privacyPolicy" exact component={PrivacyPolicy} />
                     {isDonateEnable() && (
                         <>
                             <Route path="/donate/complete" exact>

@@ -32,38 +32,26 @@ const Footer = () => {
             <Box className={classes.footer}>
                 <Grid container justify="space-around">
                     <Grid item>
-                        <Typography
-                            className={classes.footerHeader}
-                            gutterBottom
-                        >
+                        <Typography className={classes.footerHeader} gutterBottom>
                             GoldPriceTracking
                         </Typography>
                     </Grid>
                     <Grid item>
                         <Grid container direction="column">
                             <Grid item>
-                                <Typography
-                                    className={classes.footerHeader}
-                                    gutterBottom
-                                >
+                                <Typography className={classes.footerHeader} gutterBottom>
                                     Resources
                                 </Typography>
                             </Grid>
                             <Grid item>
-                                <Link
-                                    to="/termsAndCondition"
-                                    className={classes.link}
-                                >
+                                <Link to="/termsAndCondition" className={classes.link}>
                                     <Typography variant="body2" gutterBottom>
                                         Terms and Condition
                                     </Typography>
                                 </Link>
                             </Grid>
                             <Grid item>
-                                <Link
-                                    to="/privacyPolicy"
-                                    className={classes.link}
-                                >
+                                <Link to="/privacyPolicy" className={classes.link}>
                                     <Typography variant="body2" gutterBottom>
                                         Privacy Policy
                                     </Typography>

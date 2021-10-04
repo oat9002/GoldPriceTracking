@@ -1,14 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import {
-    CartesianGrid,
-    Legend,
-    Line,
-    LineChart,
-    Tooltip,
-    XAxis,
-    YAxis,
-} from "recharts";
+import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 import dayjs from "./util/Dayjs";
 
 function Graph() {
@@ -46,9 +38,7 @@ function Graph() {
                 return {
                     buy: element.buy,
                     sell: element.sell,
-                    createdAt: dayjs
-                        .tz(element.createdAt)
-                        .format("YYYY/MM/DD HH:mm"),
+                    createdAt: dayjs.tz(element.createdAt).format("YYYY/MM/DD HH:mm"),
                 };
             })
             .reverse();
@@ -85,15 +75,8 @@ function Graph() {
 
     return (
         <LineChart data={graphData} width={width} height={height}>
-            <XAxis
-                dataKey="createdAt"
-                tick={{ fontSize: "0.8em", fontFamily }}
-            />
-            <YAxis
-                domain={[min, max]}
-                tick={{ fontFamily }}
-                tickFormatter={dataFormater}
-            />
+            <XAxis dataKey="createdAt" tick={{ fontSize: "0.8em", fontFamily }} />
+            <YAxis domain={[min, max]} tick={{ fontFamily }} tickFormatter={dataFormater} />
             <CartesianGrid strokeDasharray="3 3" />
             <Tooltip wrapperStyle={{ fontFamily }} formatter={dataFormater} />
             <Legend wrapperStyle={{ fontFamily }} />
