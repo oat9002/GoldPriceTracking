@@ -12,19 +12,13 @@ export async function retrieveAndSavePrice(): Promise<void> {
     let sellPrice = 0;
 
     try {
-        const res = await axios.get(
-            "https://www.goldtraders.or.th/default.aspx"
-        );
+        const res = await axios.get("https://www.goldtraders.or.th/default.aspx");
         const html = res.data;
         const $ = cheerio.load(html);
         const bpTemp = $("#DetailPlace_uc_goldprices1_lblBLBuy").text();
         const spTemp = $("#DetailPlace_uc_goldprices1_lblBLSell").text();
-        buyPrice = parseInt(
-            bpTemp.substring(0, bpTemp.length - 3).replace(",", "")
-        );
-        sellPrice = parseInt(
-            spTemp.substring(0, spTemp.length - 3).replace(",", "")
-        );
+        buyPrice = parseInt(bpTemp.substring(0, bpTemp.length - 3).replace(",", ""));
+        sellPrice = parseInt(spTemp.substring(0, spTemp.length - 3).replace(",", ""));
         if (buyPrice !== null && sellPrice !== null) {
             const shouldAdd = await db.shouldAddPrice(buyPrice, sellPrice);
 

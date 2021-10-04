@@ -41,9 +41,7 @@ function Home() {
             .catch(() => {
                 dispatch(actionCreators.setIsLoading(false));
                 dispatch(
-                    actionCreators.setErrorNotification(
-                        "Cannot fetch gold data. Please try again"
-                    )
+                    actionCreators.setErrorNotification("Cannot fetch gold data. Please try again")
                 );
             });
     }, [dispatch, numOfDay]);

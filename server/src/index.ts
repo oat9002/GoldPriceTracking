@@ -18,9 +18,7 @@ app.get("/", (_, res) => {
 });
 
 app.get("/prices", async (req, res) => {
-    const numOfLatestPrice: number = parseInt(
-        (req.query?.number as string) ?? "-1"
-    );
+    const numOfLatestPrice: number = parseInt((req.query?.number as string) ?? "-1");
     if (numOfLatestPrice < 0) {
         res.status(StatusCode.badRequest);
         res.send("number must be more than or equal to 0");
@@ -63,12 +61,7 @@ app.post("/donate", async (req, res) => {
     const { description, amount, currency, token } = req.body;
 
     try {
-        const result = await payment.charge(
-            description,
-            amount,
-            currency,
-            token
-        );
+        const result = await payment.charge(description, amount, currency, token);
         res.status(StatusCode.okay);
         res.json(result);
     } catch (err: unknown) {

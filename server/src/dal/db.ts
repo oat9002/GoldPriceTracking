@@ -47,10 +47,7 @@ export async function addPrice(buy: number, sell: number): Promise<void> {
     }
 }
 
-export async function shouldAddPrice(
-    buy: number,
-    sell: number
-): Promise<boolean> {
+export async function shouldAddPrice(buy: number, sell: number): Promise<boolean> {
     try {
         const snapshot = await db
             .ref("price")
@@ -120,15 +117,8 @@ export async function getLatestPrices(number: number): Promise<Price[]> {
     try {
         const snapshot =
             number !== 0
-                ? await db
-                      .ref("price")
-                      .orderByChild("created_at")
-                      .limitToLast(number)
-                      .once("value")
-                : await db
-                      .ref("price")
-                      .orderByChild("created_at")
-                      .once("value");
+                ? await db.ref("price").orderByChild("created_at").limitToLast(number).once("value")
+                : await db.ref("price").orderByChild("created_at").once("value");
 
         snapshot.forEach((childSnapshot) => {
             priceArr[idx++] = mapPriceFromDb(childSnapshot.val());

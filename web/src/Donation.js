@@ -86,17 +86,10 @@ function Donation(props) {
                     .then((res) => {
                         dispatch(actionCreators.setIsLoading(false));
 
-                        if (
-                            res.data.status === "pending" &&
-                            res.data.authorizeUrl
-                        ) {
+                        if (res.data.status === "pending" && res.data.authorizeUrl) {
                             window.location = res.data.authorizeUrl;
                         } else if (res.data.status === "successful") {
-                            dispatch(
-                                actionCreators.setSuccessNotification(
-                                    "Donate complete"
-                                )
-                            );
+                            dispatch(actionCreators.setSuccessNotification("Donate complete"));
                         } else {
                             dispatch(
                                 actionCreators.setErrorNotification(
@@ -107,9 +100,7 @@ function Donation(props) {
                     })
                     .catch(() => {
                         dispatch(actionCreators.setIsLoading(false));
-                        dispatch(
-                            actionCreators.setErrorNotification("Donate failed")
-                        );
+                        dispatch(actionCreators.setErrorNotification("Donate failed"));
                     });
             },
         });
@@ -129,9 +120,7 @@ function Donation(props) {
 
         return () => {
             document.getElementById("omise").removeChild(script);
-            const omiseIframe = document.getElementById(
-                "omise-checkout-iframe-app"
-            );
+            const omiseIframe = document.getElementById("omise-checkout-iframe-app");
 
             if (omiseIframe) {
                 document.body.removeChild(omiseIframe);
@@ -142,27 +131,18 @@ function Donation(props) {
     return (
         <Paper variant="outlined" className={classes.paper}>
             <form id="omise">
-                <FormControl
-                    fullWidth
-                    className={classes.margin}
-                    error={isAmountError}
-                >
-                    <InputLabel htmlFor="standard-adornment-amount">
-                        Amount
-                    </InputLabel>
+                <FormControl fullWidth className={classes.margin} error={isAmountError}>
+                    <InputLabel htmlFor="standard-adornment-amount">Amount</InputLabel>
                     <Input
                         id="standard-adornment-amount"
                         value={amount}
                         onChange={onAmountChangeHandler}
-                        startAdornment={
-                            <InputAdornment position="start">฿</InputAdornment>
-                        }
+                        startAdornment={<InputAdornment position="start">฿</InputAdornment>}
                         error={isAmountError}
                     />
                     {isAmountError ? (
                         <FormHelperText id="component-error-text">
-                            Please fill in only number and must be greater than
-                            or equal to 20
+                            Please fill in only number and must be greater than or equal to 20
                         </FormHelperText>
                     ) : null}
                 </FormControl>
