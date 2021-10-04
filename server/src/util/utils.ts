@@ -2,8 +2,7 @@ import { LogLevel } from "./enums";
 import tracer = require("tracer");
 
 const logger = tracer.dailyfile({
-    format:
-        "{{timestamp}}|{{title}}|{{file}}:{{line}}:{{pos}}|{{method}}|{{message}}",
+    format: "{{timestamp}}|{{title}}|{{file}}:{{line}}:{{pos}}|{{method}}|{{message}}",
     root: "/var/log/app-logging",
     maxLogFiles: 5,
     allLogsFileName: "gold-price-tracking",

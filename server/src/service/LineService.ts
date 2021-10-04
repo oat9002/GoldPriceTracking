@@ -34,10 +34,7 @@ export async function pushMessage() {
                     const data = snapshot.val();
                     const messageNotify = generateMessage(data);
 
-                    await lineNotify(
-                        process.env.NOTIFY_GOLD_PRICE_TRACKING,
-                        messageNotify
-                    );
+                    await lineNotify(process.env.NOTIFY_GOLD_PRICE_TRACKING, messageNotify);
                 } catch (err: unknown) {
                     if (err instanceof Error) {
                         utils.log("pushMessage failed", LogLevel.error, err);
@@ -78,15 +75,9 @@ export function generateMessage(firebaseData: any): string {
     let priceDiffMessage = "เทียบราคาจากครั้งก่อน: ";
     if (firebaseData.buyDifferent > 0) {
         priceDiffMessage =
-            priceDiffMessage +
-            "+" +
-            addCommaToNumber(firebaseData.buyDifferent) +
-            " บาท";
+            priceDiffMessage + "+" + addCommaToNumber(firebaseData.buyDifferent) + " บาท";
     } else {
-        priceDiffMessage =
-            priceDiffMessage +
-            addCommaToNumber(firebaseData.buyDifferent) +
-            " บาท";
+        priceDiffMessage = priceDiffMessage + addCommaToNumber(firebaseData.buyDifferent) + " บาท";
     }
     let message = dateMessage + "\n" + priceMessage + "\n" + priceDiffMessage;
     message += "\n" + "ดูประวัติ https://goldpricetracking.web.app/";
@@ -103,19 +94,12 @@ export async function addUser(userId: string): Promise<void> {
         await db.addLineUser(userId);
     } catch (err: unknown) {
         if (err instanceof Error) {
-            utils.log(
-                `addUser failed for userId: ${userId}`,
-                LogLevel.error,
-                err
-            );
+            utils.log(`addUser failed for userId: ${userId}`, LogLevel.error, err);
         }
     }
 }
 
-export async function lineNotify(
-    token: string | undefined,
-    message: string
-): Promise<void> {
+export async function lineNotify(token: string | undefined, message: string): Promise<void> {
     if (!token || isDevelopmentMode()) {
         return;
     }
