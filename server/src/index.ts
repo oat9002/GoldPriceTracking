@@ -3,7 +3,6 @@ import "dotenv/config";
 import express from "express";
 import * as db from "./dal/db";
 import * as mackerel from "./service/MackerelServie";
-import * as payment from "./service/PaymentService";
 import * as track from "./service/TrackingService";
 import { StatusCode } from "./util/enums";
 
@@ -57,17 +56,9 @@ app.get("/priceslastday", async (req, res) => {
     }
 });
 
-app.post("/donate", async (req, res) => {
-    const { description, amount, currency, token } = req.body;
-
-    try {
-        const result = await payment.charge(description, amount, currency, token);
-        res.status(StatusCode.okay);
-        res.json(result);
-    } catch (err: unknown) {
-        res.status(StatusCode.InternalServerError);
-        res.json(err);
-    }
+app.post("/donate", async (_, res) => {
+    res.status(StatusCode.NotSupport);
+    res.json("Not supported");
 });
 
 app.listen(port, () => {

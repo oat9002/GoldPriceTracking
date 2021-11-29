@@ -2,6 +2,7 @@ export enum StatusCode {
     badRequest = 400,
     okay = 200,
     InternalServerError = 500,
+    NotSupport = 501,
 }
 
 export enum LogLevel {
