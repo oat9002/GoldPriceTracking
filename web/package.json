@@ -4,29 +4,29 @@
     "private": true,
     "devDependencies": {
         "babel-eslint": "^10.1.0",
-        "eslint": "^7.32.0",
+        "eslint": "^8.6.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-prettier": "^4.0.0",
-        "eslint-plugin-react": "^7.26.1",
-        "prettier": "^2.4.1",
-        "react-scripts": "^4.0.0"
+        "eslint-plugin-react": "^7.28.0",
+        "prettier": "^2.5.1",
+        "react-scripts": "^5.0.0"
     },
     "dependencies": {
         "@material-ui/core": "^4.11.0",
         "@material-ui/icons": "^4.9.1",
         "@material-ui/lab": "^4.0.0-alpha.56",
-        "axios": "^0.21.1",
-        "dayjs": "^1.10.3",
+        "axios": "^0.24.0",
+        "dayjs": "^1.10.7",
         "firebase": "^8.2.4",
-        "prop-types": "^15.7.2",
-        "react": "^17.0.0",
-        "react-dom": "^17.0.0",
-        "react-redux": "^7.2.1",
+        "prop-types": "^15.8.1",
+        "react": "^17.0.2",
+        "react-dom": "^17.0.2",
+        "react-redux": "^7.2.6",
         "react-router-dom": "^5.2.0",
-        "recharts": "^2.0.9",
-        "redux": "^4.0.5",
-        "redux-thunk": "^2.3.0",
-        "styled-components": "^5.2.0"
+        "recharts": "^2.1.8",
+        "redux": "^4.1.2",
+        "redux-thunk": "^2.4.1",
+        "styled-components": "^5.3.3"
     },
     "scripts": {
         "start": "react-scripts start",
@@ -48,5 +48,6 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    }
+    },
+    "packageManager": "yarn@3.1.1"
 }
