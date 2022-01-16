@@ -8,7 +8,7 @@ import { HomeRounded } from "@material-ui/icons";
 import GitHub from "@material-ui/icons/GitHub";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { isDonateEnable } from "util/Util";
 
 const useStyles = makeStyles({
@@ -20,6 +20,7 @@ const useStyles = makeStyles({
 function TemporaryDrawer(props) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
+    const navigate = useNavigate();
     const onCloseHandler = () => {
         setOpen(false);
         props.onClose();
@@ -37,13 +38,13 @@ function TemporaryDrawer(props) {
 
     const donateOnClick = () => {
         onMenuClickHandler(() => {
-            props.history.push("/donate");
+            navigate("/donate");
         });
     };
 
     const homeOnClick = () => {
         onMenuClickHandler(() => {
-            props.history.push("/");
+            navigate("/");
         });
     };
 
@@ -90,4 +91,4 @@ function TemporaryDrawer(props) {
     );
 }
 
-export default withRouter(TemporaryDrawer);
+export default TemporaryDrawer;
