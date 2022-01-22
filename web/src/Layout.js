@@ -1,8 +1,8 @@
-import Footer from "Footer";
-import Header from "Header";
 import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import Footer from "./Footer";
+import Header from "./Header";
 import Loading from "./Loading";
 import Notification from "./Notification";
 

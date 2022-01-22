@@ -1,5 +1,7 @@
-import "firebase/analytics";
-import firebase from "firebase/app";
+import { getAnalytics, logEvent } from "firebase/analytics";
+import { initializeApp } from "firebase/app";
+
+let firebaseApp = null;
 
 export const eventName = {
     screenView: "screen_view",
@@ -26,7 +28,7 @@ export function initializeFirebase() {
         measurementId: process.env.REACT_APP_FIREBASE_MEASUREMENT_ID,
     };
 
-    firebase.initializeApp(firebaseConfig);
+    firebaseApp = initializeApp(firebaseConfig);
 }
 
 export function logAnalyticEvent(eventName, eventParams, options) {
@@ -34,7 +36,7 @@ export function logAnalyticEvent(eventName, eventParams, options) {
         return;
     }
 
-    const analytics = firebase.analytics();
+    const analytics = getAnalytics(firebaseApp);
 
-    analytics.logEvent(eventName, eventParams, options);
+    logEvent(analytics, eventName, eventParams, options);
 }

@@ -5,7 +5,7 @@ import Typography from "@material-ui/core/Typography";
 import { TableChart } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import React from "react";
-import { withRouter } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import TemporaryDrawer from "./Drawer";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,7 +22,8 @@ const useStyles = makeStyles((theme) => ({
 function Header(props) {
     const [openDrawer, setOpenDrawer] = React.useState(false);
     const classes = useStyles();
-    const goToHome = () => props.history.replace("/");
+    const navigate = useNavigate();
+    const goToHome = () => navigate("/");
 
     return (
         <div className={classes.root}>
@@ -44,4 +45,4 @@ function Header(props) {
     );
 }
 
-export default withRouter(Header);
+export default Header;

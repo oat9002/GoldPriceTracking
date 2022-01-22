@@ -5,6 +5,7 @@
   "repository": "git@github.com:oat9002/GoldPriceTracking.git",
   "author": "oat9002 <oat9002@hotmail.com>",
   "license": "MIT",
+  "private": true,
   "devDependencies": {
     "release-it": "^14.11.6"
   },

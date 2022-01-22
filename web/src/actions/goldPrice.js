@@ -1,4 +1,4 @@
-import { notificationSeverity } from "util/Util";
+import { notificationSeverity } from "../util/Util";
 
 export const setGoldPrice = (prices) => {
     return {
