@@ -1,8 +1,9 @@
 {
-    "name": "goldpricetraking",
+    "name": "goldpricetraking-server",
     "version": "1.0.0",
     "description": "GoldPriceTracking with Node.js and IFTTT",
     "main": "index.js",
+    "private": true,
     "scripts": {
         "start": "tsc && node ./dist/src/index.js",
         "dev": "nodemon ./src/index.ts",

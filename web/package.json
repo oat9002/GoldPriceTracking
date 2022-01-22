@@ -1,5 +1,5 @@
 {
-    "name": "gold-price-tracking",
+    "name": "goldpricetraking-web",
     "version": "1.0.0",
     "private": true,
     "devDependencies": {
@@ -50,6 +50,5 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    },
-    "packageManager": "yarn@3.1.1"
+    }
 }
