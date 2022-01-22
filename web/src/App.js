@@ -1,12 +1,12 @@
-import Donation from "Donation";
-import Home from "Home";
-import Layout from "Layout";
-import PrivacyPolicy from "PrivacyPolicy";
 import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import ScrollToTop from "ScrollToTop";
-import TermsAndCondition from "TermsAndCondition";
-import { isDonateEnable } from "util/Util";
+import Donation from "./Donation";
+import Home from "./Home";
+import Layout from "./Layout";
+import PrivacyPolicy from "./PrivacyPolicy";
+import ScrollToTop from "./ScrollToTop";
+import TermsAndCondition from "./TermsAndCondition";
+import { isDonateEnable } from "./util/Util";
 
 function App() {
     return (

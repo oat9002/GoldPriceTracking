@@ -7,6 +7,11 @@
             "jsx": true,
             "modules": true
         },
+        "babelOptions": {
+            "presets": [
+                "@babel/preset-react"
+            ]
+        },
         "requireConfigFile": false
     },
     "env": {

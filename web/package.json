@@ -1,10 +1,13 @@
 {
     "name": "goldpricetraking-web",
     "version": "1.0.0",
+    "main": "src/index.js",
     "private": true,
     "devDependencies": {
         "@babel/core": "^7.16.7",
         "@babel/eslint-parser": "^7.16.5",
+        "@babel/preset-react": "^7.16.7",
+        "babel-preset-react": "^6.24.1",
         "eslint": "^8.7.0",
         "eslint-config-prettier": "^8.3.0",
         "eslint-plugin-prettier": "^4.0.0",

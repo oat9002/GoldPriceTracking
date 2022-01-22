@@ -9,7 +9,7 @@ import GitHub from "@material-ui/icons/GitHub";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { isDonateEnable } from "util/Util";
+import { isDonateEnable } from "./util/Util";
 
 const useStyles = makeStyles({
     list: {
