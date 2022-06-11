@@ -1,6 +1,6 @@
 {
   "name": "GoldPriceTracking",
-  "version": "3.13.0",
+  "version": "3.14.0",
   "main": "index.js",
   "repository": "git@github.com:oat9002/GoldPriceTracking.git",
   "author": "oat9002 <oat9002@hotmail.com>",
