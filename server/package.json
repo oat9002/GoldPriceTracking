@@ -42,7 +42,6 @@
     "devDependencies": {
         "@babel/core": "^7.16.7",
         "@babel/eslint-parser": "^7.16.5",
-        "@types/axios": "^0.14.0",
         "@types/body-parser": "^1.19.2",
         "@types/cheerio": "^0.22.30",
         "@types/cors": "^2.8.12",
