@@ -9,7 +9,6 @@ import GitHub from "@material-ui/icons/GitHub";
 import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { isDonateEnable } from "./util/Util";
 
 const useStyles = makeStyles({
     list: {
@@ -38,7 +37,7 @@ function TemporaryDrawer(props) {
 
     const donateOnClick = () => {
         onMenuClickHandler(() => {
-            navigate("/donate");
+            window.open("https://www.buymeacoffee.com/oatto", "_blank");
         });
     };
 
@@ -72,14 +71,12 @@ function TemporaryDrawer(props) {
                     </ListItemIcon>
                     <ListItemText primary="Github" />
                 </ListItem>
-                {isDonateEnable() ? (
-                    <ListItem button onClick={donateOnClick}>
-                        <ListItemIcon>
-                            <MonetizationOnIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Donate" />
-                    </ListItem>
-                ) : null}
+                <ListItem button onClick={donateOnClick}>
+                    <ListItemIcon>
+                        <MonetizationOnIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Buy me a coffee" />
+                </ListItem>
             </List>
         </div>
     );
