@@ -33,7 +33,7 @@ function Home() {
 
     React.useEffect(() => {
         dispatch(actionCreators.setIsLoading(true));
-        fetchGoldPrices(numOfDay)
+        fetchGoldPrices({ numOfDay })
             .then((goldPrices) => {
                 dispatch(actionCreators.setGoldPrice(goldPrices));
                 dispatch(actionCreators.setIsLoading(false));

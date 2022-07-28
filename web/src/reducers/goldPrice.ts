@@ -6,15 +6,16 @@ import {
     SET_SUCCESS_NOTIFICATION,
 } from "../actions/goldPrice";
 import { Action } from "./../actions/goldPrice";
+import { Notification, Price } from "./../models/model";
 
-export interface SharedState {
+export interface RootState {
     numOfDay: number;
-    prices: any;
+    prices: Price[];
     isLoading: boolean;
-    notification: any;
+    notification?: Notification;
 }
 
-const initialState: SharedState = {
+const initialState: RootState = {
     numOfDay: 3,
     prices: [],
     isLoading: false,

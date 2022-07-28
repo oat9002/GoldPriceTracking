@@ -1,7 +1,8 @@
 import { priceLastDay } from "../mock/mock";
+import { Price } from "../models/model";
 import axios from "./Axios";
 
-export async function fetchGoldPrices(numOfDay: number) {
+export async function fetchGoldPrices(numOfDay: number): Promise<Price[]> {
     if (isMock()) {
         return priceLastDay;
     }

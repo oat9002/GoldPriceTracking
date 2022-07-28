@@ -1,11 +1,12 @@
 import { notificationSeverity } from "../util/Util";
+import { Price } from "./../models/model";
 
 export interface Action {
     type: string;
     payload: any;
 }
 
-export const setGoldPrice = (prices): Action => {
+export const setGoldPrice = (prices: Price[]): Action => {
     return {
         payload: {
             prices,
