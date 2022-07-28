@@ -5,37 +5,45 @@ import {
     SET_NUMBER_OF_REC,
     SET_SUCCESS_NOTIFICATION,
 } from "../actions/goldPrice";
+import { Action } from "./../actions/goldPrice";
 
-const initialState = {
+export interface SharedState {
+    numOfDay: number;
+    prices: any;
+    isLoading: boolean;
+    notification: any;
+}
+
+const initialState: SharedState = {
     numOfDay: 3,
     prices: [],
     isLoading: false,
     notification: null,
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, action: Action) => {
     switch (action.type) {
         case SET_GOLD_PRICE:
             return {
                 ...state,
-                prices: action.prices,
+                prices: action.payload.prices,
             };
 
         case SET_NUMBER_OF_REC:
             return {
                 ...state,
-                numOfDay: action.numOfDay,
+                numOfDay: action.payload.numOfDay,
             };
         case SET_IS_LOADING:
             return {
                 ...state,
-                isLoading: action.isLoading,
+                isLoading: action.payload.isLoading,
             };
         case SET_SUCCESS_NOTIFICATION:
         case SET_ERROR_NOTIFICATION:
             return {
                 ...state,
-                notification: action.notification,
+                notification: action.payload.notification,
             };
         default:
             return state;

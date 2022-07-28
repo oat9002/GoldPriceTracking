@@ -6,7 +6,7 @@ import { TableChart } from "@material-ui/icons";
 import MenuIcon from "@material-ui/icons/Menu";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import TemporaryDrawer from "./Drawer";
+import Drawer from "./Drawer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -40,7 +40,7 @@ function Header(props) {
                     </IconButton>
                 </Toolbar>
             </AppBar>
-            <TemporaryDrawer open={openDrawer} onClose={() => setOpenDrawer(false)} />
+            <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)} />
         </div>
     );
 }

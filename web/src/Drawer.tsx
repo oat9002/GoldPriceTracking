@@ -1,4 +1,4 @@
-import Drawer from "@material-ui/core/Drawer";
+import DrawerMui from "@material-ui/core/Drawer";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
@@ -12,13 +12,18 @@ import PolicyIcon from "@material-ui/icons/Policy";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
+interface DrawerProps {
+    onClose: () => void;
+    open: boolean;
+}
+
 const useStyles = makeStyles({
     list: {
         width: 300,
     },
 });
 
-function TemporaryDrawer(props) {
+function Drawer(props: DrawerProps) {
     const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
@@ -26,7 +31,7 @@ function TemporaryDrawer(props) {
         setOpen(false);
         props.onClose();
     };
-    const onMenuClickHandler = (action) => {
+    const onMenuClickHandler = (action: () => void) => {
         action();
         setOpen(false);
         onCloseHandler();
@@ -108,10 +113,10 @@ function TemporaryDrawer(props) {
     );
 
     return (
-        <Drawer anchor="right" open={open} onClose={onCloseHandler}>
+        <DrawerMui anchor="right" open={open} onClose={onCloseHandler}>
             {list()}
-        </Drawer>
+        </DrawerMui>
     );
 }
 
-export default TemporaryDrawer;
+export default Drawer;
