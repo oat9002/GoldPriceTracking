@@ -65,7 +65,7 @@ function GoldTable() {
     }
 
     function handleChangeRowsPerPage(
-        event: React.ChangeEventHandler<HTMLTextAreaElement | HTMLInputElement>
+        event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
     ) {
         setRowsPerPage(+event.target.value);
     }
@@ -119,7 +119,7 @@ function GoldTable() {
                         "aria-label": "Next Page",
                     }}
                     onPageChange={(_, page) => handleChangePage(page)}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Paper>
         </div>
