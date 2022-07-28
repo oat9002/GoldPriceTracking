@@ -5,8 +5,10 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
 import { HomeRounded } from "@material-ui/icons";
+import DescriptionIcon from "@material-ui/icons/Description";
 import GitHub from "@material-ui/icons/GitHub";
-import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
+import LocalCafeIcon from "@material-ui/icons/LocalCafe";
+import PolicyIcon from "@material-ui/icons/Policy";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -47,6 +49,18 @@ function TemporaryDrawer(props) {
         });
     };
 
+    const termsAndConditionOnClick = () => {
+        onMenuClickHandler(() => {
+            navigate("/termsAndCondition");
+        });
+    };
+
+    const privacyPolicyOnClick = () => {
+        onMenuClickHandler(() => {
+            navigate("/privacyPolicy");
+        });
+    };
+
     React.useEffect(() => {
         setOpen(props.open);
     }, [props.open]);
@@ -73,9 +87,21 @@ function TemporaryDrawer(props) {
                 </ListItem>
                 <ListItem button onClick={donateOnClick}>
                     <ListItemIcon>
-                        <MonetizationOnIcon />
+                        <LocalCafeIcon />
                     </ListItemIcon>
                     <ListItemText primary="Buy me a coffee" />
+                </ListItem>
+                <ListItem button onClick={termsAndConditionOnClick}>
+                    <ListItemIcon>
+                        <DescriptionIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Terms and Condition" />
+                </ListItem>
+                <ListItem button onClick={privacyPolicyOnClick}>
+                    <ListItemIcon>
+                        <PolicyIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Privacy policy" />
                 </ListItem>
             </List>
         </div>
