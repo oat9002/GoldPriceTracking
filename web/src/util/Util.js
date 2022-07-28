@@ -20,10 +20,6 @@ export function formatNumber(number, lang = "th-TH") {
     return number.toLocaleString(lang);
 }
 
-export function isDonateEnable() {
-    return false;
-}
-
 export function isMock() {
     return !process.env.REACT_APP_SERVER_URL || process.env.REACT_APP_SERVER_URL === "";
 }

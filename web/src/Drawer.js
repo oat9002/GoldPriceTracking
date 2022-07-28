@@ -5,11 +5,12 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import { makeStyles } from "@material-ui/core/styles";
 import { HomeRounded } from "@material-ui/icons";
+import DescriptionIcon from "@material-ui/icons/Description";
 import GitHub from "@material-ui/icons/GitHub";
-import MonetizationOnIcon from "@material-ui/icons/MonetizationOn";
+import LocalCafeIcon from "@material-ui/icons/LocalCafe";
+import PolicyIcon from "@material-ui/icons/Policy";
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { isDonateEnable } from "./util/Util";
 
 const useStyles = makeStyles({
     list: {
@@ -38,13 +39,25 @@ function TemporaryDrawer(props) {
 
     const donateOnClick = () => {
         onMenuClickHandler(() => {
-            navigate("/donate");
+            window.open("https://www.buymeacoffee.com/oatto", "_blank");
         });
     };
 
     const homeOnClick = () => {
         onMenuClickHandler(() => {
             navigate("/");
+        });
+    };
+
+    const termsAndConditionOnClick = () => {
+        onMenuClickHandler(() => {
+            navigate("/termsAndCondition");
+        });
+    };
+
+    const privacyPolicyOnClick = () => {
+        onMenuClickHandler(() => {
+            navigate("/privacyPolicy");
         });
     };
 
@@ -72,14 +85,24 @@ function TemporaryDrawer(props) {
                     </ListItemIcon>
                     <ListItemText primary="Github" />
                 </ListItem>
-                {isDonateEnable() ? (
-                    <ListItem button onClick={donateOnClick}>
-                        <ListItemIcon>
-                            <MonetizationOnIcon />
-                        </ListItemIcon>
-                        <ListItemText primary="Donate" />
-                    </ListItem>
-                ) : null}
+                <ListItem button onClick={donateOnClick}>
+                    <ListItemIcon>
+                        <LocalCafeIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Buy me a coffee" />
+                </ListItem>
+                <ListItem button onClick={termsAndConditionOnClick}>
+                    <ListItemIcon>
+                        <DescriptionIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Terms and Condition" />
+                </ListItem>
+                <ListItem button onClick={privacyPolicyOnClick}>
+                    <ListItemIcon>
+                        <PolicyIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Privacy policy" />
+                </ListItem>
             </List>
         </div>
     );

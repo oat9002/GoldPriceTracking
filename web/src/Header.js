@@ -30,7 +30,7 @@ function Header(props) {
             <AppBar position="static" color="primary">
                 <Toolbar>
                     <Typography variant="h4" onClick={goToHome} style={{ cursor: "pointer" }}>
-                        History
+                        GoldPriceTracking
                     </Typography>
                     <div className={classes.title} onClick={goToHome}>
                         <TableChart fontSize="large" />
