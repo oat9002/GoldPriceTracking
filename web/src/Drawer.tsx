@@ -1,14 +1,13 @@
-import DrawerMui from "@material-ui/core/Drawer";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
-import ListItemText from "@material-ui/core/ListItemText";
-import { makeStyles } from "@material-ui/core/styles";
-import { HomeRounded } from "@material-ui/icons";
-import DescriptionIcon from "@material-ui/icons/Description";
-import GitHub from "@material-ui/icons/GitHub";
-import LocalCafeIcon from "@material-ui/icons/LocalCafe";
-import PolicyIcon from "@material-ui/icons/Policy";
+import styled from "@emotion/styled";
+import {
+    Description as DescriptionIcon,
+    GitHub as GitHubIcon,
+    HomeRounded as HomeRoundedIcon,
+    LocalCafe as LocalCafeIcon,
+    Policy as PolicyIcon,
+} from "@mui/icons-material";
+import { Drawer as DrawerMui, List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+
 import React from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -17,14 +16,11 @@ interface DrawerProps {
     open: boolean;
 }
 
-const useStyles = makeStyles({
-    list: {
-        width: 300,
-    },
-});
+const Root = styled.div`
+    width: 300px;
+`;
 
 function Drawer(props: DrawerProps) {
-    const classes = useStyles();
     const [open, setOpen] = React.useState(false);
     const navigate = useNavigate();
     const onCloseHandler = () => {
@@ -71,22 +67,17 @@ function Drawer(props: DrawerProps) {
     }, [props.open]);
 
     const list = () => (
-        <div
-            className={classes.list}
-            role="presentation"
-            onClick={() => setOpen(false)}
-            onKeyDown={() => setOpen(false)}
-        >
+        <Root role="presentation" onClick={() => setOpen(false)} onKeyDown={() => setOpen(false)}>
             <List>
                 <ListItem button onClick={homeOnClick}>
                     <ListItemIcon>
-                        <HomeRounded />
+                        <HomeRoundedIcon />
                     </ListItemIcon>
                     <ListItemText primary="Home" />
                 </ListItem>
                 <ListItem button onClick={githubOnClick}>
                     <ListItemIcon>
-                        <GitHub />
+                        <GitHubIcon />
                     </ListItemIcon>
                     <ListItemText primary="Github" />
                 </ListItem>
@@ -109,7 +100,7 @@ function Drawer(props: DrawerProps) {
                     <ListItemText primary="Privacy policy" />
                 </ListItem>
             </List>
-        </div>
+        </Root>
     );
 
     return (

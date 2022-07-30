@@ -1,15 +1,19 @@
-import Paper from "@material-ui/core/Paper";
-import { makeStyles, withStyles } from "@material-ui/core/styles";
-import Table from "@material-ui/core/Table";
-import TableBody from "@material-ui/core/TableBody";
-import TableCell from "@material-ui/core/TableCell";
-import TableHead from "@material-ui/core/TableHead";
-import TablePagination from "@material-ui/core/TablePagination";
-import TableRow from "@material-ui/core/TableRow";
+import styled from "@emotion/styled";
+import {
+    Paper,
+    styled as muiStyled,
+    Table,
+    TableBody,
+    TableCell,
+    tableCellClasses,
+    TableHead,
+    TablePagination,
+    TableRow,
+} from "@mui/material";
 import React from "react";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
 import Filter from "./Filter";
+import { theme } from "./libs/mui";
 import { Price } from "./models/model";
 import { RootReducer } from "./reducers/goldPrice";
 import dayjs from "./util/Dayjs";
@@ -18,32 +22,30 @@ import { formatNumber } from "./util/Util";
 const FilterWrapper = styled.div`
     text-align: right;
 `;
+const StyledTableCell = muiStyled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+        backgroundColor: theme.palette.common.black,
+        color: theme.palette.common.white,
+    },
+    [`&.${tableCellClasses.body}`]: {
+        fontSize: 14,
+    },
+}));
+const StyledPaper = styled(Paper)`
+    width: 100%;
+    margin-top: ${theme.spacing(1)};
+    overflow-x: "auto";
+`;
+const StyledTable = styled(Table)`
+    min-width: 300px;
+`;
 
 function GoldTable() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const tableRef = React.useRef(null);
     const prices = useSelector<RootReducer, Price[]>((state) => state.goldPrice.prices);
-    const classes = makeStyles((theme) => ({
-        root: {
-            width: "100%",
-            marginTop: theme.spacing(1),
-            overflowX: "auto",
-        },
-        table: {
-            minWidth: 300,
-        },
-    }))();
     const rows = mapDataForTable(prices);
-    const StyledTableCell = withStyles((theme) => ({
-        head: {
-            backgroundColor: theme.palette.common.black,
-            color: theme.palette.common.white,
-        },
-        body: {
-            fontSize: 14,
-        },
-    }))(TableCell);
 
     function mapDataForTable(goldPrices: Price[]) {
         if (goldPrices === null || goldPrices.length === 0) {
@@ -95,8 +97,8 @@ function GoldTable() {
             <FilterWrapper>
                 <Filter />
             </FilterWrapper>
-            <Paper className={classes.root}>
-                <Table className={classes.table} size="small">
+            <StyledPaper>
+                <StyledTable size="small">
                     <TableHead>
                         <TableRow>
                             <StyledTableCell align="center">Date</StyledTableCell>
@@ -105,7 +107,7 @@ function GoldTable() {
                         </TableRow>
                     </TableHead>
                     <TableBody>{renderTableContent()}</TableBody>
-                </Table>
+                </StyledTable>
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 50]}
                     component="div"
@@ -121,7 +123,7 @@ function GoldTable() {
                     onPageChange={(_, page) => handleChangePage(page)}
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
-            </Paper>
+            </StyledPaper>
         </div>
     );
 }

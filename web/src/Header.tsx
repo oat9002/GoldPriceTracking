@@ -1,47 +1,43 @@
-import { IconButton, makeStyles } from "@material-ui/core";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
-import { TableChart } from "@material-ui/icons";
-import MenuIcon from "@material-ui/icons/Menu";
+import styled from "@emotion/styled";
+import MenuIcon from "@mui/icons-material/Menu";
+import TableChartIcon from "@mui/icons-material/TableChart";
+import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import Drawer from "./Drawer";
+import { theme } from "./libs/mui";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        flexGrow: 1,
-    },
-    title: {
-        flexGrow: 1,
-        paddingLeft: theme.spacing(1),
-        cursor: "pointer",
-    },
-}));
+const Root = styled.div`
+    flex-grow: 1;
+`;
+const Title = styled.div`
+    flex-grow: 1;
+    padding-left: ${theme.spacing(1)};
+    cursor: pointer;
+`;
 
 function Header() {
     const [openDrawer, setOpenDrawer] = React.useState(false);
-    const classes = useStyles();
     const navigate = useNavigate();
     const goToHome = () => navigate("/");
 
     return (
-        <div className={classes.root}>
+        <Root>
             <AppBar position="static" color="primary">
                 <Toolbar>
                     <Typography variant="h4" onClick={goToHome} style={{ cursor: "pointer" }}>
-                        GoldPriceTracking
+                        GoldPrice
                     </Typography>
-                    <div className={classes.title} onClick={goToHome}>
-                        <TableChart fontSize="large" />
-                    </div>
+                    <Title onClick={goToHome}>
+                        <TableChartIcon fontSize="large" />
+                    </Title>
                     <IconButton color="inherit" onClick={() => setOpenDrawer(true)}>
                         <MenuIcon />
                     </IconButton>
                 </Toolbar>
             </AppBar>
             <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)} />
-        </div>
+        </Root>
     );
 }
 
