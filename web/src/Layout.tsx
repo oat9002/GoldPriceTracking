@@ -5,7 +5,7 @@ import Header from "./Header";
 import Loading from "./Loading";
 import { Notification } from "./models/model";
 import NotificationComponent from "./Notification";
-import { RootState } from "./reducers/goldPrice";
+import { RootReducer } from "./reducers/goldPrice";
 
 interface LayoutProps {
     children: ReactNode;
@@ -16,8 +16,10 @@ const Wrapper = styled.div`
 `;
 
 function Layout(props: LayoutProps) {
-    const isLoading = useSelector<RootState, boolean>((state) => state.isLoading);
-    const notification = useSelector<RootState, Notification>((state) => state.notification);
+    const isLoading = useSelector<RootReducer, boolean>((state) => state.goldPrice.isLoading);
+    const notification = useSelector<RootReducer, Notification>(
+        (state) => state.goldPrice.notification
+    );
 
     return (
         <>

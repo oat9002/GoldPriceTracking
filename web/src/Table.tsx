@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Filter from "./Filter";
 import { Price } from "./models/model";
-import { RootState } from "./reducers/goldPrice";
+import { RootReducer } from "./reducers/goldPrice";
 import dayjs from "./util/Dayjs";
 import { formatNumber } from "./util/Util";
 
@@ -23,7 +23,7 @@ function GoldTable() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const tableRef = React.useRef(null);
-    const prices = useSelector<RootState, Price[]>((state) => state.prices);
+    const prices = useSelector<RootReducer, Price[]>((state) => state.goldPrice.prices);
     const classes = makeStyles((theme) => ({
         root: {
             width: "100%",

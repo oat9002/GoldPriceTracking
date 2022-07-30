@@ -1,3 +1,4 @@
+import { NotificationSeverity } from "./../Notification";
 export interface Price {
     buy: number;
     sell: number;
@@ -8,5 +9,5 @@ export interface Price {
 
 export interface Notification {
     message: string;
-    severity: string;
+    severity: NotificationSeverity;
 }

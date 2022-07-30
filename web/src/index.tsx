@@ -11,7 +11,7 @@ import registerServiceWorker from "./registerServiceWorker";
 firebase.initializeFirebase();
 
 const rootReducer = combineReducers({
-    ...goldPrice,
+    goldPrice,
 });
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment

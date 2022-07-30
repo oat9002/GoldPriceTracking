@@ -1,12 +1,19 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
+import { Price } from "./models/model";
+import { RootReducer } from "./reducers/goldPrice";
 import dayjs from "./util/Dayjs";
+
+interface GraphData {
+    buy: number;
+    sell: number;
+    createdAt: string;
+}
 
 function Graph() {
     const fontFamily = "Roboto";
-    // @ts-ignore
-    const prices = useSelector((state) => state.goldPrice.prices);
+    const prices = useSelector<RootReducer, Price[]>((state) => state.goldPrice.prices);
     const [width, setWidth] = React.useState(calculateWidth());
     const [height, setHeight] = React.useState(calculateHeight());
     const graphData = getGraphData(prices);
@@ -28,7 +35,7 @@ function Graph() {
         return window.innerWidth * 0.97;
     }
 
-    function getGraphData(rawData) {
+    function getGraphData(rawData: Price[]): GraphData[] {
         if (rawData === null || rawData.length === 0) {
             return [];
         }
@@ -44,8 +51,8 @@ function Graph() {
             .reverse();
     }
 
-    function getMaxAndMinPrice(rawData) {
-        let price = {
+    function getMaxAndMinPrice(rawData: Price[]) {
+        const price = {
             min: 0,
             max: 0,
         };
@@ -71,7 +78,7 @@ function Graph() {
         return price;
     }
 
-    const dataFormater = (value) => Intl.NumberFormat("en").format(value);
+    const dataFormater = (value: number) => Intl.NumberFormat("en").format(value);
 
     return (
         <LineChart data={graphData} width={width} height={height}>

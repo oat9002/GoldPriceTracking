@@ -4,6 +4,7 @@ import styled from "styled-components";
 import * as actionCreators from "./actions/goldPrice";
 import Graph from "./Graph";
 import * as firebase from "./libs/firebase";
+import { RootReducer } from "./reducers/goldPrice";
 import GoldTable from "./Table";
 import { fetchGoldPrices } from "./util/Util";
 
@@ -17,8 +18,7 @@ const TableWrapper = styled.div`
 `;
 
 function Home() {
-    // @ts-ignore
-    const numOfDay = useSelector((state) => state.goldPrice.numOfDay);
+    const numOfDay = useSelector<RootReducer, number>((state) => state.goldPrice.numOfDay);
     const dispatch = useDispatch();
 
     React.useEffect(() => {
@@ -33,7 +33,7 @@ function Home() {
 
     React.useEffect(() => {
         dispatch(actionCreators.setIsLoading(true));
-        fetchGoldPrices({ numOfDay })
+        fetchGoldPrices(numOfDay)
             .then((goldPrices) => {
                 dispatch(actionCreators.setGoldPrice(goldPrices));
                 dispatch(actionCreators.setIsLoading(false));

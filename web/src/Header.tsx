@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-function Header(props) {
+function Header() {
     const [openDrawer, setOpenDrawer] = React.useState(false);
     const classes = useStyles();
     const navigate = useNavigate();

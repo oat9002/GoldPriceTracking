@@ -8,6 +8,10 @@ import {
 import { Action } from "./../actions/goldPrice";
 import { Notification, Price } from "./../models/model";
 
+export interface RootReducer {
+    goldPrice: RootState;
+}
+
 export interface RootState {
     numOfDay: number;
     prices: Price[];
