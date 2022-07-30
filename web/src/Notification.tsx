@@ -1,9 +1,18 @@
 import { Snackbar } from "@material-ui/core";
-import { Alert } from "@material-ui/lab";
-import PropTypes from "prop-types";
+import { Alert, Color } from "@material-ui/lab";
 import React from "react";
 
-function Notification(props) {
+interface NotificationProps {
+    autoHideDuration?: number;
+    severity: NotificationSeverity;
+    variant: NotificationVariant | null;
+    text: string;
+}
+
+export type NotificationVariant = "standard" | "filled" | "outlined";
+export type NotificationSeverity = Color;
+
+function Notification(props: NotificationProps) {
     const [open, setOpen] = React.useState(true);
     const handleClose = () => {
         setOpen(false);
@@ -21,12 +30,5 @@ function Notification(props) {
         </Snackbar>
     );
 }
-
-Notification.propTypes = {
-    autoHideDuration: PropTypes.number,
-    severity: PropTypes.oneOf(["warning", "success", "error", "info"]),
-    variant: PropTypes.oneOf(["filled", "outlined", null]),
-    text: PropTypes.string,
-};
 
 export default Notification;

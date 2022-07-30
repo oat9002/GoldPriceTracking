@@ -1,4 +1,3 @@
-import React from "react";
 import { createRoot } from "react-dom/client";
 import { Provider } from "react-redux";
 import { applyMiddleware, combineReducers, compose, createStore } from "redux";
@@ -12,9 +11,10 @@ import registerServiceWorker from "./registerServiceWorker";
 firebase.initializeFirebase();
 
 const rootReducer = combineReducers({
-    goldPrice: goldPrice,
+    goldPrice,
 });
 
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 

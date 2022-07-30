@@ -4,14 +4,14 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import * as actionCreators from "./actions/goldPrice";
 import * as firebase from "./libs/firebase";
+import { RootReducer } from "./reducers/goldPrice";
 
-function Filter(props) {
-    // @ts-ignore
-    const numOfDay = useSelector((state) => state.goldPrice.numOfDay);
+function Filter() {
+    const numOfDay = useSelector<RootReducer, number>((state) => state.goldPrice.numOfDay);
     const dispatch = useDispatch();
 
-    function onChangeHandler(event) {
-        dispatch(actionCreators.setNumberOfDay(event.target.value));
+    function onChangeHandler(event: React.ChangeEvent<{ name?: string; value: unknown }>) {
+        dispatch(actionCreators.setNumberOfDay(+event.target.value));
 
         firebase.logAnalyticEvent(firebase.eventName.click, {
             elementName: "filter",
@@ -20,7 +20,7 @@ function Filter(props) {
     }
 
     return (
-        <Select value={numOfDay} onChange={onChangeHandler}>
+        <Select value={numOfDay} onChange={(event) => onChangeHandler(event)}>
             <MenuItem value={3}>Last 3 days</MenuItem>
             <MenuItem value={5}>Last 5 days</MenuItem>
             <MenuItem value={30}>Last 1 month</MenuItem>

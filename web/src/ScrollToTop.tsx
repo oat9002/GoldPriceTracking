@@ -8,5 +8,5 @@ export default function ScrollToTop() {
         document.getElementById("root").scrollTop = 0;
     }, [pathname]);
 
-    return null;
+    return <></>;
 }

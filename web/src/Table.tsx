@@ -10,6 +10,8 @@ import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Filter from "./Filter";
+import { Price } from "./models/model";
+import { RootReducer } from "./reducers/goldPrice";
 import dayjs from "./util/Dayjs";
 import { formatNumber } from "./util/Util";
 
@@ -21,8 +23,7 @@ function GoldTable() {
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const tableRef = React.useRef(null);
-    // @ts-ignore
-    const prices = useSelector((state) => state.goldPrice.prices);
+    const prices = useSelector<RootReducer, Price[]>((state) => state.goldPrice.prices);
     const classes = makeStyles((theme) => ({
         root: {
             width: "100%",
@@ -44,7 +45,7 @@ function GoldTable() {
         },
     }))(TableCell);
 
-    function mapDataForTable(goldPrices) {
+    function mapDataForTable(goldPrices: Price[]) {
         if (goldPrices === null || goldPrices.length === 0) {
             return [];
         }
@@ -58,12 +59,14 @@ function GoldTable() {
         });
     }
 
-    function handleChangePage(event, newPage) {
+    function handleChangePage(newPage: number) {
         window.scrollTo(0, tableRef.current.offsetTop);
         setPage(newPage);
     }
 
-    function handleChangeRowsPerPage(event) {
+    function handleChangeRowsPerPage(
+        event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement>
+    ) {
         setRowsPerPage(+event.target.value);
     }
 
@@ -115,8 +118,8 @@ function GoldTable() {
                     nextIconButtonProps={{
                         "aria-label": "Next Page",
                     }}
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
+                    onPageChange={(_, page) => handleChangePage(page)}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Paper>
         </div>

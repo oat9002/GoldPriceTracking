@@ -1,7 +1,8 @@
 import { priceLastDay } from "../mock/mock";
+import { Price } from "../models/model";
 import axios from "./Axios";
 
-export async function fetchGoldPrices(numOfDay) {
+export async function fetchGoldPrices(numOfDay: number): Promise<Price[]> {
     if (isMock()) {
         return priceLastDay;
     }
@@ -16,7 +17,7 @@ export async function fetchGoldPrices(numOfDay) {
     return response.data;
 }
 
-export function formatNumber(number, lang = "th-TH") {
+export function formatNumber(number: number, lang = "th-TH") {
     return number.toLocaleString(lang);
 }
 

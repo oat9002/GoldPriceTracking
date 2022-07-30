@@ -1,4 +1,5 @@
-export const priceLastDay = [
+import { Price } from "./../models/model";
+export const priceLastDay: Price[] = [
     {
         buy: 28050,
         sell: 28150,

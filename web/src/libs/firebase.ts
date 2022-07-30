@@ -1,7 +1,7 @@
-import { getAnalytics, logEvent } from "firebase/analytics";
-import { initializeApp } from "firebase/app";
+import { AnalyticsCallOptions, getAnalytics, logEvent } from "firebase/analytics";
+import { FirebaseApp, initializeApp } from "firebase/app";
 
-let firebaseApp = null;
+let firebaseApp: FirebaseApp = null;
 
 export const eventName = {
     screenView: "screen_view",
@@ -31,7 +31,11 @@ export function initializeFirebase() {
     firebaseApp = initializeApp(firebaseConfig);
 }
 
-export function logAnalyticEvent(eventName, eventParams, options) {
+export function logAnalyticEvent(
+    eventName: string,
+    eventParams: { [key: string]: any },
+    options: AnalyticsCallOptions = null
+) {
     if (!isFirebaseEnable()) {
         return;
     }

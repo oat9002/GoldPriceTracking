@@ -1,19 +1,25 @@
-import React from "react";
+import { ReactNode } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
 import Header from "./Header";
 import Loading from "./Loading";
-import Notification from "./Notification";
+import { Notification } from "./models/model";
+import NotificationComponent from "./Notification";
+import { RootReducer } from "./reducers/goldPrice";
+
+interface LayoutProps {
+    children: ReactNode;
+}
 
 const Wrapper = styled.div`
     flex: 1 0 auto;
 `;
 
-function Layout(props) {
-    // @ts-ignore
-    const isLoading = useSelector((state) => state.goldPrice.isLoading);
-    // @ts-ignore
-    const notification = useSelector((state) => state.goldPrice.notification);
+function Layout(props: LayoutProps) {
+    const isLoading = useSelector<RootReducer, boolean>((state) => state.goldPrice.isLoading);
+    const notification = useSelector<RootReducer, Notification>(
+        (state) => state.goldPrice.notification
+    );
 
     return (
         <>
@@ -23,7 +29,7 @@ function Layout(props) {
                 {props.children}
             </Wrapper>
             {notification ? (
-                <Notification
+                <NotificationComponent
                     text={notification.message}
                     severity={notification.severity}
                     variant="filled"
