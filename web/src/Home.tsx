@@ -1,6 +1,6 @@
+import styled from "@emotion/styled";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import styled from "styled-components";
 import * as actionCreators from "./actions/goldPrice";
 import Graph from "./Graph";
 import * as firebase from "./libs/firebase";

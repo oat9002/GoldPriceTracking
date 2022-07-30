@@ -1,6 +1,6 @@
+import styled from "@emotion/styled";
 import { ReactNode } from "react";
 import { useSelector } from "react-redux";
-import styled from "styled-components";
 import Header from "./Header";
 import Loading from "./Loading";
 import { Notification } from "./models/model";

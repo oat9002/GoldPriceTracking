@@ -1,6 +1,6 @@
-import { CircularProgress } from "@material-ui/core";
+import styled from "@emotion/styled";
+import { CircularProgress } from "@mui/material";
 import React from "react";
-import styled from "styled-components";
 
 const Container = styled.div`
     position: absolute;

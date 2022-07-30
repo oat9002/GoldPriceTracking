@@ -1,5 +1,4 @@
-import { Snackbar } from "@material-ui/core";
-import { Alert, Color } from "@material-ui/lab";
+import { Alert, AlertColor, Snackbar } from "@mui/material";
 import React from "react";
 
 interface NotificationProps {
@@ -10,7 +9,7 @@ interface NotificationProps {
 }
 
 export type NotificationVariant = "standard" | "filled" | "outlined";
-export type NotificationSeverity = Color;
+export type NotificationSeverity = AlertColor;
 
 function Notification(props: NotificationProps) {
     const [open, setOpen] = React.useState(true);
