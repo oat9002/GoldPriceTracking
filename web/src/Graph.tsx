@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
+import { ValueType } from "recharts/types/component/DefaultTooltipContent";
 import { Price } from "./models/model";
 import { RootReducer } from "./reducers/goldPrice";
 import dayjs from "./util/Dayjs";
@@ -78,7 +79,7 @@ function Graph() {
         return price;
     }
 
-    const dataFormater = (value: number) => Intl.NumberFormat("en").format(value);
+    const dataFormater = (value: ValueType) => Intl.NumberFormat("en").format(value as number);
 
     return (
         <LineChart data={graphData} width={width} height={height}>
