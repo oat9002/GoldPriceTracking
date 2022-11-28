@@ -53,3 +53,4 @@ jobs:
                   firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT_GOLDPRICETRACKING }}"
                   channelId: live
                   projectId: goldpricetracking
+                  entryPoint: ./web
