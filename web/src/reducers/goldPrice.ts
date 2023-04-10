@@ -1,12 +1,5 @@
-import {
-    SET_ERROR_NOTIFICATION,
-    SET_GOLD_PRICE,
-    SET_IS_LOADING,
-    SET_NUMBER_OF_REC,
-    SET_SUCCESS_NOTIFICATION,
-} from "../actions/goldPrice";
-import { Action } from "./../actions/goldPrice";
-import { Notification, Price } from "./../models/model";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { Notification, Price } from "../models/model";
 
 export interface RootReducer {
     goldPrice: RootState;
@@ -26,33 +19,34 @@ const initialState: RootState = {
     notification: null,
 };
 
-const reducer = (state = initialState, action: Action) => {
-    switch (action.type) {
-        case SET_GOLD_PRICE:
-            return {
-                ...state,
-                prices: action.payload.prices,
-            };
+const reducer = createSlice({
+    name: "goldPrice",
+    initialState,
+    reducers: {
+        setGoldPrice: (state, action: PayloadAction<Price[]>) => {
+            state.prices = action.payload;
+        },
+        setNumberOfRec: (state, action: PayloadAction<number>) => {
+            state.numOfDay = action.payload;
+        },
+        setIsLoading: (state, action: PayloadAction<boolean>) => {
+            state.isLoading = action.payload;
+        },
+        setSuccessNotification: (state, action: PayloadAction<Notification>) => {
+            state.notification = action.payload;
+        },
+        setErrorNotification: (state, action: PayloadAction<Notification>) => {
+            state.notification = action.payload;
+        },
+    },
+});
 
-        case SET_NUMBER_OF_REC:
-            return {
-                ...state,
-                numOfDay: action.payload.numOfDay,
-            };
-        case SET_IS_LOADING:
-            return {
-                ...state,
-                isLoading: action.payload.isLoading,
-            };
-        case SET_SUCCESS_NOTIFICATION:
-        case SET_ERROR_NOTIFICATION:
-            return {
-                ...state,
-                notification: action.payload.notification,
-            };
-        default:
-            return state;
-    }
-};
+export default reducer.reducer;
 
-export default reducer;
+export const {
+    setGoldPrice,
+    setNumberOfRec,
+    setIsLoading,
+    setSuccessNotification,
+    setErrorNotification,
+} = reducer.actions;

@@ -28,6 +28,7 @@
         "@emotion/styled": "^11.9.3",
         "@mui/icons-material": "^5.8.4",
         "@mui/material": "^5.9.2",
+        "@reduxjs/toolkit": "^1.9.3",
         "axios": "^0.24.0",
         "dayjs": "^1.10.7",
         "firebase": "^9.6.3",
