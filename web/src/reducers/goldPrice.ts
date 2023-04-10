@@ -32,11 +32,17 @@ const reducer = createSlice({
         setIsLoading: (state, action: PayloadAction<boolean>) => {
             state.isLoading = action.payload;
         },
-        setSuccessNotification: (state, action: PayloadAction<Notification>) => {
-            state.notification = action.payload;
+        setSuccessNotification: (state, action: PayloadAction<string>) => {
+            state.notification = {
+                message: action.payload,
+                severity: "success",
+            };
         },
-        setErrorNotification: (state, action: PayloadAction<Notification>) => {
-            state.notification = action.payload;
+        setErrorNotification: (state, action: PayloadAction<string>) => {
+            state.notification = {
+                message: action.payload,
+                severity: "error",
+            };
         },
     },
 });

@@ -1,11 +1,10 @@
 import styled from "@emotion/styled";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import * as actionCreators from "./actions/goldPrice";
 import Graph from "./Graph";
-import * as firebase from "./libs/firebase";
-import { RootReducer } from "./reducers/goldPrice";
 import GoldTable from "./Table";
+import * as firebase from "./libs/firebase";
+import { setErrorNotification, setGoldPrice, setIsLoading } from "./reducers/goldPrice";
+import { useAppDispatch, useAppSelector } from "./reduxHook";
 import { fetchGoldPrices } from "./util/Util";
 
 const GraphWrapper = styled.div`
@@ -18,8 +17,8 @@ const TableWrapper = styled.div`
 `;
 
 function Home() {
-    const numOfDay = useSelector<RootReducer, number>((state) => state.goldPrice.numOfDay);
-    const dispatch = useDispatch();
+    const numOfDay = useAppSelector((state) => state.goldPrice.numOfDay);
+    const dispatch = useAppDispatch();
 
     React.useEffect(() => {
         firebase.logAnalyticEvent(
@@ -32,17 +31,15 @@ function Home() {
     }, []);
 
     React.useEffect(() => {
-        dispatch(actionCreators.setIsLoading(true));
+        dispatch(setIsLoading(true));
         fetchGoldPrices(numOfDay)
             .then((goldPrices) => {
-                dispatch(actionCreators.setGoldPrice(goldPrices));
-                dispatch(actionCreators.setIsLoading(false));
+                dispatch(setGoldPrice(goldPrices));
+                dispatch(setIsLoading(false));
             })
             .catch(() => {
-                dispatch(actionCreators.setIsLoading(false));
-                dispatch(
-                    actionCreators.setErrorNotification("Cannot fetch gold data. Please try again")
-                );
+                dispatch(setIsLoading(false));
+                dispatch(setErrorNotification("Cannot fetch gold data. Please try again"));
             });
     }, [dispatch, numOfDay]);
 
