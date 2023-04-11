@@ -1,15 +1,14 @@
 import { FormControl, MenuItem, Select } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
-import * as actionCreators from "./actions/goldPrice";
 import * as firebase from "./libs/firebase";
-import { RootReducer } from "./reducers/goldPrice";
+import { setNumberOfDay } from "./reducers/goldPrice";
+import { useAppDispatch, useAppSelector } from "./reduxHook";
 
 function Filter() {
-    const numOfDay = useSelector<RootReducer, number>((state) => state.goldPrice.numOfDay);
-    const dispatch = useDispatch();
+    const numOfDay = useAppSelector((state) => state.goldPrice.numOfDay);
+    const dispatch = useAppDispatch();
 
     function onChangeHandler(value: string | number) {
-        dispatch(actionCreators.setNumberOfDay(+value));
+        dispatch(setNumberOfDay(+value));
 
         firebase.logAnalyticEvent(firebase.eventName.click, {
             elementName: "filter",

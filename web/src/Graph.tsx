@@ -1,9 +1,8 @@
 import React from "react";
-import { useSelector } from "react-redux";
 import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
 import { ValueType } from "recharts/types/component/DefaultTooltipContent";
 import { Price } from "./models/model";
-import { RootReducer } from "./reducers/goldPrice";
+import { useAppSelector } from "./reduxHook";
 import dayjs from "./util/Dayjs";
 
 interface GraphData {
@@ -14,7 +13,7 @@ interface GraphData {
 
 function Graph() {
     const fontFamily = "Roboto";
-    const prices = useSelector<RootReducer, Price[]>((state) => state.goldPrice.prices);
+    const prices = useAppSelector((state) => state.goldPrice.prices);
     const [width, setWidth] = React.useState(calculateWidth());
     const [height, setHeight] = React.useState(calculateHeight());
     const graphData = getGraphData(prices);
