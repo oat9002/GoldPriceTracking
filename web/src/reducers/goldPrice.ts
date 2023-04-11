@@ -26,7 +26,7 @@ const reducer = createSlice({
         setGoldPrice: (state, action: PayloadAction<Price[]>) => {
             state.prices = action.payload;
         },
-        setNumberOfRec: (state, action: PayloadAction<number>) => {
+        setNumberOfDay: (state, action: PayloadAction<number>) => {
             state.numOfDay = action.payload;
         },
         setIsLoading: (state, action: PayloadAction<boolean>) => {
@@ -51,7 +51,7 @@ export default reducer.reducer;
 
 export const {
     setGoldPrice,
-    setNumberOfRec,
+    setNumberOfDay,
     setIsLoading,
     setSuccessNotification,
     setErrorNotification,
