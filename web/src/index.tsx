@@ -3,7 +3,6 @@ import { Provider } from "react-redux";
 import App from "./App";
 import "./index.css";
 import * as firebase from "./libs/firebase";
-import registerServiceWorker from "./registerServiceWorker";
 import store from "./store";
 
 firebase.initializeFirebase();
@@ -16,5 +15,3 @@ root.render(
         <App />
     </Provider>
 );
-
-registerServiceWorker();
