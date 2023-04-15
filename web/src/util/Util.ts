@@ -22,7 +22,7 @@ export function formatNumber(number: number, lang = "th-TH") {
 }
 
 export function isMock() {
-    return !process.env.REACT_APP_SERVER_URL || process.env.REACT_APP_SERVER_URL === "";
+    return !import.meta.env.VITE_SERVER_URL || import.meta.env.VITE_SERVER_URL === "";
 }
 
 export const httpStatus = {
