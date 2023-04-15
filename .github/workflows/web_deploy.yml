@@ -11,6 +11,43 @@ on:
             - "web/**"
 
     workflow_dispatch:
+    workflow_call:
+        inputs:
+            pull-latest:
+                required: false
+                type: boolean
+                default: false
+        secrets:
+            GOLD_PRICE_SERVER_URL:
+                description: "server url"
+                required: true
+            FIREBASE_API_KEY:
+                description: "firebase api key"
+                required: true
+            FIREBASE_AUTH_DOMAIN:
+                description: "firebase auth domain"
+                required: true
+            FIREBASE_DATABASE_URL:
+                description: "firebase database url"
+                required: true
+            FIREBASE_PROJECT_ID:
+                description: "firebase project id"
+                required: true
+            FIREBASE_STORAGE_BUCKET:
+                description: "firebase storage bucket"
+                required: true
+            FIREBASE_MESSAGING_SENDER_ID:
+                description: "firebase messaging sender id"
+                required: true
+            FIREBASE_APP_ID:
+                description: "firebase app id"
+                required: true
+            FIREBASE_MEASUREMENT_ID:
+                description: "firebase measurement id"
+                required: true
+            FIREBASE_SERVICE_ACCOUNT_GOLDPRICETRACKING:
+                description: "firebase service account"
+                required: true
 
 defaults:
     run:
@@ -26,6 +63,10 @@ jobs:
         steps:
             # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
             - uses: actions/checkout@v3
+
+            - name: Pull latest
+              if: ${{ inputs.pull-latest }}
+              run: git pull
 
             - name: Install yarn
               run: npm install -g yarn
