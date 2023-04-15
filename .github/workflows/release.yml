@@ -35,7 +35,7 @@ jobs:
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     deploy-web:
-        need: release
+        needs: release
         uses: ./.github/workflows/web_deploy.yml
         with:
             pull-latest: true
@@ -51,7 +51,7 @@ jobs:
             FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
             FIREBASE_SERVICE_ACCOUNT_GOLDPRICETRACKING: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GOLDPRICETRACKING }}
     deploy-server:
-        need: release
+        needs: release
         uses: ./.github/workflows/server_deploy.yml
         with:
             pull-latest: true
