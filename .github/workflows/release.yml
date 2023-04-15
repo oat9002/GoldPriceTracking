@@ -37,8 +37,8 @@ jobs:
     deploy-web:
         need: release
         uses: ./.github/workflows/web_deploy.yml
-            with:
-                pull-latest: true
+        with:
+            pull-latest: true
         secrets:
             VITE_SERVER_URL: ${{ secrets.GOLD_PRICE_SERVER_URL }}
             VITE_FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
@@ -53,11 +53,10 @@ jobs:
     deploy-server:
         need: release
         uses: ./.github/workflows/server_deploy.yml
-            with:
-                pull-latest: true
+        with:
+            pull-latest: true
         secrets:
             DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
             DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
             SERVER_DEPLOY_URL: ${{ secrets.SERVER_DEPLOY_URL }}
             DEPLOY_API_KEY: ${{ secrets.DEPLOY_API_KEY }}
-
