@@ -323,10 +323,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@eslint/js@npm:8.49.0":
-  version: 8.49.0
-  resolution: "@eslint/js@npm:8.49.0"
-  checksum: a6601807c8aeeefe866926ad92ed98007c034a735af20ff709009e39ad1337474243d47908500a3bde04e37bfba16bcf1d3452417f962e1345bc8756edd6b830
+"@eslint/js@npm:8.51.0":
+  version: 8.51.0
+  resolution: "@eslint/js@npm:8.51.0"
+  checksum: 0228bf1e1e0414843e56d9ff362a2a72d579c078f93174666f29315690e9e30a8633ad72c923297f7fd7182381b5a476805ff04dac8debe638953eb1ded3ac73
   languageName: node
   linkType: hard
 
@@ -1815,14 +1815,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axios@npm:^1.5.0":
-  version: 1.5.0
-  resolution: "axios@npm:1.5.0"
+"axios@npm:^1.5.1":
+  version: 1.5.1
+  resolution: "axios@npm:1.5.1"
   dependencies:
     follow-redirects: ^1.15.0
     form-data: ^4.0.0
     proxy-from-env: ^1.1.0
-  checksum: e7405a5dbbea97760d0e6cd58fecba311b0401ddb4a8efbc4108f5537da9b3f278bde566deb777935a960beec4fa18e7b8353881f2f465e4f2c0e949fead35be
+  checksum: 4444f06601f4ede154183767863d2b8e472b4a6bfc5253597ed6d21899887e1fd0ee2b3de792ac4f8459fe2e359d2aa07c216e45fd8b9e4e0688a6ebf48a5a8d
   languageName: node
   linkType: hard
 
@@ -2288,10 +2288,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dayjs@npm:^1.11.9":
-  version: 1.11.9
-  resolution: "dayjs@npm:1.11.9"
-  checksum: a4844d83dc87f921348bb9b1b93af851c51e6f71fa259604809cfe1b49d1230e6b0212dab44d1cb01994c096ad3a77ea1cf18fa55154da6efcc9d3610526ac38
+"dayjs@npm:^1.11.10":
+  version: 1.11.10
+  resolution: "dayjs@npm:1.11.10"
+  checksum: a6b5a3813b8884f5cd557e2e6b7fa569f4c5d0c97aca9558e38534af4f2d60daafd3ff8c2000fed3435cfcec9e805bcebd99f90130c6d1c5ef524084ced588c4
   languageName: node
   linkType: hard
 
@@ -2737,14 +2737,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint@npm:^8.49.0":
-  version: 8.49.0
-  resolution: "eslint@npm:8.49.0"
+"eslint@npm:^8.51.0":
+  version: 8.51.0
+  resolution: "eslint@npm:8.51.0"
   dependencies:
     "@eslint-community/eslint-utils": ^4.2.0
     "@eslint-community/regexpp": ^4.6.1
     "@eslint/eslintrc": ^2.1.2
-    "@eslint/js": 8.49.0
+    "@eslint/js": 8.51.0
     "@humanwhocodes/config-array": ^0.11.11
     "@humanwhocodes/module-importer": ^1.0.1
     "@nodelib/fs.walk": ^1.2.8
@@ -2780,7 +2780,7 @@ __metadata:
     text-table: ^0.2.0
   bin:
     eslint: bin/eslint.js
-  checksum: 4dfe257e1e42da2f9da872b05aaaf99b0f5aa022c1a91eee8f2af1ab72651b596366320c575ccd4e0469f7b4c97aff5bb85ae3323ebd6a293c3faef4028b0d81
+  checksum: 214fa5d1fcb67af1b8992ce9584ccd85e1aa7a482f8b8ea5b96edc28fa838a18a3b69456db45fc1ed3ef95f1e9efa9714f737292dc681e572d471d02fda9649c
   languageName: node
   linkType: hard
 
@@ -3065,9 +3065,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"firebase-admin@npm:^11.10.1":
-  version: 11.10.1
-  resolution: "firebase-admin@npm:11.10.1"
+"firebase-admin@npm:^11.11.0":
+  version: 11.11.0
+  resolution: "firebase-admin@npm:11.11.0"
   dependencies:
     "@fastify/busboy": ^1.2.1
     "@firebase/database-compat": ^0.3.4
@@ -3084,7 +3084,7 @@ __metadata:
       optional: true
     "@google-cloud/storage":
       optional: true
-  checksum: e0ba6795be4064b0713c83d305894b79d1543d9129e4b531ee9f299020923b36b0c3ed7509ced9fe02ca5a65f030077eee9bcfa20c29919a0996ef7e7a5caeaa
+  checksum: 0702b6b8367e90b1463df4b132131924488d2c69f9d0c49072465940708967e93cc1688f4ef76ba59920fbd4e9ca916436ae0c8eca9a6a88b1c8d12ab7fd0f5a
   languageName: node
   linkType: hard
 
@@ -3418,18 +3418,18 @@ __metadata:
     "@typescript-eslint/eslint-plugin": ^5.10.0
     "@typescript-eslint/parser": ^5.10.0
     async: ^3.2.4
-    axios: ^1.5.0
+    axios: ^1.5.1
     cheerio: ^1.0.0-rc.12
     cors: ^2.8.5
-    dayjs: ^1.11.9
+    dayjs: ^1.11.10
     dotenv: ^16.3.1
-    eslint: ^8.49.0
+    eslint: ^8.51.0
     eslint-config-prettier: ^9.0.0
     eslint-plugin-node: ^11.1.0
     eslint-plugin-prettier: ^5.0.0
     express: ^4.18.2
     firebase: ^10.4.0
-    firebase-admin: ^11.10.1
+    firebase-admin: ^11.11.0
     jquery: ^3.7.1
     node-cron: ^3.0.2
     nodemon: ^3.0.1
