@@ -1,3 +1,5 @@
+import { DocumentData } from "firebase-admin/firestore";
+
 export interface Price {
     buy: number;
     buyDifferent: number;
@@ -6,11 +8,11 @@ export interface Price {
     createdAt: Date;
 }
 
-export function mapPriceFromDb(db: any): Price {
+export function mapPriceFromDb(db: DocumentData): Price {
     return {
         buy: db.buy,
         sell: db.sell,
-        createdAt: db.created_at,
+        createdAt: db.created_at.toDate(),
         buyDifferent: db.buyDifferent,
         sellDifferent: db.sellDifferent,
     };

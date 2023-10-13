@@ -5,7 +5,9 @@ import dayjs from "../util/dayjs";
 import { LogLevel } from "../util/enums";
 import * as utils from "../util/utils";
 import { isDevelopmentMode } from "./../util/mode";
+import { firestore } from "./../dal/firebase";
 
+const priceCollection = firestore.collection("price");
 const monthName = [
     "ม.ค.",
     "ก.พ.",
@@ -23,15 +25,13 @@ const monthName = [
 let first = true;
 
 export async function pushMessage() {
-    const dbInstance = db.getInstance();
-    dbInstance
-        .ref("price")
-        .orderByChild("created_at")
-        .limitToLast(1)
-        .on("child_added", async (snapshot) => {
+    priceCollection
+        .orderBy("created_at", "desc")
+        .limit(1)
+        .onSnapshot(async (snapShot) => {
             if (!first) {
                 try {
-                    const data = snapshot.val();
+                    const data = snapShot.docs[0];
                     const messageNotify = generateMessage(data);
 
                     await lineNotify(process.env.NOTIFY_GOLD_PRICE_TRACKING, messageNotify);
