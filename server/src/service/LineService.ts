@@ -6,6 +6,7 @@ import { LogLevel } from "../util/enums";
 import * as utils from "../util/utils";
 import { isDevelopmentMode } from "./../util/mode";
 import { firestore } from "./../dal/firebase";
+import { DocumentData } from "firebase-admin/firestore";
 
 const priceCollection = firestore.collection("price");
 const monthName = [
@@ -22,31 +23,33 @@ const monthName = [
     "พ.ย.",
     "ธ.ค.",
 ];
+
 let first = true;
 
 export async function pushMessage() {
     priceCollection
         .orderBy("created_at", "desc")
         .limit(1)
-        .onSnapshot(async (snapShot) => {
-            if (!first) {
-                try {
-                    const data = snapShot.docs[0];
-                    const messageNotify = generateMessage(data);
-
-                    await lineNotify(process.env.NOTIFY_GOLD_PRICE_TRACKING, messageNotify);
-                } catch (err: unknown) {
-                    if (err instanceof Error) {
-                        utils.log("pushMessage failed", LogLevel.error, err);
-                    }
-                }
-            } else {
+        .onSnapshot(async (snapshot) => {
+            if (first) {
                 first = false;
+                return;
+            }
+
+            try {
+                const data = snapshot.docs[0].data();
+                const messageNotify = generateMessage(data);
+
+                await lineNotify(process.env.NOTIFY_GOLD_PRICE_TRACKING, messageNotify);
+            } catch (err: unknown) {
+                if (err instanceof Error) {
+                    utils.log("pushMessage failed", LogLevel.error, err);
+                }
             }
         });
 }
 
-export function generateMessage(firebaseData: any): string {
+export function generateMessage(firebaseData: DocumentData): string {
     const date = dayjs.tz(firebaseData.created_at);
     let showMinute = "" + date.minute();
     if (date.minute() < 10) {
