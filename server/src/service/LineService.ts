@@ -50,7 +50,7 @@ export async function pushMessage() {
 }
 
 export function generateMessage(firebaseData: DocumentData): string {
-    const date = dayjs.tz(firebaseData.created_at);
+    const date = dayjs.tz(firebaseData.created_at.toDate());
     let showMinute = "" + date.minute();
     if (date.minute() < 10) {
         showMinute = "0" + date.minute();
