@@ -99,21 +99,17 @@ export async function getLatestPrices(number: number): Promise<Price[]> {
 
 export async function getPricesLastByDay(days: number) {
     const now = dayjs();
-    const end = now.toDate();
-    const start = now
-        .hour(0)
-        .millisecond(0)
-        .second(0)
-        .millisecond(0)
-        .subtract(days, "day")
-        .toDate();
+    const end = Timestamp.fromMillis(now.valueOf());
+    const start = Timestamp.fromMillis(
+        now.hour(0).millisecond(0).second(0).millisecond(0).subtract(days, "day").valueOf()
+    );
     let idx = 0;
 
     try {
         const snapshot = await priceCollection
+            .where("created_at", ">=", start)
+            .where("created_at", "<=", end)
             .orderBy("created_at", "desc")
-            .startAt(Timestamp.fromDate(start))
-            .endAt(Timestamp.fromDate(end))
             .get();
 
         if (snapshot.empty) {
