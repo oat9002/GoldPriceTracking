@@ -5,7 +5,10 @@ import dayjs from "../util/dayjs";
 import { LogLevel } from "../util/enums";
 import * as utils from "../util/utils";
 import { isDevelopmentMode } from "./../util/mode";
+import { firestore } from "./../dal/firebase";
+import { DocumentData } from "firebase-admin/firestore";
 
+const priceCollection = firestore.collection("price");
 const monthName = [
     "ม.ค.",
     "ก.พ.",
@@ -20,33 +23,33 @@ const monthName = [
     "พ.ย.",
     "ธ.ค.",
 ];
+
 let first = true;
 
 export async function pushMessage() {
-    const dbInstance = db.getInstance();
-    dbInstance
-        .ref("price")
-        .orderByChild("created_at")
-        .limitToLast(1)
-        .on("child_added", async (snapshot) => {
-            if (!first) {
-                try {
-                    const data = snapshot.val();
-                    const messageNotify = generateMessage(data);
-
-                    await lineNotify(process.env.NOTIFY_GOLD_PRICE_TRACKING, messageNotify);
-                } catch (err: unknown) {
-                    if (err instanceof Error) {
-                        utils.log("pushMessage failed", LogLevel.error, err);
-                    }
-                }
-            } else {
+    priceCollection
+        .orderBy("created_at", "desc")
+        .limit(1)
+        .onSnapshot(async (snapshot) => {
+            if (first) {
                 first = false;
+                return;
+            }
+
+            try {
+                const data = snapshot.docs[0].data();
+                const messageNotify = generateMessage(data);
+
+                await lineNotify(process.env.NOTIFY_GOLD_PRICE_TRACKING, messageNotify);
+            } catch (err: unknown) {
+                if (err instanceof Error) {
+                    utils.log("pushMessage failed", LogLevel.error, err);
+                }
             }
         });
 }
 
-export function generateMessage(firebaseData: any): string {
+export function generateMessage(firebaseData: DocumentData): string {
     const date = dayjs.tz(firebaseData.created_at);
     let showMinute = "" + date.minute();
     if (date.minute() < 10) {

@@ -1,46 +1,23 @@
-import admin from "firebase-admin";
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//@ts-ignore
-import * as serviceAccount from "../../config/goldpricetracking-firebase-adminsdk-718s5-85e720333f.json";
-import { User } from "../models/User";
+import { mapUserFromDb, User } from "../models/User";
 import dayjs from "../util/dayjs";
 import { LogLevel } from "../util/enums";
 import * as utils from "../util/utils";
 import { mapPriceFromDb, Price } from "./../models/Price";
+import { firestore as db } from "./firebase";
+import { Timestamp } from "firebase-admin/firestore";
 
-const firebaseConfig = {
-    type: serviceAccount.type,
-    projectId: serviceAccount.project_id,
-    privateKeyId: serviceAccount.private_key_id,
-    privateKey: serviceAccount.private_key,
-    clientEmail: serviceAccount.client_email,
-    clientId: serviceAccount.client_id,
-    authUri: serviceAccount.auth_uri,
-    tokenUri: serviceAccount.token_uri,
-    authProviderX509CertUrl: serviceAccount.auth_provider_x509_cert_url,
-    clientC509CertUrl: serviceAccount.client_x509_cert_url,
-};
-const app = admin.initializeApp({
-    credential: admin.credential.cert(firebaseConfig),
-    databaseURL: process.env.FIREBASE_DATABASE_URL,
-});
-
-const db = app.database();
-
-export function getInstance() {
-    return db;
-}
+const priceCollection = db.collection("price");
+const userCollection = db.collection("user");
 
 export async function addPrice(buy: number, sell: number): Promise<void> {
     try {
         const latestPrice = await getLatestPrice();
-        const uid = db.ref().child("price").push().key;
-        await db.ref("price/" + uid).set({
+        await priceCollection.add({
             buy: buy,
             sell: sell,
             buyDifferent: buy - latestPrice.buy,
             sellDifferent: sell - latestPrice.sell,
-            created_at: dayjs().valueOf(),
+            created_at: Timestamp.fromMillis(dayjs().valueOf()),
         });
     } catch (err: unknown) {
         throw createErrorFromException(err);
@@ -49,16 +26,11 @@ export async function addPrice(buy: number, sell: number): Promise<void> {
 
 export async function shouldAddPrice(buy: number, sell: number): Promise<boolean> {
     try {
-        const snapshot = await db
-            .ref("price")
-            .orderByChild("created_at")
-            .limitToLast(1)
-            .once("value");
+        const snapshot = await priceCollection.orderBy("created_at", "desc").limit(1).get();
 
-        const data = snapshot.val();
-        const id = Object.keys(data)[0];
-        const oldBuy = data[id].buy;
-        const oldSell = data[id].sell;
+        const data = snapshot.docs[0].data();
+        const oldBuy = data.buy;
+        const oldSell = data.sell;
 
         if (buy - oldBuy !== 0 || sell - oldSell !== 0) {
             return true;
@@ -72,18 +44,10 @@ export async function shouldAddPrice(buy: number, sell: number): Promise<boolean
 
 export async function getLatestPrice(): Promise<Price> {
     try {
-        const snapshot = await db
-            .ref("price")
-            .orderByChild("created_at")
-            .limitToLast(1)
-            .once("value");
-        const toReturn: Price[] = [];
+        const snapshot = await priceCollection.orderBy("created_at", "desc").limit(1).get();
+        const data = snapshot.docs[0].data();
 
-        snapshot.forEach((childSnapshot) => {
-            toReturn.push(mapPriceFromDb(childSnapshot.val()));
-        });
-
-        return toReturn[0];
+        return mapPriceFromDb(data);
     } catch (err: unknown) {
         throw createErrorFromException(err);
     }
@@ -91,8 +55,7 @@ export async function getLatestPrice(): Promise<Price> {
 
 export async function addLineUser(userId: string): Promise<void> {
     try {
-        const uid = db.ref().child("user").push().key;
-        await db.ref("user/" + uid).set({
+        await userCollection.add({
             id: userId,
         });
     } catch (err: unknown) {
@@ -102,9 +65,13 @@ export async function addLineUser(userId: string): Promise<void> {
 
 export async function getAllUser(): Promise<User[]> {
     try {
-        const snapshot = await db.ref("user").once("value");
+        const snapshot = await userCollection.get();
 
-        return snapshot.val();
+        return snapshot.docs.map((doc) => {
+            const data = doc.data();
+
+            return mapUserFromDb(data);
+        });
     } catch (err: unknown) {
         throw createErrorFromException(err);
     }
@@ -117,11 +84,11 @@ export async function getLatestPrices(number: number): Promise<Price[]> {
     try {
         const snapshot =
             number !== 0
-                ? await db.ref("price").orderByChild("created_at").limitToLast(number).once("value")
-                : await db.ref("price").orderByChild("created_at").once("value");
+                ? await priceCollection.orderBy("created_at", "desc").limit(number).get()
+                : await priceCollection.orderBy("created_at", "desc").get();
 
         snapshot.forEach((childSnapshot) => {
-            priceArr[idx++] = mapPriceFromDb(childSnapshot.val());
+            priceArr[idx++] = mapPriceFromDb(childSnapshot.data());
         });
 
         return priceArr;
@@ -132,35 +99,29 @@ export async function getLatestPrices(number: number): Promise<Price[]> {
 
 export async function getPricesLastByDay(days: number) {
     const now = dayjs();
-    const end = now.valueOf();
-    const start = now
-        .hour(0)
-        .millisecond(0)
-        .second(0)
-        .millisecond(0)
-        .subtract(days, "day")
-        .valueOf();
+    const end = Timestamp.fromMillis(now.valueOf());
+    const start = Timestamp.fromMillis(
+        now.hour(0).millisecond(0).second(0).millisecond(0).subtract(days, "day").valueOf()
+    );
     let idx = 0;
 
     try {
-        const snapshot = await db
-            .ref("price")
-            .orderByChild("created_at")
-            .startAt(start)
-            .endAt(end)
-            .once("value");
+        const snapshot = await priceCollection
+            .where("created_at", ">=", start)
+            .where("created_at", "<=", end)
+            .orderBy("created_at", "desc")
+            .get();
 
-        const numberOfChildren = snapshot.numChildren();
-        if (numberOfChildren === 0) {
+        if (snapshot.empty) {
             return null;
         }
 
-        const priceArr: Price[] = new Array(numberOfChildren);
+        const priceArr: Price[] = new Array(snapshot.docs.length);
         snapshot.forEach((childSnapshot) => {
-            priceArr[idx++] = mapPriceFromDb(childSnapshot.val());
+            priceArr[idx++] = mapPriceFromDb(childSnapshot.data());
         });
 
-        return priceArr.reverse();
+        return priceArr;
     } catch (err: unknown) {
         throw createErrorFromException(err);
     }
