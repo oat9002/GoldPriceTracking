@@ -1,7 +1,7 @@
 import cors from "cors";
 import "dotenv/config";
 import express from "express";
-import * as db from "./dal/db";
+import * as dbDecorator from "./dal/dbDecorator";
 import * as mackerel from "./service/MackerelServie";
 import * as track from "./service/TrackingService";
 import { StatusCode } from "./util/enums";
@@ -24,7 +24,7 @@ app.get("/prices", async (req, res) => {
     }
 
     try {
-        const data = await db.getLatestPrices(numOfLatestPrice);
+        const data = await dbDecorator.getLatestPrices(numOfLatestPrice);
         res.status(StatusCode.okay);
         res.json(data);
     } catch (err: unknown) {
@@ -46,7 +46,7 @@ app.get("/priceslastday", async (req, res) => {
         res.send("days must be more than or equal to 0");
     } else {
         try {
-            const data = await db.getPricesLastByDay(days);
+            const data = await dbDecorator.getPricesLastByDay(days);
             res.status(StatusCode.okay);
             res.json(data);
         } catch (err: unknown) {
