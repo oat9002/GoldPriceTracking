@@ -1,7 +1,7 @@
 import axios from "axios";
 import cheerio from "cheerio";
 import cron from "node-cron";
-import * as db from "../dal/db";
+import * as dbDecorator from "../dal/dbDecorator";
 import { LogLevel } from "../util/enums";
 import { isDevelopmentMode } from "../util/mode";
 import * as utils from "../util/utils";
@@ -20,10 +20,10 @@ export async function retrieveAndSavePrice(): Promise<void> {
         buyPrice = parseInt(bpTemp.substring(0, bpTemp.length - 3).replace(",", ""));
         sellPrice = parseInt(spTemp.substring(0, spTemp.length - 3).replace(",", ""));
         if (buyPrice !== null && sellPrice !== null) {
-            const shouldAdd = await db.shouldAddPrice(buyPrice, sellPrice);
+            const shouldAdd = await dbDecorator.shouldAddPrice(buyPrice, sellPrice);
 
             if (shouldAdd) {
-                await db.addPrice(buyPrice, sellPrice);
+                await dbDecorator.addPrice(buyPrice, sellPrice);
             }
         } else {
             utils.log("Something wrong in price");
