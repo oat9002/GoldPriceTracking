@@ -4,36 +4,38 @@ name: Server - Build Pull Request
 
 # Controls when the workflow will run
 on:
-    # Triggers the workflow on push or pull request events but only for the master branch
-    pull_request:
-        branches: [main]
-        paths-ignore:
-            - "web/**"
+  # Triggers the workflow on push or pull request events but only for the master branch
+  pull_request:
+    branches: [main]
+    paths-ignore:
+      - "web/**"
 
-    # Allows you to run this workflow manually from the Actions tab
-    workflow_dispatch:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 defaults:
-    run:
-        working-directory: server
+  run:
+    working-directory: server
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-    # This workflow contains a single job called "build"
-    build-server:
-        # The type of runner that the job will run on
-        runs-on: ubuntu-latest
+  # This workflow contains a single job called "build"
+  build-server:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
 
-        # Steps represent a sequence of tasks that will be executed as part of the job
-        steps:
-            # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-            - uses: actions/checkout@v3
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
 
-            - name: Install yarn
-              run: npm install -g yarn
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
 
-            - name: Install package
-              run: yarn install
+      - name: Install package
+        run: yarn install
 
-            - name: Build
-              run: yarn build
+      - name: Build
+        run: yarn build
