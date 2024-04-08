@@ -34,9 +34,6 @@ jobs:
         with:
           node-version: 20
 
-      - name: Set yarn 3
-        run: yarn set version berry
-
       - name: Install package
         run: yarn install
 
