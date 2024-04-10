@@ -4,59 +4,64 @@ name: Release
 
 # Controls when the workflow will run
 on:
-    # Allows you to run this workflow manually from the Actions tab
-    workflow_dispatch:
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-    # This workflow contains a single job called "build"
-    release:
-        # The type of runner that the job will run on
-        runs-on: ubuntu-latest
+  # This workflow contains a single job called "build"
+  release:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
 
-        # Steps represent a sequence of tasks that will be executed as part of the job
-        steps:
-            # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-            - uses: actions/checkout@v3
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v4
 
-            - name: Set GitHub user
-              run: |
-                  git config --global user.name 'oat9002'
-                  git config --global user.email 'oat9002@hotmail.com'
-
-            - name: Install yarn
-              run: npm install -g yarn
-
-            - name: Install package
-              run: yarn install
-
-            - name: Release
-              run: yarn release minor --ci
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-    deploy-web:
-        needs: release
-        uses: ./.github/workflows/web_deploy.yml
+      - name: Setup Node.js environment
+        uses: actions/setup-node@v4
         with:
-            pull-latest: true
-        secrets:
-            GOLD_PRICE_SERVER_URL: ${{ secrets.GOLD_PRICE_SERVER_URL }}
-            FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
-            FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
-            FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
-            FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
-            FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
-            FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
-            FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
-            FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
-            FIREBASE_SERVICE_ACCOUNT_GOLDPRICETRACKING: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GOLDPRICETRACKING }}
-    deploy-server:
-        needs: release
-        uses: ./.github/workflows/server_deploy.yml
-        with:
-            pull-latest: true
-        secrets:
-            DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-            DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-            SERVER_DEPLOY_URL: ${{ secrets.SERVER_DEPLOY_URL }}
-            DEPLOY_API_KEY: ${{ secrets.DEPLOY_API_KEY }}
+          node-version: 20
+
+      - name: Enable Corepack
+        run: corepack enable
+
+      - name: Set GitHub user
+        run: |
+          git config --global user.name 'oat9002'
+          git config --global user.email 'oat9002@hotmail.com'
+
+      - name: Install package
+        run: yarn install
+
+      - name: Release
+        run: yarn release minor --ci
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  deploy-web:
+    needs: release
+    uses: ./.github/workflows/web_deploy.yml
+    with:
+      pull-latest: true
+    secrets:
+      GOLD_PRICE_SERVER_URL: ${{ secrets.GOLD_PRICE_SERVER_URL }}
+      FIREBASE_API_KEY: ${{ secrets.FIREBASE_API_KEY }}
+      FIREBASE_AUTH_DOMAIN: ${{ secrets.FIREBASE_AUTH_DOMAIN }}
+      FIREBASE_DATABASE_URL: ${{ secrets.FIREBASE_DATABASE_URL }}
+      FIREBASE_PROJECT_ID: ${{ secrets.FIREBASE_PROJECT_ID }}
+      FIREBASE_STORAGE_BUCKET: ${{ secrets.FIREBASE_STORAGE_BUCKET }}
+      FIREBASE_MESSAGING_SENDER_ID: ${{ secrets.FIREBASE_MESSAGING_SENDER_ID }}
+      FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
+      FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
+      FIREBASE_SERVICE_ACCOUNT_GOLDPRICETRACKING: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GOLDPRICETRACKING }}
+  deploy-server:
+    needs: release
+    uses: ./.github/workflows/server_deploy.yml
+    with:
+      pull-latest: true
+    secrets:
+      DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
+      SERVER_DEPLOY_URL: ${{ secrets.SERVER_DEPLOY_URL }}
+      DEPLOY_API_KEY: ${{ secrets.DEPLOY_API_KEY }}
