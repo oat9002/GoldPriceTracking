@@ -1132,23 +1132,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@grpc/grpc-js@npm:~1.9.0":
-  version: 1.9.3
-  resolution: "@grpc/grpc-js@npm:1.9.3"
+"@grpc/grpc-js@npm:~1.9.0, @grpc/grpc-js@npm:~1.9.6":
+  version: 1.9.15
+  resolution: "@grpc/grpc-js@npm:1.9.15"
   dependencies:
     "@grpc/proto-loader": "npm:^0.7.8"
     "@types/node": "npm:>=12.12.47"
-  checksum: 10/ad609a9ce647a454de1209a23403be9a106b8917db37efee2cd8e059e0ce6f49fb54827f692516b679d55c64cf88ae11667cbedb8a6f51a5dfb8f8ed1bb1f11b
-  languageName: node
-  linkType: hard
-
-"@grpc/grpc-js@npm:~1.9.6":
-  version: 1.9.13
-  resolution: "@grpc/grpc-js@npm:1.9.13"
-  dependencies:
-    "@grpc/proto-loader": "npm:^0.7.8"
-    "@types/node": "npm:>=12.12.47"
-  checksum: 10/c52150053ca3911bf9ec5012265aa754627aba9c60577ef07c594c5c22896e939ec0f656cc130a54a8651ea0ae23f385a4a48868fc71ff56dff54eeaec8b6912
+  checksum: 10/edd45c5970046ebb1bb54856f22a41186742c77dfb7e5182ca615f690f1a320af3abeef553d8924812d56911157a04882c7d264c2de64f326f8df7d473c47b2a
   languageName: node
   linkType: hard
 
