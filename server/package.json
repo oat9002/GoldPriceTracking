@@ -24,7 +24,7 @@
     "homepage": "https://github.com/oat9002/GoldPriceTraking#readme",
     "dependencies": {
         "async": "^3.2.5",
-        "axios": "^1.6.8",
+        "axios": "^1.7.4",
         "cheerio": "^1.0.0-rc.12",
         "cors": "^2.8.5",
         "dayjs": "^1.11.10",
