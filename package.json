@@ -12,5 +12,5 @@
   "scripts": {
     "release": "release-it"
   },
-  "packageManager": "yarn@4.1.1"
+  "packageManager": "yarn@4.4.0"
 }
