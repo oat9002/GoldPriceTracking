@@ -1,5 +1,5 @@
 import axios from "axios";
-import cheerio from "cheerio";
+import * as cheerio from "cheerio";
 import cron from "node-cron";
 import * as dbDecorator from "../dal/dbDecorator";
 import { LogLevel } from "../util/enums";
