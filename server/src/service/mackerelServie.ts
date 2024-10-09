@@ -2,7 +2,7 @@ import axios from "axios";
 import dayjs from "dayjs";
 import cron from "node-cron";
 import { LogLevel } from "../util/enums";
-import { log } from "../util/utils";
+import { log } from "../util/logger";
 
 const baseUrl = "https://api.mackerelio.com";
 const apiKey = process.env.MACKEREL_API_KEY ?? "";

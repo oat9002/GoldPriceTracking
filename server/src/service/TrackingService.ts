@@ -4,7 +4,7 @@ import cron from "node-cron";
 import * as dbDecorator from "../dal/dbDecorator";
 import { LogLevel } from "../util/enums";
 import { isDevelopmentMode } from "../util/mode";
-import * as utils from "../util/utils";
+import * as utils from "../util/logger";
 import * as message from "./lineService";
 
 export async function retrieveAndSavePrice(): Promise<void> {
