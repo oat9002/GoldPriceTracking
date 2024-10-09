@@ -2,8 +2,8 @@ import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import * as dbDecorator from "./dal/dbDecorator";
-import * as mackerel from "./service/MackerelServie";
-import * as track from "./service/TrackingService";
+import * as mackerel from "./service/mackerelServie";
+import * as track from "./service/trackingService";
 import { StatusCode } from "./util/enums";
 import useSwagger from "./middleware/swagger";
 
