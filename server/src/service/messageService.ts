@@ -1,6 +1,6 @@
 import { firestore } from "../dal/firebase";
 import { LogLevel } from "../util/enums";
-import { notify } from "./lineService";
+import { notify } from "./telegramService";
 import * as logger from "../util/logger";
 import { DocumentData } from "firebase-admin/firestore";
 import dayjs from "../util/dayjs";

@@ -18,6 +18,7 @@ export async function notify(message: string): Promise<void> {
     const token = process.env.LINE_NOTIFY_TOKEN;
 
     if (!token) {
+        logger.log("Missing line notify token", LogLevel.error);
         return;
     }
 
