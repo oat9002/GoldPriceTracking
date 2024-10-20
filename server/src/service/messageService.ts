@@ -1,6 +1,7 @@
 import { firestore } from "../dal/firebase";
 import { LogLevel } from "../util/enums";
-import { notify } from "./telegramService";
+import { notify as telegramNotify } from "./telegramService";
+import { notify as lineNotify } from "./lineService";
 import * as logger from "../util/logger";
 import { DocumentData } from "firebase-admin/firestore";
 import dayjs from "../util/dayjs";
@@ -38,7 +39,7 @@ export async function pushMessage() {
                 const data = snapshot.docs[0].data();
                 const messageNotify = generateMessage(data);
 
-                await notify(messageNotify);
+                await Promise.all([telegramNotify(messageNotify), lineNotify(messageNotify)]);
             } catch (err: unknown) {
                 if (err instanceof Error) {
                     logger.log("pushMessage failed", LogLevel.error, err);
