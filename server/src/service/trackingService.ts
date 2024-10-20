@@ -37,7 +37,6 @@ export async function retrieveAndSavePrice(): Promise<void> {
 
 export function start(): void {
     if (isDevelopmentMode()) {
-        message.pushMessage();
         return;
     }
 
