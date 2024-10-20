@@ -1,7 +1,7 @@
 import * as db from "../dal/db";
 import { Price } from "../models/Price";
 import { User } from "../models/User";
-import { deleteCacheByPrefix, getCache, setCache } from "../service/CacheService";
+import { deleteCacheByPrefix, getCache, setCache } from "../service/cacheService";
 
 const priceCachePrefix = "price";
 const userCachePrefix = "user";

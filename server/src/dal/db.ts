@@ -1,7 +1,7 @@
 import { mapUserFromDb, User } from "../models/User";
 import dayjs from "../util/dayjs";
 import { LogLevel } from "../util/enums";
-import * as utils from "../util/utils";
+import * as utils from "../util/logger";
 import { mapPriceFromDb, Price } from "./../models/Price";
 import { firestore as db } from "./firebase";
 import { Timestamp } from "firebase-admin/firestore";

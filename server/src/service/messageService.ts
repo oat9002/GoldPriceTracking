@@ -1,14 +1,15 @@
-import axios from "axios";
-import qs from "qs";
-import * as db from "../dal/db";
-import dayjs from "../util/dayjs";
+import { firestore } from "../dal/firebase";
 import { LogLevel } from "../util/enums";
-import * as utils from "../util/utils";
-import { isDevelopmentMode } from "./../util/mode";
-import { firestore } from "./../dal/firebase";
+import { notify as telegramNotify } from "./telegramService";
+import { notify as lineNotify } from "./lineService";
+import * as logger from "../util/logger";
 import { DocumentData } from "firebase-admin/firestore";
+import dayjs from "../util/dayjs";
+
+let first = true;
 
 const priceCollection = firestore.collection("price");
+
 const monthName = [
     "ม.ค.",
     "ก.พ.",
@@ -24,8 +25,6 @@ const monthName = [
     "ธ.ค.",
 ];
 
-let first = true;
-
 export async function pushMessage() {
     priceCollection
         .orderBy("created_at", "desc")
@@ -38,18 +37,22 @@ export async function pushMessage() {
 
             try {
                 const data = snapshot.docs[0].data();
-                const messageNotify = generateMessage(data);
+                const message = generateMessage(data);
 
-                await lineNotify(process.env.NOTIFY_GOLD_PRICE_TRACKING, messageNotify);
+                await notify(message);
             } catch (err: unknown) {
                 if (err instanceof Error) {
-                    utils.log("pushMessage failed", LogLevel.error, err);
+                    logger.log("pushMessage failed", LogLevel.error, err);
                 }
             }
         });
 }
 
-export function generateMessage(firebaseData: DocumentData): string {
+export async function notify(message: string): Promise<void> {
+    await Promise.all([telegramNotify(message), lineNotify(message)]);
+}
+
+function generateMessage(firebaseData: DocumentData): string {
     const date = dayjs.tz(firebaseData.created_at.toDate());
     let showMinute = "" + date.minute();
     if (date.minute() < 10) {
@@ -88,41 +91,6 @@ export function generateMessage(firebaseData: DocumentData): string {
     return message;
 }
 
-export function addCommaToNumber(number: number): string {
+function addCommaToNumber(number: number): string {
     return Number(number).toLocaleString("th-TH");
-}
-
-export async function addUser(userId: string): Promise<void> {
-    try {
-        await db.addLineUser(userId);
-    } catch (err: unknown) {
-        if (err instanceof Error) {
-            utils.log(`addUser failed for userId: ${userId}`, LogLevel.error, err);
-        }
-    }
-}
-
-export async function lineNotify(token: string | undefined, message: string): Promise<void> {
-    if (!token || isDevelopmentMode()) {
-        return;
-    }
-
-    await axios
-        .post(
-            "https://notify-api.line.me/api/notify",
-            qs.stringify({
-                message,
-            }),
-            {
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                    Authorization: `Bearer ${token}`,
-                },
-            }
-        )
-        .catch((err: unknown) => {
-            if (err instanceof Error) {
-                utils.log("line notify failed", LogLevel.error, err);
-            }
-        });
 }

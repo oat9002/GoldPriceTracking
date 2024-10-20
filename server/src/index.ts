@@ -2,10 +2,9 @@ import cors from "cors";
 import "dotenv/config";
 import express from "express";
 import * as dbDecorator from "./dal/dbDecorator";
-import * as mackerel from "./service/MackerelServie";
-import * as track from "./service/TrackingService";
+import * as mackerel from "./service/mackerelServie";
+import * as track from "./service/trackingService";
 import { StatusCode } from "./util/enums";
-import useSwagger from "./middleware/swagger";
 
 const port = process.env.API_PORT ?? 4000;
 const app = express();
@@ -156,8 +155,6 @@ app.post("/donate", async (_, res) => {
     res.status(StatusCode.NotSupport);
     res.json("Not supported");
 });
-
-useSwagger(app);
 
 app.listen(port, () => {
     console.log("listen to port " + port);

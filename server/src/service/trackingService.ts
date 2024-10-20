@@ -4,8 +4,8 @@ import cron from "node-cron";
 import * as dbDecorator from "../dal/dbDecorator";
 import { LogLevel } from "../util/enums";
 import { isDevelopmentMode } from "../util/mode";
-import * as utils from "../util/utils";
-import * as message from "./LineService";
+import * as logger from "../util/logger";
+import * as message from "./messageService";
 
 export async function retrieveAndSavePrice(): Promise<void> {
     let buyPrice = 0;
@@ -26,11 +26,11 @@ export async function retrieveAndSavePrice(): Promise<void> {
                 await dbDecorator.addPrice(buyPrice, sellPrice);
             }
         } else {
-            utils.log("Something wrong in price");
+            logger.log("Something wrong in price");
         }
     } catch (err: unknown) {
         if (err instanceof Error) {
-            utils.log("retrieveAndSavePrice failed", LogLevel.error, err);
+            logger.log("retrieveAndSavePrice failed", LogLevel.error, err);
         }
     }
 }
@@ -43,5 +43,6 @@ export function start(): void {
     cron.schedule("0 * * * *", async () => {
         await retrieveAndSavePrice();
     });
+
     message.pushMessage();
 }
