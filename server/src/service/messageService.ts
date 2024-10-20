@@ -37,15 +37,19 @@ export async function pushMessage() {
 
             try {
                 const data = snapshot.docs[0].data();
-                const messageNotify = generateMessage(data);
+                const message = generateMessage(data);
 
-                await Promise.all([telegramNotify(messageNotify), lineNotify(messageNotify)]);
+                await notify(message);
             } catch (err: unknown) {
                 if (err instanceof Error) {
                     logger.log("pushMessage failed", LogLevel.error, err);
                 }
             }
         });
+}
+
+export async function notify(message: string): Promise<void> {
+    await Promise.all([telegramNotify(message), lineNotify(message)]);
 }
 
 function generateMessage(firebaseData: DocumentData): string {
