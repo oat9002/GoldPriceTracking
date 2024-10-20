@@ -36,12 +36,14 @@ export async function retrieveAndSavePrice(): Promise<void> {
 }
 
 export function start(): void {
+    const schedule = "0 * * * *";
+
     if (isDevelopmentMode()) {
-        message.pushMessage();
         return;
     }
 
-    cron.schedule("0 * * * *", async () => {
+    cron.schedule(schedule, async () => {
+        console.log(`running a cronjob ${schedule}`);
         await retrieveAndSavePrice();
     });
 

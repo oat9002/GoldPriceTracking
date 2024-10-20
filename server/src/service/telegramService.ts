@@ -31,7 +31,7 @@ export async function notify(message: string): Promise<void> {
         )
         .catch((err: unknown) => {
             if (err instanceof Error) {
-                logger.log("line notify failed", LogLevel.error, err);
+                logger.log("telegram notify failed", LogLevel.error, err);
             }
         });
 }
