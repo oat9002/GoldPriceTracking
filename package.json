@@ -7,10 +7,10 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "release-it": "^15.5.0"
+    "release-it": "^17.10.0"
   },
   "scripts": {
     "release": "release-it"
   },
-  "packageManager": "yarn@4.4.0"
+  "packageManager": "yarn@4.5.1"
 }
