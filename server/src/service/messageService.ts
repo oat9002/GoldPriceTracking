@@ -49,7 +49,17 @@ export async function pushMessage() {
 }
 
 export async function notify(message: string): Promise<void> {
-    await Promise.all([telegramNotify(message), lineNotify(message)]);
+    await Promise.all([telegramNotify(message), lineNotify(modifyLineMessage(message))]);
+}
+
+function modifyLineMessage(message: string): string {
+    return (
+        message +
+        "\n" +
+        "line notify จะยุติให้บรืการวันที่ 31 มี.ค 2568" +
+        "\n" +
+        "ย้ายไปใช้ telegram แทนตามลิ้งนี้ https://t.me/+1rF1OQnzLV84ODRl"
+    );
 }
 
 function generateMessage(firebaseData: DocumentData): string {
