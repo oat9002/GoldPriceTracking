@@ -53,30 +53,6 @@ export async function getLatestPrice(): Promise<Price> {
     }
 }
 
-export async function addLineUser(userId: string): Promise<void> {
-    try {
-        await userCollection.add({
-            id: userId,
-        });
-    } catch (err: unknown) {
-        throw createErrorFromException(err);
-    }
-}
-
-export async function getAllUser(): Promise<User[]> {
-    try {
-        const snapshot = await userCollection.get();
-
-        return snapshot.docs.map((doc) => {
-            const data = doc.data();
-
-            return mapUserFromDb(data);
-        });
-    } catch (err: unknown) {
-        throw createErrorFromException(err);
-    }
-}
-
 /* number: number of latest data (0 = all)*/
 export async function getLatestPrices(number: number): Promise<Price[]> {
     const priceArr: Price[] = new Array(number);

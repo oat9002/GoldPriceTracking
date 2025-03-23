@@ -38,26 +38,6 @@ export async function getLatestPrice(): Promise<Price> {
     return latestPrice;
 }
 
-export async function addLineUser(userId: string): Promise<void> {
-    db.addLineUser(userId);
-
-    deleteCacheByPrefix(userCachePrefix);
-}
-
-export async function getAllUser(): Promise<User[]> {
-    const cached = getCache<User[]>(getAllUserCacheKey);
-
-    if (cached) {
-        return cached;
-    }
-
-    const users = db.getAllUser();
-
-    setCache(getAllUserCacheKey, users);
-
-    return users;
-}
-
 /* number: number of latest data (0 = all)*/
 export async function getLatestPrices(number: number): Promise<Price[]> {
     const cacheKey = createCacheKey(getLatestPricesCacheKey, number.toString());
