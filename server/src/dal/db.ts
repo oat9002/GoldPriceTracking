@@ -1,4 +1,3 @@
-import { mapUserFromDb, User } from "../models/User";
 import dayjs from "../util/dayjs";
 import { LogLevel } from "../util/enums";
 import * as utils from "../util/logger";
@@ -7,7 +6,6 @@ import { firestore as db } from "./firebase";
 import { Timestamp } from "firebase-admin/firestore";
 
 const priceCollection = db.collection("price");
-const userCollection = db.collection("user");
 
 export async function addPrice(buy: number, sell: number): Promise<void> {
     try {
@@ -48,30 +46,6 @@ export async function getLatestPrice(): Promise<Price> {
         const data = snapshot.docs[0].data();
 
         return mapPriceFromDb(data);
-    } catch (err: unknown) {
-        throw createErrorFromException(err);
-    }
-}
-
-export async function addLineUser(userId: string): Promise<void> {
-    try {
-        await userCollection.add({
-            id: userId,
-        });
-    } catch (err: unknown) {
-        throw createErrorFromException(err);
-    }
-}
-
-export async function getAllUser(): Promise<User[]> {
-    try {
-        const snapshot = await userCollection.get();
-
-        return snapshot.docs.map((doc) => {
-            const data = doc.data();
-
-            return mapUserFromDb(data);
-        });
     } catch (err: unknown) {
         throw createErrorFromException(err);
     }

@@ -1,14 +1,11 @@
 import * as db from "../dal/db";
 import { Price } from "../models/Price";
-import { User } from "../models/User";
 import { deleteCacheByPrefix, getCache, setCache } from "../service/cacheService";
 
 const priceCachePrefix = "price";
-const userCachePrefix = "user";
 const getLaatestPriceCacheKey = createCacheKey(priceCachePrefix, "getLaatestPrice");
 const getLatestPricesCacheKey = createCacheKey(priceCachePrefix, "getLatestPrices");
 const getPricesLastByDayCacheKey = createCacheKey(priceCachePrefix, "getPricesLastByDay");
-const getAllUserCacheKey = createCacheKey(userCachePrefix, "getAllUser");
 
 function createCacheKey(...key: string[]): string {
     return `${key.join("_")}`;
@@ -36,26 +33,6 @@ export async function getLatestPrice(): Promise<Price> {
     setCache(getLaatestPriceCacheKey, latestPrice);
 
     return latestPrice;
-}
-
-export async function addLineUser(userId: string): Promise<void> {
-    db.addLineUser(userId);
-
-    deleteCacheByPrefix(userCachePrefix);
-}
-
-export async function getAllUser(): Promise<User[]> {
-    const cached = getCache<User[]>(getAllUserCacheKey);
-
-    if (cached) {
-        return cached;
-    }
-
-    const users = db.getAllUser();
-
-    setCache(getAllUserCacheKey, users);
-
-    return users;
 }
 
 /* number: number of latest data (0 = all)*/
