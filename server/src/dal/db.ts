@@ -1,4 +1,3 @@
-import { mapUserFromDb, User } from "../models/User";
 import dayjs from "../util/dayjs";
 import { LogLevel } from "../util/enums";
 import * as utils from "../util/logger";
@@ -7,7 +6,6 @@ import { firestore as db } from "./firebase";
 import { Timestamp } from "firebase-admin/firestore";
 
 const priceCollection = db.collection("price");
-const userCollection = db.collection("user");
 
 export async function addPrice(buy: number, sell: number): Promise<void> {
     try {

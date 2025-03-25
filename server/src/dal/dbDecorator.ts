@@ -1,14 +1,11 @@
 import * as db from "../dal/db";
 import { Price } from "../models/Price";
-import { User } from "../models/User";
 import { deleteCacheByPrefix, getCache, setCache } from "../service/cacheService";
 
 const priceCachePrefix = "price";
-const userCachePrefix = "user";
 const getLaatestPriceCacheKey = createCacheKey(priceCachePrefix, "getLaatestPrice");
 const getLatestPricesCacheKey = createCacheKey(priceCachePrefix, "getLatestPrices");
 const getPricesLastByDayCacheKey = createCacheKey(priceCachePrefix, "getPricesLastByDay");
-const getAllUserCacheKey = createCacheKey(userCachePrefix, "getAllUser");
 
 function createCacheKey(...key: string[]): string {
     return `${key.join("_")}`;
