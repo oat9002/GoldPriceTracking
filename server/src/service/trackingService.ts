@@ -1,4 +1,3 @@
-import axios from "axios";
 import * as cheerio from "cheerio";
 import cron from "node-cron";
 import * as dbDecorator from "../dal/dbDecorator";
@@ -12,8 +11,14 @@ export async function retrieveAndSavePrice(): Promise<void> {
     let sellPrice = 0;
 
     try {
-        const res = await axios.get("https://www.goldtraders.or.th/default.aspx");
-        const html = res.data;
+        const res = await fetch("https://www.goldtraders.or.th/default.aspx");
+
+        if (!res.ok) {
+            logger.log("Cannot fetch gold price", LogLevel.error);
+            return;
+        }
+
+        const html = await res.text();
         const $ = cheerio.load(html);
         const bpTemp = $("#DetailPlace_uc_goldprices1_lblBLBuy").text();
         const spTemp = $("#DetailPlace_uc_goldprices1_lblBLSell").text();
