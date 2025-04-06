@@ -42,3 +42,13 @@ jobs:
 
       - name: Build
         run: yarn build
+
+      - name: Test deployment
+        run: |
+          wget https://github.com/oat9002/deployment-triggerer/releases/download/v1.0.1/deployment-triggerer
+          unzip deployment-triggerer
+          cd deployment-triggerer
+          chmod +x deployment-triggerer
+          ./deployment-triggerer 2
+        env:
+          DEPLOYMENT_TRIGGERER_FIREBASE_SERVICE_ACCOUNT_KEY_JSON: ${{ secrets.DEPLOYMENT_TRIGGERER_FIREBASE_SERVICE_ACCOUNT_KEY_JSON }}
