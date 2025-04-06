@@ -45,7 +45,8 @@ jobs:
 
       - name: Test deployment
         run: |
-          wget https://github.com/oat9002/deployment-triggerer/releases/download/v1.0.1/deployment-triggerer
+          VERSION=$(curl -s https://gist.githubusercontent.com/oat9002/9c85e272035d08a220a1a2e1660a6c0f/raw/deployment-triggerer-version.txt )
+          wget https://github.com/oat9002/deployment-triggerer/releases/download/$VERSION/deployment-triggerer
           chmod +x deployment-triggerer
           ./deployment-triggerer 2
         env:
