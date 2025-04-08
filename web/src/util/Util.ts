@@ -1,20 +1,20 @@
 import { priceLastDay } from "../mock/mock";
 import { Price } from "../models/model";
-import axios from "./Axios";
 
 export async function fetchGoldPrices(numOfDay: number): Promise<Price[]> {
     if (isMock()) {
         return priceLastDay;
     }
+    const url = `${import.meta.env.VITE_SERVER_URL}/priceslastday?days=${numOfDay}`;
 
-    const response = await axios.get("/priceslastday?days=" + numOfDay);
+    const response = await fetch(url);
 
-    if (response.status !== httpStatus.ok) {
+    if (!response.ok) {
         console.log("Fetch gold price failed");
         return [];
     }
 
-    return response.data;
+    return response.json();
 }
 
 export function formatNumber(number: number, lang = "th-TH") {

@@ -1,4 +1,3 @@
-import axios from "axios";
 import dayjs from "dayjs";
 import cron from "node-cron";
 import { LogLevel } from "../util/enums";
@@ -23,7 +22,11 @@ export async function doHealthCheck(): Promise<void> {
         },
     };
 
-    await axios.post(url, data, headers).catch((err: unknown) => {
+    await fetch(url, {
+        method: "POST",
+        body: JSON.stringify(data),
+        ...headers,
+    }).catch((err: unknown) => {
         if (err instanceof Error) {
             log("Cannot call to mackerel", LogLevel.error, err);
         }
