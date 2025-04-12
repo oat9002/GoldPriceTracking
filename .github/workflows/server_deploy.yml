@@ -66,4 +66,9 @@ jobs:
 
       - name: Deploy
         run: |
-          curl ${{ secrets.SERVER_DEPLOY_URL }} -H "X-Api-Key: ${{ secrets.DEPLOY_API_KEY }}"
+          VERSION=$(curl -s https://gist.githubusercontent.com/oat9002/9c85e272035d08a220a1a2e1660a6c0f/raw/deployment-triggerer-version.txt)
+          wget https://github.com/oat9002/deployment-triggerer/releases/download/v$VERSION/deployment-triggerer
+          chmod +x deployment-triggerer
+          ./deployment-triggerer 2
+        env:
+          DEPLOYMENT_TRIGGERER_FIREBASE_SERVICE_ACCOUNT_KEY_JSON: ${{ secrets.DEPLOYMENT_TRIGGERER_FIREBASE_SERVICE_ACCOUNT_KEY_JSON }}

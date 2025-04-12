@@ -1,5 +1,5 @@
-#! /bin/bash
-docker stop server_gold-price-tracking-server_1
-docker rm server_gold-price-tracking-server_1
+#! /usr/bin/bash
+docker compose down
 docker image rm oat9002/gold-price-tracking-server
-docker-compose -f docker-compose.yml up -d
+docker compose up -d
+docker container ps
