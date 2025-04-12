@@ -1,5 +1,5 @@
 # Use the official image as a parent image.
-FROM node:18-alpine
+FROM node:lts-alpine
 
 # Install curl
 RUN apk --no-cache add curl
