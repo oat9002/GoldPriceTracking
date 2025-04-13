@@ -1,7 +1,9 @@
 import { AnalyticsCallOptions, getAnalytics, logEvent } from "firebase/analytics";
 import { FirebaseApp, initializeApp } from "firebase/app";
+import { getFirestore, Firestore } from "firebase/firestore";
 
 let firebaseApp: FirebaseApp = null;
+export let firestore: Firestore = null;
 
 export const eventName = {
     screenView: "screen_view",
@@ -29,6 +31,7 @@ export function initializeFirebase() {
     };
 
     firebaseApp = initializeApp(firebaseConfig);
+    firestore = getFirestore(firebaseApp);
 }
 
 export function logAnalyticEvent(
