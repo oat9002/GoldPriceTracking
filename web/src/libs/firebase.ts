@@ -47,7 +47,6 @@ export async function getAnalyticsApp() {
 }
 
 export async function getDb() {
-    console.log("getDb");
     if (!firebaseApp) {
         await initializeFirebase();
     }
@@ -55,8 +54,6 @@ export async function getDb() {
     if (!firestore) {
         firestore = getFirestore(firebaseApp);
     }
-
-    console.log("Firestore is initialized");
 
     return firestore;
 }
