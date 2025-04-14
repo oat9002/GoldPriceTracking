@@ -43,7 +43,7 @@ export async function getPricesLastByDay(days: number): Promise<Price[]> {
 
         return priceArr;
     } catch (err) {
-        console.error("Error getting documents: ", err);
-        return [];
+        console.error("Error fetching prices:", err);
+        throw err;
     }
 }
