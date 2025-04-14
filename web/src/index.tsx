@@ -5,7 +5,7 @@ import "./index.css";
 import * as firebase from "./libs/firebase";
 import store from "./store";
 
-firebase.initializeFirebase();
+await firebase.initializeFirebase();
 
 const container = document.getElementById("root");
 const root = createRoot(container);

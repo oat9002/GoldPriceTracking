@@ -34,7 +34,7 @@ export async function getPricesLastByDay(days: number): Promise<Price[]> {
             priceArr[idx++] = {
                 buy: data.buy,
                 sell: data.sell,
-                createdAt: data.created_at.toDate(),
+                createdAt: data.created_at.toMillis(),
                 buyDifferent: data.buyDifferent,
                 sellDifferent: data.sellDifferent,
             };
