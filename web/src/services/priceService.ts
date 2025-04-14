@@ -1,10 +1,11 @@
 import dayjs from "dayjs";
 import { orderBy, query, Timestamp, where } from "firebase/firestore";
-import { firestore as db } from "../libs/firebase";
+import { getDb } from "../libs/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { Price } from "../models/model";
 
 export async function getPricesLastByDay(days: number): Promise<Price[]> {
+    const db = await getDb();
     const now = dayjs();
     const end = Timestamp.fromMillis(now.valueOf());
     const start = Timestamp.fromMillis(

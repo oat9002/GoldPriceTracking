@@ -1,10 +1,11 @@
-import { AnalyticsCallOptions, getAnalytics, logEvent } from "firebase/analytics";
+import { Analytics, AnalyticsCallOptions, getAnalytics, logEvent } from "firebase/analytics";
 import { FirebaseApp, initializeApp } from "firebase/app";
 import { getFirestore, Firestore } from "firebase/firestore";
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 let firebaseApp: FirebaseApp = null;
-export let firestore: Firestore = null;
+let firestore: Firestore = null;
+let analyticsApp: Analytics = null;
 
 export const eventName = {
     screenView: "screen_view",
@@ -15,9 +16,13 @@ export function isFirebaseEnable() {
     return import.meta.env.VITE_FIREBASE_ENABLE;
 }
 
-export async function initializeFirebase() {
+async function initializeFirebase() {
     if (!isFirebaseEnable()) {
         return;
+    }
+
+    if (firebaseApp) {
+        return firebaseApp;
     }
 
     const firebaseConfig = {
@@ -32,12 +37,34 @@ export async function initializeFirebase() {
     };
 
     firebaseApp = initializeApp(firebaseConfig);
-    firestore = getFirestore(firebaseApp);
-
     await authenticate(firebaseApp);
 }
 
-export function logAnalyticEvent(
+export async function getAnalyticsApp() {
+    if (!firebaseApp) {
+        await initializeFirebase();
+    }
+
+    if (!analyticsApp) {
+        analyticsApp = getAnalytics(firebaseApp);
+    }
+
+    return analyticsApp;
+}
+
+export async function getDb() {
+    if (!firebaseApp) {
+        await initializeFirebase();
+    }
+
+    if (!firestore) {
+        firestore = getFirestore(firebaseApp);
+    }
+
+    return firestore;
+}
+
+export async function logAnalyticEvent(
     eventName: string,
     eventParams: { [key: string]: any },
     options: AnalyticsCallOptions = null
@@ -46,7 +73,7 @@ export function logAnalyticEvent(
         return;
     }
 
-    const analytics = getAnalytics(firebaseApp);
+    const analytics = await getAnalyticsApp();
 
     logEvent(analytics, eventName, eventParams, options);
 }
