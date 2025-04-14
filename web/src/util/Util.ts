@@ -1,7 +1,7 @@
 import { Price } from "../models/model";
 import { getPricesLastByDay } from "../services/priceService";
 
-export async function fetchGoldPrices(numOfDay: number): Promise<Price[]> {
+export function fetchGoldPrices(numOfDay: number): Promise<Price[]> {
     return getPricesLastByDay(numOfDay);
 }
 

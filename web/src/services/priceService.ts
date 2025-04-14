@@ -5,7 +5,6 @@ import { collection, getDocs } from "firebase/firestore";
 import { Price } from "../models/model";
 
 export async function getPricesLastByDay(days: number): Promise<Price[]> {
-    const db = await getDb();
     const now = dayjs();
     const end = Timestamp.fromMillis(now.valueOf());
     const start = Timestamp.fromMillis(
@@ -14,6 +13,7 @@ export async function getPricesLastByDay(days: number): Promise<Price[]> {
     let idx = 0;
 
     try {
+        const db = await getDb();
         const priceCollection = collection(db, "price");
         const q = query(
             priceCollection,
