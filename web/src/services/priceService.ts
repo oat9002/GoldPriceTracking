@@ -14,6 +14,7 @@ export async function getPricesLastByDay(days: number): Promise<Price[]> {
 
     try {
         const db = await getDb();
+        console.log("db", db);
         const priceCollection = collection(db, "price");
         const q = query(
             priceCollection,

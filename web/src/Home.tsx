@@ -38,7 +38,6 @@ function Home() {
                 dispatch(setIsLoading(false));
             })
             .catch((err) => {
-                console.error("Error fetching gold prices:", err);
                 dispatch(setIsLoading(false));
                 dispatch(setErrorNotification("Cannot fetch gold data. Please try again"));
             });
