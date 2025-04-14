@@ -1,7 +1,10 @@
 import { AnalyticsCallOptions, getAnalytics, logEvent } from "firebase/analytics";
 import { FirebaseApp, initializeApp } from "firebase/app";
+import { getFirestore, Firestore } from "firebase/firestore";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 let firebaseApp: FirebaseApp = null;
+export let firestore: Firestore = null;
 
 export const eventName = {
     screenView: "screen_view",
@@ -12,7 +15,7 @@ export function isFirebaseEnable() {
     return import.meta.env.VITE_FIREBASE_ENABLE;
 }
 
-export function initializeFirebase() {
+export async function initializeFirebase() {
     if (!isFirebaseEnable()) {
         return;
     }
@@ -29,6 +32,9 @@ export function initializeFirebase() {
     };
 
     firebaseApp = initializeApp(firebaseConfig);
+    firestore = getFirestore(firebaseApp);
+
+    await authenticate(firebaseApp);
 }
 
 export function logAnalyticEvent(
@@ -43,4 +49,22 @@ export function logAnalyticEvent(
     const analytics = getAnalytics(firebaseApp);
 
     logEvent(analytics, eventName, eventParams, options);
+}
+
+async function authenticate(app: FirebaseApp) {
+    if (!isFirebaseEnable()) {
+        return;
+    }
+
+    const auth = getAuth(app);
+
+    if (auth.currentUser) {
+        return;
+    }
+
+    await signInWithEmailAndPassword(
+        auth,
+        import.meta.env.VITE_FIREBASE_USERNAME,
+        import.meta.env.VITE_FIREBASE_PASSWORD
+    );
 }

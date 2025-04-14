@@ -9,4 +9,9 @@ export default defineConfig({
     build: {
         outDir: "build",
     },
+    esbuild: {
+        supported: {
+            "top-level-await": true,
+        },
+    },
 });
