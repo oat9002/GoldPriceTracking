@@ -37,7 +37,7 @@ function Home() {
                 dispatch(setGoldPrice(goldPrices));
                 dispatch(setIsLoading(false));
             })
-            .catch(() => {
+            .catch((err) => {
                 dispatch(setIsLoading(false));
                 dispatch(setErrorNotification("Cannot fetch gold data. Please try again"));
             });

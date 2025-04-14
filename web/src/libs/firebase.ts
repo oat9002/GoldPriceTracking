@@ -12,18 +12,12 @@ export const eventName = {
     click: "click",
 };
 
-export function isFirebaseEnable() {
-    return import.meta.env.VITE_FIREBASE_ENABLE;
-}
-
 async function initializeFirebase() {
-    if (!isFirebaseEnable()) {
-        return;
-    }
-
     if (firebaseApp) {
         return firebaseApp;
     }
+
+    console.log("Firebase is initializing");
 
     const firebaseConfig = {
         apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -69,20 +63,12 @@ export async function logAnalyticEvent(
     eventParams: { [key: string]: any },
     options: AnalyticsCallOptions = null
 ) {
-    if (!isFirebaseEnable()) {
-        return;
-    }
-
     const analytics = await getAnalyticsApp();
 
     logEvent(analytics, eventName, eventParams, options);
 }
 
 async function authenticate(app: FirebaseApp) {
-    if (!isFirebaseEnable()) {
-        return;
-    }
-
     const auth = getAuth(app);
 
     if (auth.currentUser) {
