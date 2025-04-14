@@ -31,11 +31,9 @@ function Home() {
     }, []);
 
     React.useEffect(() => {
-        console.log("numOfDay", numOfDay);
         dispatch(setIsLoading(true));
         fetchGoldPrices(numOfDay)
             .then((goldPrices) => {
-                console.log("goldPrices", goldPrices);
                 dispatch(setGoldPrice(goldPrices));
                 dispatch(setIsLoading(false));
             })
