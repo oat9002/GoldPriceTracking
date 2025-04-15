@@ -7,6 +7,7 @@ export function setCache(key: string, value: any, ttl: number = 60 * 60 * 1): bo
 }
 
 export function getCache<T>(key: string): T | undefined {
+    console.log("getCache", key);
     return cache.get(key);
 }
 
