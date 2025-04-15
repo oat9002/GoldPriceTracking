@@ -25,8 +25,8 @@ on:
       DOCKERHUB_TOKEN:
         description: "docker token"
         required: true
-      SERVER_DEPLOY_URL:
-        description: "server url"
+      DEPLOYMENT_TRIGGERER_FIREBASE_SERVICE_ACCOUNT_KEY_JSON:
+        description: "firebase service account key json"
         required: true
       DEPLOY_API_KEY:
         description: "deploy api key"
