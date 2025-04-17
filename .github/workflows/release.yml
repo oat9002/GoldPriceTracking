@@ -55,6 +55,8 @@ jobs:
       FIREBASE_APP_ID: ${{ secrets.FIREBASE_APP_ID }}
       FIREBASE_MEASUREMENT_ID: ${{ secrets.FIREBASE_MEASUREMENT_ID }}
       FIREBASE_SERVICE_ACCOUNT_GOLDPRICETRACKING: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_GOLDPRICETRACKING }}
+      FIREBASE_USERNAME: ${{ secrets.FIREBASE_USERNAME }}
+      FIREBASE_PASSWORD: ${{ secrets.FIREBASE_PASSWORD }}
   deploy-server:
     needs: release
     uses: ./.github/workflows/server_deploy.yml

@@ -48,6 +48,12 @@ on:
       FIREBASE_SERVICE_ACCOUNT_GOLDPRICETRACKING:
         description: "firebase service account"
         required: true
+      FIREBASE_USERNAME:
+        description: "firebase username"
+        required: true
+      FIREBASE_PASSWORD:
+        description: "firebase password"
+        required: true
 
 defaults:
   run:
