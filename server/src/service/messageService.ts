@@ -28,23 +28,30 @@ export async function pushMessage() {
     priceCollection
         .orderBy("created_at", "desc")
         .limit(1)
-        .onSnapshot(async (snapshot) => {
-            if (first) {
-                first = false;
-                return;
-            }
-
-            try {
-                const data = snapshot.docs[0].data();
-                const message = generateMessage(data);
-
-                await notify(message);
-            } catch (err: unknown) {
-                if (err instanceof Error) {
-                    logger.log("pushMessage failed", LogLevel.error, err);
+        .onSnapshot(
+            async (snapshot) => {
+                if (first) {
+                    first = false;
+                    return;
                 }
+
+                try {
+                    const data = snapshot.docs[0].data();
+                    const message = generateMessage(data);
+
+                    await notify(message);
+                } catch (err: unknown) {
+                    if (err instanceof Error) {
+                        logger.log("pushMessage failed", LogLevel.error, err);
+                    }
+                }
+            },
+            (err) => {
+                logger.log("Error push message subscribe", LogLevel.error, err);
+
+                pushMessage();
             }
-        });
+        );
 }
 
 export async function notify(message: string): Promise<void> {
