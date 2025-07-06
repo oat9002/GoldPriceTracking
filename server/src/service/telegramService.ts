@@ -2,9 +2,8 @@ import * as logger from "../util/logger";
 import { LogLevel } from "../util/enums";
 import qs from "qs";
 
-const chatId = -1002316103286;
-
 export async function notify(message: string): Promise<void> {
+    const chatId = process.env.TELEGRAM_BOT_CHAT_ID;
     const token = process.env.TELEGRAM_BOT_TOKEN;
 
     if (!token) {
