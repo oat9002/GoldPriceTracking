@@ -1,6 +1,5 @@
 import * as logger from "../util/logger";
 import { LogLevel } from "../util/enums";
-import qs from "qs";
 
 export async function notify(message: string): Promise<void> {
     const chatId = process.env.TELEGRAM_BOT_CHAT_ID;
@@ -15,13 +14,13 @@ export async function notify(message: string): Promise<void> {
 
     await fetch(url, {
         method: "POST",
-        body: qs.stringify({
+        body: JSON.stringify({
             text: message,
             chat_id: chatId,
             parse_mode: "HTML",
         }),
         headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
+            "Content-Type": "application/json",
         },
     }).catch((err: unknown) => {
         if (err instanceof Error) {
