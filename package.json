@@ -10,7 +10,7 @@
     "release-it": "^19.0.4"
   },
   "scripts": {
-    "release": "bun run release-it"
+    "release": "release-it"
   },
   "packageManager": "yarn@4.9.2"
 }
