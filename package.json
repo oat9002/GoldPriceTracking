@@ -10,6 +10,6 @@
     "release-it": "^17.10.0"
   },
   "scripts": {
-    "release": "release-it"
+    "release": "bun run release-it"
   }
 }
