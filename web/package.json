@@ -45,8 +45,8 @@
         "typescript": "^5.8.3"
     },
     "scripts": {
-        "start": "vite",
-        "build": "vite build",
+        "start": "bunx --bun vite",
+        "build": "bunx --bun vite build",
         "lint": "eslint .",
         "lint:fix": "eslint --fix",
         "format": "prettier --write './**/*.{js,jsx,css,scss}' --config ./.prettierrc"
@@ -62,6 +62,5 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    },
-    "packageManager": "yarn@4.8.1"
+    }
 }

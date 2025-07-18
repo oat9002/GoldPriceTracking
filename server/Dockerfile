@@ -1,5 +1,5 @@
 # Use the official image as a parent image.
-FROM node:lts-alpine
+FROM oven/bun:alpine
 
 # Install curl
 RUN apk --no-cache add curl
@@ -11,10 +11,10 @@ WORKDIR /usr/src/app
 COPY . .
 
 # Run the command inside your image filesystem.
-RUN yarn
+RUN bun install
 
 # Inform Docker that the container is listening on the specified port at runtime.
 EXPOSE 4000
 
 # Run the specified command within the container.
-CMD [ "yarn", "start" ]
+CMD [ "bun", "run", "start" ]
