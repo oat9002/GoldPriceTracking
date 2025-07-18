@@ -19,10 +19,9 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js environment
-        uses: actions/setup-node@v4
+      - uses: oven-sh/setup-bun@v2
         with:
-          node-version: 20
+          bun-version: latest
 
       - name: Enable Corepack
         run: corepack enable
@@ -33,10 +32,10 @@ jobs:
           git config --global user.email 'oat9002@hotmail.com'
 
       - name: Install package
-        run: yarn install
+        run: bun install
 
       - name: Release
-        run: yarn release minor --ci
+        run: bun release minor --ci
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
   deploy-web:
