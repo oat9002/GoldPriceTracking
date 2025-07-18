@@ -7,9 +7,10 @@
   "license": "MIT",
   "private": true,
   "devDependencies": {
-    "release-it": "^17.10.0"
+    "release-it": "^19.0.4"
   },
   "scripts": {
     "release": "bun run release-it"
-  }
+  },
+  "packageManager": "yarn@4.9.2"
 }
