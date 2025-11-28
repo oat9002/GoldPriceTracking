@@ -23,7 +23,7 @@
         "eslint-plugin-prettier": "^5.5.4",
         "eslint-plugin-react": "^7.37.5",
         "eslint-plugin-react-hooks": "^5.2.0",
-        "prettier": "^3.6.2",
+        "prettier": "^3.7.1",
         "vite": "^7.2.4",
         "vite-plugin-svgr": "^4.5.0",
         "vite-tsconfig-paths": "^5.1.4"
@@ -40,7 +40,7 @@
         "react-dom": "^19.2.0",
         "react-redux": "^9.2.0",
         "react-router-dom": "^7.9.6",
-        "recharts": "^3.5.0",
+        "recharts": "^3.5.1",
         "redux": "^5.0.1",
         "typescript": "^5.9.3"
     },
@@ -62,8 +62,5 @@
             "last 1 firefox version",
             "last 1 safari version"
         ]
-    },
-    "overrides": {
-        "js-yaml": "~4.4.0"
     }
 }
