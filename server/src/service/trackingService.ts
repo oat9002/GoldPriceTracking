@@ -22,6 +22,19 @@ export async function retrieveAndSavePrice(): Promise<void> {
         const $ = cheerio.load(html);
         const bpTemp = $("#DetailPlace_uc_goldprices1_lblBLBuy").text();
         const spTemp = $("#DetailPlace_uc_goldprices1_lblBLSell").text();
+
+        if (
+            bpTemp === "" ||
+            spTemp === "" ||
+            bpTemp === null ||
+            spTemp === null ||
+            bpTemp === undefined ||
+            spTemp === undefined
+        ) {
+            logger.log("Cannot find gold price in the page", LogLevel.error);
+            return;
+        }
+
         buyPrice = parseInt(bpTemp.substring(0, bpTemp.length - 3).replace(",", ""));
         sellPrice = parseInt(spTemp.substring(0, spTemp.length - 3).replace(",", ""));
         if (buyPrice !== null && sellPrice !== null) {
