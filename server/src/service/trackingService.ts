@@ -11,7 +11,7 @@ export async function retrieveAndSavePrice(): Promise<void> {
     let sellPrice = 0;
 
     try {
-        const res = await fetch("https://www.goldtraders.or.th/default.aspx");
+        const res = await fetch("https://classic.goldtraders.or.th");
 
         if (!res.ok) {
             logger.log("Cannot fetch gold price", LogLevel.error);
