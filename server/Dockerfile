@@ -1,5 +1,5 @@
 # Use the official image as a parent image.
-FROM oven/bun:alpine
+FROM oven/bun:1.2-alpine
 
 # Install curl
 RUN apk --no-cache add curl
