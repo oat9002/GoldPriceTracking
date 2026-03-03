@@ -26,7 +26,7 @@ function Graph() {
 
     React.useEffect(() => {
         window.addEventListener("resize", windowsResizeHandler);
-    }, [windowsResizeHandler]);
+    }, [windowsResizeHandler, prices, numOfDay]);
 
     function calculateHeight() {
         return window.innerHeight * 0.4;
