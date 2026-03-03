@@ -14,6 +14,7 @@ interface GraphData {
 function Graph() {
     const fontFamily = "Roboto";
     const prices = useAppSelector((state) => state.goldPrice.prices);
+    const numOfDay = useAppSelector((state) => state.goldPrice.numOfDay);
     const [width, setWidth] = React.useState(calculateWidth());
     const [height, setHeight] = React.useState(calculateHeight());
     const graphData = getGraphData(prices);
@@ -35,20 +36,57 @@ function Graph() {
         return window.innerWidth * 0.97;
     }
 
+    function median(values: number[]): number {
+        if (values.length === 0) {
+            return 0;
+        }
+        const sorted = [...values].sort((a, b) => a - b);
+        const mid = Math.floor(sorted.length / 2);
+        if (sorted.length % 2 === 0) {
+            return (sorted[mid - 1] + sorted[mid]) / 2;
+        }
+        return sorted[mid];
+    }
+
+    function getBucketKey(createdAt: number): string {
+        const d = dayjs.tz(createdAt);
+
+        if (numOfDay >= 365) {
+            return d.format("YYYY/MM");
+        }
+        if (numOfDay >= 60) {
+            return d.startOf("week").format("YYYY/MM/DD");
+        }
+        if (numOfDay >= 30) {
+            return d.format("YYYY/MM/DD");
+        }
+        return d.format("YYYY/MM/DD HH:mm");
+    }
+
     function getGraphData(rawData: Price[]): GraphData[] {
         if (rawData === null || rawData.length === 0) {
             return [];
         }
 
-        return rawData
-            .map((element) => {
-                return {
-                    buy: element.buy,
-                    sell: element.sell,
-                    createdAt: dayjs.tz(element.createdAt).format("YYYY/MM/DD HH:mm"),
-                };
-            })
-            .reverse();
+        const data = [...rawData].reverse();
+        const groups: Record<string, { buys: number[]; sells: number[] }> = {};
+
+        data.forEach((el) => {
+            const key = getBucketKey(el.createdAt);
+
+            if (!groups[key]) {
+                groups[key] = { buys: [], sells: [] };
+            }
+
+            groups[key].buys.push(el.buy);
+            groups[key].sells.push(el.sell);
+        });
+
+        return Object.entries(groups).map(([date, { buys, sells }]) => ({
+            buy: median(buys),
+            sell: median(sells),
+            createdAt: date,
+        }));
     }
 
     function getMaxAndMinPrice(rawData: Price[]) {
