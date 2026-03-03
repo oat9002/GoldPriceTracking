@@ -26,6 +26,8 @@ function Filter() {
                 <MenuItem value={180}>Last 6 months</MenuItem>
                 <MenuItem value={360}>Last 1 year</MenuItem>
                 <MenuItem value={620}>Last 2 years</MenuItem>
+                <MenuItem value={930}>Last 3 years</MenuItem>
+                <MenuItem value={1240}>Last 5 years</MenuItem>
             </Select>
         </FormControl>
     );
