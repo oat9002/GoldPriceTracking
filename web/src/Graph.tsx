@@ -52,15 +52,15 @@ function Graph() {
         const d = dayjs.tz(createdAt);
 
         if (numOfDay >= 365) {
-            return d.format("YYYY/MM");
+            return d.format("M/YY");
         }
         if (numOfDay >= 60) {
-            return d.startOf("week").format("YYYY/MM/DD");
+            return d.startOf("week").format("D/M/YY");
         }
         if (numOfDay >= 30) {
-            return d.format("YYYY/MM/DD");
+            return d.format("D/M/YY");
         }
-        return d.format("YYYY/MM/DD HH:mm");
+        return d.format("D/M/YY HH:mm");
     }
 
     function getGraphData(rawData: Price[]): GraphData[] {
