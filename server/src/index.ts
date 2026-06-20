@@ -5,6 +5,7 @@ import * as dbDecorator from "./dal/dbDecorator";
 import * as mackerel from "./service/mackerelServie";
 import * as track from "./service/trackingService";
 import { StatusCode } from "./util/enums";
+import { Response } from "./models/Response";
 
 const port = process.env.API_PORT ?? 4000;
 const app = express();
@@ -20,7 +21,14 @@ app.get("/prices", async (req, res) => {
     const numOfLatestPrice: number = parseInt((req.query?.number as string) ?? "-1");
     if (numOfLatestPrice < 0) {
         res.status(StatusCode.badRequest);
-        res.send("number must be more than or equal to 0");
+
+        const response: Response = {
+            error: {
+                message: "number must be more than or equal to 0",
+            },
+        };
+
+        res.json(response);
     }
 
     try {
@@ -43,7 +51,12 @@ app.get("/priceslastday", async (req, res) => {
     const days = parseInt((req.query?.days as string) ?? "-1");
     if (days < 0) {
         res.status(StatusCode.badRequest);
-        res.send("days must be more than or equal to 0");
+        const response: Response = {
+            error: {
+                message: "days must be more than or equal to 0",
+            },
+        };
+        res.json(response);
     } else {
         try {
             const data = await dbDecorator.getPricesLastByDay(days);
@@ -58,7 +71,12 @@ app.get("/priceslastday", async (req, res) => {
 
 app.post("/donate", async (_, res) => {
     res.status(StatusCode.NotSupport);
-    res.json("Not supported");
+    const response: Response = {
+        error: {
+            message: "Not supported",
+        },
+    };
+    res.json(response);
 });
 
 app.listen(port, () => {
