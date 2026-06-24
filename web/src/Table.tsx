@@ -128,4 +128,4 @@ function GoldTable() {
     );
 }
 
-export default React.memo(GoldTable);
+export default GoldTable;

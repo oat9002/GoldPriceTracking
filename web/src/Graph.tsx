@@ -131,4 +131,4 @@ function Graph() {
     );
 }
 
-export default React.memo(Graph);
+export default Graph;
