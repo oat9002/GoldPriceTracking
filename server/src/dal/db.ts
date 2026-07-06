@@ -71,7 +71,7 @@ export async function getLatestPrices(number: number): Promise<Price[]> {
     }
 }
 
-export async function getPricesLastByDay(days: number) {
+export async function getPricesLastByDay(days: number): Promise<Price[]> {
     const now = dayjs();
     const end = Timestamp.fromMillis(now.valueOf());
     const start = Timestamp.fromMillis(
@@ -87,7 +87,7 @@ export async function getPricesLastByDay(days: number) {
             .get();
 
         if (snapshot.empty) {
-            return null;
+            return [];
         }
 
         const priceArr: Price[] = new Array(snapshot.docs.length);
