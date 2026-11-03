@@ -1,15 +1,13 @@
-import dayjs from "dayjs";
+import { getRangeStart } from "../util/PriceRange";
 import { orderBy, query, Timestamp, where } from "firebase/firestore";
 import { getDb } from "../libs/firebase";
 import { collection, getDocs } from "firebase/firestore";
 import { Price } from "../models/model";
 
 export async function getPricesLastByDay(days: number): Promise<Price[]> {
-    const now = dayjs();
-    const end = Timestamp.fromMillis(now.valueOf());
-    const start = Timestamp.fromMillis(
-        now.hour(0).millisecond(0).second(0).millisecond(0).subtract(days, "day").valueOf()
-    );
+    const now = Date.now();
+    const end = Timestamp.fromMillis(now);
+    const start = Timestamp.fromMillis(getRangeStart(days, now));
     let idx = 0;
 
     try {
@@ -25,7 +23,7 @@ export async function getPricesLastByDay(days: number): Promise<Price[]> {
         const snapshot = await getDocs(q);
 
         if (snapshot.empty) {
-            return null;
+            return [];
         }
 
         const priceArr: Price[] = new Array(snapshot.docs.length);
