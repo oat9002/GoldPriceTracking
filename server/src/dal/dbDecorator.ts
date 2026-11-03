@@ -51,7 +51,7 @@ export async function getLatestPrices(number: number): Promise<Price[]> {
     return latestPrices;
 }
 
-export async function getPricesLastByDay(days: number) {
+export async function getPricesLastByDay(days: number): Promise<Price[]> {
     const cacheKey = createCacheKey(getPricesLastByDayCacheKey, days.toString());
     const cached = getCache<Price[]>(cacheKey);
 

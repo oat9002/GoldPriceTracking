@@ -27,14 +27,8 @@ const reducer = createSlice({
             state.prices = action.payload;
         },
         setNumberOfDay: (state, action: PayloadAction<number>) => {
-            const previousNumOfDay = state.numOfDay;
             state.numOfDay = action.payload;
-
-            if (state.numOfDay < previousNumOfDay) {
-                state.prices = state.prices.filter(
-                    (price) => price.createdAt >= Date.now() - state.numOfDay * 24 * 60 * 60 * 1000
-                );
-            }
+            state.isLoading = true;
         },
         setIsLoading: (state, action: PayloadAction<boolean>) => {
             state.isLoading = action.payload;
