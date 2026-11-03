@@ -1,7 +1,9 @@
-import { FormControl, MenuItem, Select } from "@mui/material";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import * as firebase from "./libs/firebase";
 import { setNumberOfDay } from "./reducers/goldPrice";
 import { useAppDispatch, useAppSelector } from "./reduxHook";
+
+import { priceRanges } from "./util/PriceRange";
 
 function Filter() {
     const numOfDay = useAppSelector((state) => state.goldPrice.numOfDay);
@@ -17,17 +19,19 @@ function Filter() {
     }
 
     return (
-        <FormControl size="small">
-            <Select value={numOfDay} onChange={(event) => onChangeHandler(event.target.value)}>
-                <MenuItem value={3}>Last 3 days</MenuItem>
-                <MenuItem value={5}>Last 5 days</MenuItem>
-                <MenuItem value={30}>Last 1 month</MenuItem>
-                <MenuItem value={60}>Last 2 months</MenuItem>
-                <MenuItem value={180}>Last 6 months</MenuItem>
-                <MenuItem value={365}>Last 1 year</MenuItem>
-                <MenuItem value={620}>Last 2 years</MenuItem>
-                <MenuItem value={930}>Last 3 years</MenuItem>
-                <MenuItem value={1240}>Last 5 years</MenuItem>
+        <FormControl size="small" sx={{ minWidth: 170 }}>
+            <InputLabel id="price-period-label">Time period</InputLabel>
+            <Select
+                labelId="price-period-label"
+                label="Time period"
+                value={numOfDay}
+                onChange={(event) => onChangeHandler(event.target.value)}
+            >
+                {priceRanges.map((range) => (
+                    <MenuItem key={range.value} value={range.value}>
+                        {range.label}
+                    </MenuItem>
+                ))}
             </Select>
         </FormControl>
     );

@@ -1,43 +1,24 @@
-import styled from "@emotion/styled";
-import MenuIcon from "@mui/icons-material/Menu";
 import TableChartIcon from "@mui/icons-material/TableChart";
-import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
-import React from "react";
-import { useNavigate } from "react-router-dom";
-import Drawer from "./Drawer";
-import { theme } from "./libs/mui";
-
-const Root = styled.div`
-    flex-grow: 1;
-`;
-const Title = styled.div`
-    flex-grow: 1;
-    padding-left: ${theme.spacing(1)};
-    cursor: pointer;
-`;
+import { AppBar, Button, Container, Toolbar } from "@mui/material";
+import { Link } from "react-router-dom";
 
 function Header() {
-    const [openDrawer, setOpenDrawer] = React.useState(false);
-    const navigate = useNavigate();
-    const goToHome = () => navigate("/");
-
     return (
-        <Root>
-            <AppBar position="static" color="primary">
-                <Toolbar>
-                    <Typography variant="h4" onClick={goToHome} style={{ cursor: "pointer" }}>
+        <AppBar position="static" elevation={0}>
+            <Container maxWidth="lg">
+                <Toolbar disableGutters>
+                    <Button
+                        component={Link}
+                        to="/"
+                        color="inherit"
+                        startIcon={<TableChartIcon />}
+                        sx={{ typography: "h6", textTransform: "none" }}
+                    >
                         GoldPrice
-                    </Typography>
-                    <Title onClick={goToHome}>
-                        <TableChartIcon fontSize="large" />
-                    </Title>
-                    <IconButton color="inherit" onClick={() => setOpenDrawer(true)}>
-                        <MenuIcon />
-                    </IconButton>
+                    </Button>
                 </Toolbar>
-            </AppBar>
-            <Drawer open={openDrawer} onClose={() => setOpenDrawer(false)} />
-        </Root>
+            </Container>
+        </AppBar>
     );
 }
 

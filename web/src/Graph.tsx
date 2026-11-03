@@ -1,5 +1,14 @@
-import React from "react";
-import { CartesianGrid, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from "recharts";
+import { useTheme } from "@mui/material/styles";
+import {
+    CartesianGrid,
+    Legend,
+    Line,
+    LineChart,
+    ResponsiveContainer,
+    Tooltip,
+    XAxis,
+    YAxis,
+} from "recharts";
 import { ValueType } from "recharts/types/component/DefaultTooltipContent";
 import { Price } from "./models/model";
 import { useAppSelector } from "./reduxHook";
@@ -11,30 +20,11 @@ interface GraphData {
     createdAt: string;
 }
 
-function Graph() {
-    const fontFamily = "Roboto";
+function Graph({ range }: { range: number }) {
+    const theme = useTheme();
+    const fontFamily = theme.typography.fontFamily;
     const prices = useAppSelector((state) => state.goldPrice.prices);
-    const numOfDay = useAppSelector((state) => state.goldPrice.numOfDay);
-    const [width, setWidth] = React.useState(calculateWidth());
-    const [height, setHeight] = React.useState(calculateHeight());
-    const graphData = getGraphData(prices);
-    const { min, max } = getMaxAndMinPrice(prices);
-    const windowsResizeHandler = React.useCallback(() => {
-        setWidth(calculateWidth());
-        setHeight(calculateHeight());
-    }, []);
-
-    React.useEffect(() => {
-        window.addEventListener("resize", windowsResizeHandler);
-    }, [windowsResizeHandler, prices, numOfDay]);
-
-    function calculateHeight() {
-        return window.innerHeight * 0.4;
-    }
-
-    function calculateWidth() {
-        return window.innerWidth * 0.97;
-    }
+    const numOfDay = range;
 
     function median(values: number[]): number {
         if (values.length === 0) {
@@ -116,19 +106,74 @@ function Graph() {
         return price;
     }
 
+    const graphData = getGraphData(prices);
+    const { min, max } = getMaxAndMinPrice(prices);
+
     const dataFormater = (value: ValueType) => Intl.NumberFormat("en").format(value as number);
 
     return (
-        <LineChart data={graphData} width={width} height={height}>
-            <XAxis dataKey="createdAt" tick={{ fontSize: "0.8em", fontFamily }} />
-            <YAxis domain={[min, max]} tick={{ fontFamily }} tickFormatter={dataFormater} />
-            <CartesianGrid strokeDasharray="3 3" />
-            <Tooltip wrapperStyle={{ fontFamily }} formatter={dataFormater} />
-            <Legend wrapperStyle={{ fontFamily }} />
-            <Line type="monotone" dataKey="buy" stroke="#56b8ff" />
-            <Line type="monotone" dataKey="sell" stroke="#f4426b" />
-        </LineChart>
+        <ResponsiveContainer width="100%" height={320} minWidth={0}>
+            <LineChart
+                accessibilityLayer
+                data={graphData}
+                margin={{ top: 12, right: 12, bottom: 8, left: 4 }}
+            >
+                <XAxis
+                    dataKey="createdAt"
+                    minTickGap={48}
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{
+                        fontSize: theme.typography.caption.fontSize,
+                        fontFamily,
+                        fill: theme.palette.text.secondary,
+                    }}
+                />
+                <YAxis
+                    domain={[min, max]}
+                    axisLine={false}
+                    tickLine={false}
+                    tick={{ fontFamily, fill: theme.palette.text.secondary }}
+                    tickFormatter={dataFormater}
+                />
+                <CartesianGrid
+                    vertical={false}
+                    strokeDasharray="3 3"
+                    stroke={theme.palette.divider}
+                />
+                <Tooltip
+                    wrapperStyle={{ fontFamily }}
+                    formatter={dataFormater}
+                    contentStyle={{
+                        backgroundColor: theme.palette.background.paper,
+                        color: theme.palette.text.primary,
+                        border: 0,
+                        borderRadius: theme.shape.borderRadius,
+                    }}
+                />
+                <Legend wrapperStyle={{ fontFamily }} />
+                <Line
+                    type="monotone"
+                    dataKey="buy"
+                    name="Buy (THB)"
+                    dot={graphData.length === 1}
+                    stroke={theme.palette.primary.main}
+                    strokeWidth={2}
+                    isAnimationActive={false}
+                />
+                <Line
+                    type="monotone"
+                    dataKey="sell"
+                    name="Sell (THB)"
+                    dot={graphData.length === 1}
+                    stroke={theme.palette.grey[600]}
+                    strokeWidth={2}
+                    strokeDasharray="6 4"
+                    isAnimationActive={false}
+                />
+            </LineChart>
+        </ResponsiveContainer>
     );
 }
 
-export default React.memo(Graph);
+export default Graph;
