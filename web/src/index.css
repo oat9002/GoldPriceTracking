@@ -1,22 +1,6 @@
-html,
-body,
-#root {
-    margin: 0;
-    height: 100%;
-    overflow-x: hidden;
-}
-
 #root {
     display: flex;
     flex-direction: column;
-    animation: fadeIn 1s;
-}
-
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-    }
-    to {
-        opacity: 1;
-    }
+    min-height: 100vh;
+    min-height: 100dvh;
 }
