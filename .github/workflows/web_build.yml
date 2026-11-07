@@ -13,6 +13,11 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
+permissions:
+  checks: write
+  contents: read
+  pull-requests: write
+
 defaults:
   run:
     working-directory: web
@@ -21,6 +26,7 @@ defaults:
 jobs:
   # This workflow contains a single job called "build"
   build-web:
+    if: ${{ github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository }}
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
